@@ -38,7 +38,7 @@ const movieData = {
                   headerStyle:{whiteSpace:"nowrap"},
                   cellStyle:{textAlign:"center"},
                   filter: 'between',
-                  Cell: ({value}) => value.toLocaleString()
+                  Cell: ({value}) => [undefined, null].includes(value) ? "" : value.toLocaleString()
                 }
               }
               else if (['userscore', 'metascore'].includes(column.accessor)) {

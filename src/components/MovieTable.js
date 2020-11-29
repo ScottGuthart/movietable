@@ -48,6 +48,7 @@ const MovieTable = () => {
     },
     autoResetSortBy: false,
     autoResetFilters: false,
+    autoResetGlobalFilter: false,
   }, useGlobalFilter, useFilters, useSortBy, hooks => {
     hooks.allColumns.push(columns => [
       ...columns,

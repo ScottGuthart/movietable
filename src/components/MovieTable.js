@@ -99,7 +99,7 @@ const MovieTable = () => {
           <MovieTablePopularityFilter column={headerGroups[0].headers[2]}/> 
         </Row>
         <Row className="d-flex justify-content-center flex-nowrap m-0 pt-3">
-          <span className="text-secondary" style={{position:"absolute", top:"1.8rem", fontSize:"0.9rem"}}>
+          <span className="text-secondary" style={{position:"absolute", top:"1.95rem", fontSize:"0.9rem"}}>
             Score Bias
           </span>
           <MovieTableWeightSlider weight={score_weight}

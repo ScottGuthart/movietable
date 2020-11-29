@@ -1,0 +1,37 @@
+$theme-colors: (
+    // "success": #7da64e,	
+    // "danger": rgb(128, 0, 128),
+    // "warning": rgb(245, 177, 76),
+    "secondary": rgb(204, 203, 203),
+    // "primary": rgb(34, 96, 160)
+    // "primary": rgb(123, 133, 171)
+);
+
+// @font-face {
+//     font-family: 'Karla';
+//     src: url(./Karla/Karla-Regular.ttf)
+// }
+// html {
+//     font-size: 1.1rem;
+// }
+// $font-family-sans-serif:
+//     Karla,
+//     // Safari for macOS and iOS (San Francisco)
+//     -apple-system,
+//     // Chrome < 56 for macOS (San Francisco)
+//     BlinkMacSystemFont,
+//     // Windows
+//     "Segoe UI",
+//     // Android
+//     "Roboto",
+//     // Basic web fallback
+//     "Helvetica Neue", Arial, sans-serif,
+//     // Emoji fonts
+//     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+// // $font-family-sans-serif: AverageSans-Regular;
+
+$enable-responsive-font-sizes: true;
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';

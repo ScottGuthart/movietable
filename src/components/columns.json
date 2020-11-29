@@ -1,0 +1,1 @@
+[{"Header":"Year","accessor":"year"},{"Header":"Title","accessor":"title"},{"Header":"Popularity","accessor":"users_rated"},{"Header":"Users","accessor":"userscore"},{"Header":"Critics","accessor":"metascore"},{"Header":"Link","accessor":"link"}]

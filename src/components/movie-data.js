@@ -25,6 +25,13 @@ const movieData = {
                   },
                 }
               }
+              else if (column.accessor === "year") {
+                return {
+                  ...column,
+                  headerStyle:{whiteSpace:"nowrap"},
+                  filter: 'between',
+                }
+              }
               else if (column.accessor === "users_rated") {
                 return {
                   ...column,

@@ -4,14 +4,9 @@ import ReactDOM from "react-dom"
 import InputRange from "react-input-range"
 import "./input-range.scss"
 
-import { IconContext } from "react-icons"
-import { IoPerson } from "react-icons/io5"
-import { IoIosPeople } from "react-icons/io"
-
 import { useAsyncDebounce } from "react-table"
-// import { IconContext } from "react-icons/lib"
 
-const MovieTablePopularityFilter = ({
+const MovieTableYearFilter = ({
   column: {filterValue = [], preFilteredRows, setFilter, id}
 }) => {
   const [min, max] = React.useMemo(() => {
@@ -26,23 +21,12 @@ const MovieTablePopularityFilter = ({
 
   useEffect(()=>{
     ReactDOM.render(
-      (<IconContext.Provider value={{ style:{
-        fontSize: "0.8rem",
-        verticalAlign: "middle",
-        } }}>
-        <IoPerson />
-      </IconContext.Provider>)
-      ,
-      document.querySelectorAll('span.input-range__label.input-range__label--min')[1]
+      <></>,
+      document.querySelector('span.input-range__label.input-range__label--min')
     )
     ReactDOM.render(
-      (<IconContext.Provider value={{ style:{
-        fontSize: "1.6rem",
-        verticalAlign: "middle",
-        } }}>
-        <IoIosPeople /> 
-      </IconContext.Provider>),
-      document.querySelectorAll('span.input-range__label.input-range__label--max')[1]
+      <></>,
+      document.querySelector('.input-range__label.input-range__label--max')
     )
   },[])
   
@@ -53,9 +37,8 @@ const MovieTablePopularityFilter = ({
   
   return (
     <InputRange
-        name="movie-table-popularity-filter"
-        step={parseInt((max-min)/100, 10)}
-        formatLabel={value=> {}}
+        step={Math.max(parseInt((max-min)/100, 10),1)}
+        // formatLabel={value=> {}}
         maxValue={max}
         minValue={min}
         value={{
@@ -69,4 +52,4 @@ const MovieTablePopularityFilter = ({
     />
   );
 }
-export default MovieTablePopularityFilter
+export default MovieTableYearFilter

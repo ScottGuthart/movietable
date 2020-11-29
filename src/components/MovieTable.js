@@ -8,6 +8,7 @@ import MovieTablePopularityFilter from "./MovieTablePopularityFilter"
 import MovieTableWeightSlider from "./MovieTableWeightSlider"
 
 import movieData from "./movie-data"
+import MovieTableYearFilter from "./MovieTableYearFilter"
 
 const MovieTable = () => {
   const [score_weight, setScore_weight] = React.useState(0.5)
@@ -29,7 +30,12 @@ const MovieTable = () => {
     return [{
       id: "users_rated",
       value: [300, 4075],
-    }]
+    },
+    {
+      id: "year",
+      value: [2000, 2020],
+    }
+    ]
   },[])
   const default_sort = React.useMemo(()=>{
     return [{
@@ -74,21 +80,26 @@ const MovieTable = () => {
   <>
     <Row className="pb-3 pt-3 flex-nowrap d-flex justify-content-space-between">
       <Col xs={6} className="col-xs-6">
-        <MovieTableGlobalFilter 
-          preGlobalFilteredRows={preGlobalFilteredRows}
-          globalFilter={state.globalFilter}
-          setGlobalFilter={setGlobalFilter}
-        />
+        <Row>
+          <MovieTableGlobalFilter className="mt-0 pt-0"
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+        </Row>
+        <Row className="p-0 m-0 pt-3 mt-3 w-50">
+          <MovieTableYearFilter column={headerGroups[0].headers[0]} />
+        </Row>
       </Col>
       <Col>
-        <Row className="d-flex justify-content-center m-auto pb-3">
-          <span className="text-secondary" style={{position:"absolute", top:"-1.6rem", fontSize:"0.9rem"}}>
+        <Row className="d-flex justify-content-center m-auto pb-3 pt-3">
+          <span className="text-secondary" style={{position:"absolute", top:"-0.65rem", fontSize:"0.9rem"}}>
             Popularity
           </span>
           <MovieTablePopularityFilter column={headerGroups[0].headers[2]}/> 
         </Row>
         <Row className="d-flex justify-content-center flex-nowrap m-0 pt-3">
-          <span className="text-secondary" style={{position:"absolute", top:"0.9rem", fontSize:"0.9rem"}}>
+          <span className="text-secondary" style={{position:"absolute", top:"1.8rem", fontSize:"0.9rem"}}>
             Score Bias
           </span>
           <MovieTableWeightSlider weight={score_weight}

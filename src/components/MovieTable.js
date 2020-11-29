@@ -29,7 +29,7 @@ const MovieTable = () => {
   const default_filters = React.useMemo(()=>{
     return [{
       id: "users_rated",
-      value: [300, 4075],
+      value: [300, 100000],
     },
     {
       id: "year",

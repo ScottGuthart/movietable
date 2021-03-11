@@ -3,4 +3,4 @@ This is a table of the all time top movies from metacritic. It averages user rat
 
 [Check it out](https://movietable.scottguthart.com)
 
-Note: You'll probably have to wait a minute for the heroku server to wake up and show you the app. Afterwards, you'll get a server error. BUT! After that, you should be able to use the app after refreshing a couple times.
+**Note:** You'll probably have to wait a minute for the heroku server to wake up and show you the app. Afterwards, you'll get a server error. BUT! After that, you should be able to use the app after refreshing a couple times.

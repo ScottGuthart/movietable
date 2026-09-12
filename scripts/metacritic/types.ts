@@ -39,6 +39,24 @@ export interface Credit {
 	character: string | null;
 }
 
+/**
+ * One way to watch a movie, sourced from the JustWatch data Metacritic embeds.
+ *
+ * `monetization` is flatrate (included with a subscription), free, ads, rent or
+ * buy. `url` points at the provider, not at JustWatch's tracking redirect.
+ */
+export interface Offer {
+	provider_id: number;
+	provider_name: string;
+	provider_icon: string | null;
+	monetization: string;
+	/** Playback quality this price applies to, or "" when the site gives none. */
+	quality: string;
+	price: number | null;
+	currency_code: string | null;
+	url: string;
+}
+
 /** A scraped movie, before it is split into seed tables. */
 export interface ScrapedMovie {
 	slug: string;
@@ -49,8 +67,10 @@ export interface ScrapedMovie {
 	metascore: number | null;
 	link: string;
 	summary: string | null;
+	justwatch_url: string | null;
 	genres: string[];
 	credits: Credit[];
+	offers: Offer[];
 	ranked_by: SortKey[];
 }
 

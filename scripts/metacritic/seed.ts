@@ -18,6 +18,7 @@ export interface MovieRow {
 	users_rated: number | null;
 	summary: string | null;
 	link: string;
+	justwatch_url: string | null;
 	in_metascore_ranking: boolean;
 	in_userscore_ranking: boolean;
 }
@@ -46,12 +47,30 @@ export interface MovieGenreRow {
 	genre_id: number;
 }
 
+export interface ProviderRow {
+	id: number;
+	name: string;
+	icon_url: string | null;
+}
+
+export interface OfferRow {
+	movie_id: number;
+	provider_id: number;
+	monetization: string;
+	quality: string;
+	url: string;
+	price: number | null;
+	currency_code: string | null;
+}
+
 export interface SeedTables {
 	movies: MovieRow[];
 	people: PersonRow[];
 	credits: CreditRow[];
 	genres: GenreRow[];
 	movie_genres: MovieGenreRow[];
+	providers: ProviderRow[];
+	streaming_offers: OfferRow[];
 }
 
 /**
@@ -78,11 +97,30 @@ export function buildTables(scraped: ScrapedMovie[]): SeedTables {
 	const people = new Map<number, PersonRow>();
 	const credits: CreditRow[] = [];
 	const movieGenres: MovieGenreRow[] = [];
+	const providers = new Map<number, ProviderRow>();
+	const offers: OfferRow[] = [];
 
 	for (const movie of scraped) {
 		const movieId = movieIds.get(movie.slug)!;
 		for (const name of movie.genres) {
 			movieGenres.push({ movie_id: movieId, genre_id: genreIds.get(name)! });
+		}
+
+		for (const offer of movie.offers) {
+			providers.set(offer.provider_id, {
+				id: offer.provider_id,
+				name: offer.provider_name,
+				icon_url: offer.provider_icon,
+			});
+			offers.push({
+				movie_id: movieId,
+				provider_id: offer.provider_id,
+				monetization: offer.monetization,
+				quality: offer.quality,
+				url: offer.url,
+				price: offer.price,
+				currency_code: offer.currency_code,
+			});
 		}
 
 		const billing = { director: 0, writer: 0, cast: 0 };
@@ -118,6 +156,7 @@ export function buildTables(scraped: ScrapedMovie[]): SeedTables {
 		users_rated: movie.users_rated,
 		summary: movie.summary,
 		link: movie.link,
+		justwatch_url: movie.justwatch_url,
 		in_metascore_ranking: movie.ranked_by.includes("metascore"),
 		in_userscore_ranking: movie.ranked_by.includes("userscore"),
 	}));
@@ -136,6 +175,14 @@ export function buildTables(scraped: ScrapedMovie[]): SeedTables {
 			.sort((a, b) => a.id - b.id),
 		movie_genres: movieGenres.sort(
 			(a, b) => a.movie_id - b.movie_id || a.genre_id - b.genre_id,
+		),
+		providers: [...providers.values()].sort((a, b) => a.id - b.id),
+		streaming_offers: offers.sort(
+			(a, b) =>
+				a.movie_id - b.movie_id ||
+				a.monetization.localeCompare(b.monetization) ||
+				a.provider_id - b.provider_id ||
+				a.quality.localeCompare(b.quality),
 		),
 	};
 }

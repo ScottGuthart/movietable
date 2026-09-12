@@ -21,8 +21,10 @@ const TABLES = [
 	"movies",
 	"people",
 	"genres",
+	"providers",
 	"credits",
 	"movie_genres",
+	"streaming_offers",
 ] as const;
 
 type TableName = (typeof TABLES)[number];
@@ -32,8 +34,10 @@ const CONFLICT_KEYS: Record<TableName, string> = {
 	movies: "id",
 	people: "id",
 	genres: "id",
+	providers: "id",
 	credits: "movie_id,person_id,role",
 	movie_genres: "movie_id,genre_id",
+	streaming_offers: "movie_id,provider_id,monetization,quality",
 };
 
 function requireEnv(name: string): string {

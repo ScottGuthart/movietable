@@ -1,3 +1,4 @@
+import { parseWatchInfo } from "./offers";
 import {
 	type Credit,
 	dedupe,
@@ -250,6 +251,7 @@ export async function parseMovie(
 	const published =
 		typeof schema.datePublished === "string" ? schema.datePublished : "";
 	const year = YEAR.exec(published) ?? YEAR.exec(heroMeta[0] ?? "");
+	const watch = parseWatchInfo(html);
 
 	return {
 		slug: slugFromPath(link),
@@ -263,8 +265,10 @@ export async function parseMovie(
 			heroSummaries[0],
 			typeof schema.description === "string" ? schema.description : null,
 		),
+		justwatch_url: watch.justwatch_url,
 		genres: dedupe(genres),
 		credits: credits(),
+		offers: watch.offers,
 		ranked_by: [],
 	};
 }

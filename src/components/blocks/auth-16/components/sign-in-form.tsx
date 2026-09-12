@@ -42,7 +42,7 @@ export function SignInForm({ onProvider, onEmail, onResetEmail, pendingProvider,
           Keep your ratings everywhere.
         </h1>
         <p className="text-muted-foreground text-sm text-pretty">
-          Sign in to save your likes and passes to an account and pick them up on any device.
+          Sign in to save your ratings to an account and pick them up on any device.
         </p>
       </div>
 

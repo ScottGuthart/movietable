@@ -54,7 +54,7 @@ export function HandCellSkeleton() {
         <Skeleton className="h-3 w-5/6" />
       </div>
       <div className="mt-auto flex items-center justify-between">
-        <Skeleton className="h-8 w-16" />
+        <Skeleton className="h-8 w-[124px]" />
         <Skeleton className="h-7 w-24" />
       </div>
     </li>

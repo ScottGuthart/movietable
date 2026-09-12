@@ -26,7 +26,7 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 
 ## Operating Context
 
-- Public, unauthenticated website. No accounts, no server-side user state.
+- Public website that works without an account. Signing in (Google, GitHub, or an emailed link through the self-hosted Supabase Auth) is optional and does one thing: it saves taste ratings to the account so they follow the visitor across devices. Guests keep ratings in localStorage.
 - The catalogue is read from Supabase at build time and rendered into a static page (revalidated daily); all scoring, filtering, sorting, and grouping run client-side.
 - Stack: Next.js 16 App Router, React 19, TypeScript, Bun, Tailwind CSS 4, shadcn (base-nova style, tabler icons), REUI data-grid and filters registry components, TanStack Table.
 - Dev command: `bun run dev`. Tests: `bun test src/lib`. Lint: `bun run lint`. Typecheck: `bun run typecheck`.
@@ -71,6 +71,13 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - Attributes come from the same Supabase tables through the static `/api/taste-data` route (revalidated daily, about 240 KB gzipped, cast capped at eight, summaries trimmed to 160 characters), fetched only when the panel opens or saved ratings exist. Films without attributes show an em dash.
 - Deferred: shareable profile in the URL hash, "hide rated films" toggle.
 
+**Built: account sync for ratings** (2026-09-12)
+
+- Sign-in page at `/sign-in` (adapted REUI `auth-16` block): Google, GitHub, or a one-time emailed link, all through Supabase Auth at `api.movietable.ai`. The header shows "Sign in" for guests and an account menu with sync status for signed-in visitors.
+- Storage: table `taste_ratings (user_id, slug, verdict, updated_at)` under row-level security; each visitor reads and writes only their own rows (`supabase/migrations/20260912020000_taste_ratings.sql`).
+- Merge on sign-in: union of local and account verdicts, newer `updated_at` wins, ties go to the account. Afterwards every local change is pushed after a short pause; localStorage stays the offline mirror. Signing out clears local ratings so a shared device starts clean.
+- Browser needs `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`; the anon key only ever reaches rows the policies allow.
+
 ## Brand Commitments
 
 - The name **MovieTable** and the domain movietable.scottguthart.com are binding.
@@ -92,5 +99,5 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 1. **The visitor sets the ranking.** Every ranking control, the score bias today and the taste profile later, must visibly re-order the table. Nothing is ranked by an editorial opinion the visitor cannot change.
 2. **Be honest about the data.** It is a snapshot, not live. Missing values are shown as missing. Counts and ranges come from the data, not from copy.
 3. **Metacritic gets the click.** MovieTable helps choose; the source of record is one link away and always credited.
-4. **Zero friction.** No accounts, no gates, no loading spinner between the visitor and the full catalogue. Anything that adds a step must earn it.
+4. **Zero friction.** No gates, no required account, no loading spinner between the visitor and the full catalogue. Sign-in exists only to carry ratings between devices and never blocks the table. Anything that adds a step must earn it.
 5. **Table first, always.** New capabilities, including the recommender and data refresh, extend the table rather than replacing it with a feed or a chat.

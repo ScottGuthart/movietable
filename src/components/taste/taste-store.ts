@@ -1,25 +1,37 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import type { StampedVerdicts } from "@/lib/ratings-sync";
 import type { Verdict, Verdicts } from "@/lib/taste";
 
 const STORAGE_KEY = "movietable.taste.v1";
 const EMPTY: Verdicts = {};
 const VERDICTS = new Set<string>(["like", "pass", "skip"]);
 
-let current: Verdicts | null = null;
+interface Stored {
+  verdicts: Verdicts;
+  /** Milliseconds since the epoch per slug; missing for verdicts saved before sync existed. */
+  updatedAt: Record<string, number>;
+}
+
+let current: Stored | null = null;
 let persistent = true;
 const listeners = new Set<() => void>();
 
-function parseStored(raw: string): Verdicts {
+function parseStored(raw: string): Stored {
   const parsed: unknown = JSON.parse(raw);
-  if (!parsed || typeof parsed !== "object" || !("verdicts" in parsed)) return {};
-  const verdicts = (parsed as { verdicts: unknown }).verdicts;
-  if (!verdicts || typeof verdicts !== "object") return {};
-  return Object.fromEntries(Object.entries(verdicts).filter(([, verdict]) => typeof verdict === "string" && VERDICTS.has(verdict))) as Verdicts;
+  if (!parsed || typeof parsed !== "object" || !("verdicts" in parsed)) return { verdicts: {}, updatedAt: {} };
+  const { verdicts, updatedAt } = parsed as { verdicts: unknown; updatedAt?: unknown };
+  if (!verdicts || typeof verdicts !== "object") return { verdicts: {}, updatedAt: {} };
+  const kept = Object.fromEntries(Object.entries(verdicts).filter(([, verdict]) => typeof verdict === "string" && VERDICTS.has(verdict))) as Verdicts;
+  const stamps = updatedAt && typeof updatedAt === "object" ? (updatedAt as Record<string, unknown>) : {};
+  return {
+    verdicts: kept,
+    updatedAt: Object.fromEntries(Object.keys(kept).map((slug) => [slug, typeof stamps[slug] === "number" ? (stamps[slug] as number) : 0])),
+  };
 }
 
-function load(): Verdicts {
+function load(): Stored {
   if (current) return current;
   let raw: string | null = null;
   try {
@@ -28,18 +40,22 @@ function load(): Verdicts {
     persistent = false;
   }
   try {
-    current = raw ? parseStored(raw) : {};
+    current = raw ? parseStored(raw) : { verdicts: {}, updatedAt: {} };
   } catch (error) {
     console.warn(`Ignoring unreadable saved ratings under ${STORAGE_KEY}.`, error);
-    current = {};
+    current = { verdicts: {}, updatedAt: {} };
   }
   return current;
 }
 
-function save(next: Verdicts): void {
+function loadVerdicts(): Verdicts {
+  return load().verdicts;
+}
+
+function save(next: Stored): void {
   current = next;
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ verdicts: next }));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     persistent = true;
   } catch {
     persistent = false;
@@ -48,14 +64,40 @@ function save(next: Verdicts): void {
 }
 
 export function setVerdict(slug: string, verdict: Verdict | null): void {
-  const next = { ...load() };
-  if (verdict === null) delete next[slug];
-  else next[slug] = verdict;
+  const { verdicts, updatedAt } = load();
+  const next: Stored = { verdicts: { ...verdicts }, updatedAt: { ...updatedAt } };
+  if (verdict === null) {
+    delete next.verdicts[slug];
+    delete next.updatedAt[slug];
+  } else {
+    next.verdicts[slug] = verdict;
+    next.updatedAt[slug] = Date.now();
+  }
   save(next);
 }
 
 export function clearVerdicts(): void {
-  save({});
+  save({ verdicts: {}, updatedAt: {} });
+}
+
+/** Verdicts with their timestamps, for syncing with an account. */
+export function getStampedVerdicts(): StampedVerdicts {
+  const { verdicts, updatedAt } = load();
+  return Object.fromEntries(Object.entries(verdicts).map(([slug, verdict]) => [slug, { verdict, updatedAt: updatedAt[slug] ?? 0 }]));
+}
+
+/** Replaces every saved verdict, used after merging with an account's ratings. */
+export function replaceVerdicts(stamped: StampedVerdicts): void {
+  const next: Stored = { verdicts: {}, updatedAt: {} };
+  for (const [slug, entry] of Object.entries(stamped)) {
+    next.verdicts[slug] = entry.verdict;
+    next.updatedAt[slug] = entry.updatedAt;
+  }
+  save(next);
+}
+
+export function subscribeToVerdicts(listener: () => void): () => void {
+  return subscribe(listener);
 }
 
 function subscribe(listener: () => void): () => void {
@@ -79,7 +121,7 @@ function readPersistent(): boolean {
 
 /** The visitor's saved verdicts; empty on the server and during hydration. */
 export function useTasteVerdicts(): Verdicts {
-  return useSyncExternalStore(subscribe, load, () => EMPTY);
+  return useSyncExternalStore(subscribe, loadVerdicts, () => EMPTY);
 }
 
 /** False once a write to localStorage has failed, so the UI can say ratings will not survive the session. */

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cache } from "react";
 import { IconArrowUpRight, IconMovie } from "@tabler/icons-react";
+import { Account } from "@/components/auth/account";
 import MovieTable from "@/components/MovieTable";
 import { fetchCatalogue } from "@/lib/catalogue";
 import { getMovieBounds, normalizeMovie, numberFormat } from "@/lib/movies";
@@ -28,7 +29,10 @@ export default async function Page() {
             <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">MovieTable<span className="text-primary">.</span></h1>
             <p className="text-muted-foreground max-w-lg leading-relaxed text-pretty">Find your next great film. Let the audience, the critics, or a little of both be your guide.</p>
           </div>
-          <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · Metacritic dataset</p>
+          <div className="flex flex-col gap-2 sm:items-end">
+            <Account />
+            <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · Metacritic dataset</p>
+          </div>
         </header>
         <MovieTable movies={movies} />
         <footer className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">

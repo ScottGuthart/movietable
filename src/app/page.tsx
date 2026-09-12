@@ -1,12 +1,24 @@
+import type { Metadata } from "next";
+import { cache } from "react";
 import { IconArrowUpRight, IconMovie } from "@tabler/icons-react";
 import MovieTable from "@/components/MovieTable";
-import data from "@/components/data.json";
+import { fetchCatalogue } from "@/lib/catalogue";
 import { getMovieBounds, normalizeMovie, numberFormat } from "@/lib/movies";
 
-const movies = data.map(normalizeMovie);
-const bounds = getMovieBounds(movies);
+export const revalidate = 86400;
 
-export default function Page() {
+const loadMovies = cache(async () => (await fetchCatalogue()).map(normalizeMovie));
+
+export async function generateMetadata(): Promise<Metadata> {
+  const movies = await loadMovies();
+  return {
+    description: `Explore ${numberFormat.format(movies.length)} movies. Compare audience and critic scores, rate a few films to build your own ranking, and find your next great film.`,
+  };
+}
+
+export default async function Page() {
+  const movies = await loadMovies();
+  const bounds = getMovieBounds(movies);
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 font-serif sm:px-8 sm:py-12 lg:py-16">
       <div className="flex flex-col gap-10">

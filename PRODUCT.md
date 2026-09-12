@@ -27,10 +27,10 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 ## Operating Context
 
 - Public, unauthenticated website. No accounts, no server-side user state.
-- Entire dataset ships to the browser as static JSON and all scoring, filtering, sorting, and paging run client-side.
+- The catalogue is read from Supabase at build time and rendered into a static page (revalidated daily); all scoring, filtering, sorting, and grouping run client-side.
 - Stack: Next.js 16 App Router, React 19, TypeScript, Bun, Tailwind CSS 4, shadcn (base-nova style, tabler icons), REUI data-grid and filters registry components, TanStack Table.
 - Dev command: `bun run dev`. Tests: `bun test src/lib`. Lint: `bun run lint`. Typecheck: `bun run typecheck`.
-- Data lives at `src/components/data.json`, one flat array of `{ year, title, users_rated, userscore, metascore, link }`. Normalized in `src/lib/movies.ts`; scoring and filter logic are unit-tested in `src/lib`.
+- Data lives in the Supabase project (tables `movies`, `people`, `genres`, `credits`, `movie_genres`; schema in `supabase/migrations`), read over PostgREST by `src/lib/catalogue.ts` using `SUPABASE_URL` and `SUPABASE_ANON_KEY` from `.env`. Rows are normalized in `src/lib/movies.ts`; scoring, taste, and filter logic are unit-tested in `src/lib` with inline fixtures.
 - Default view on load: release year 2000–2024, popularity 300–100,000, sorted by Final Score descending, 25 rows per page, score bias at equal weight (0.5).
 - Deployed at movietable.scottguthart.com.
 
@@ -55,11 +55,11 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 
 **Data constraints**
 
-- The dataset is a static snapshot scraped outside this repo. Current snapshot: 3,963 films, 1916–2024. No scraper or refresh job exists in the repository.
-- A refresh pipeline is planned. Future work should derive counts and year ranges from the data at build time rather than hardcoding them, and should leave room for a "last updated" signal. The page already derives its counts; the site metadata description in `src/app/layout.tsx` still hardcodes the film count and will drift.
+- The dataset is a snapshot. The Supabase catalogue holds 1,506 films (1916–2026) with genres, credits, and summaries, produced by `scripts/scrape-metacritic.ts` and loaded by `scripts/seed-supabase.ts`. Only films with both a Metascore and a user score are kept.
+- Counts and year ranges derive from the data at build time, including the page's metadata description in `src/app/page.tsx` (`src/app/layout.tsx` keeps a static fallback). A "last updated" signal still has no source: the schema has no timestamp column.
 - The UI must never present scores as live. The existing footer states this and future surfaces must keep an equivalent disclosure.
 
-**Planned, not built: taste-profile recommender** (shaped 2026-09-12, brief confirmed)
+**Built: taste-profile recommender** (shaped and built 2026-09-12)
 
 - Job: visitor rates a few films, the app builds a taste profile, and the table re-ranks against it.
 - Engine: client-side metadata similarity over genres, director, writers, cast, and decade from the Metacritic scrape. No model service, no server route, no API key. Every match explains itself with the attributes it matched.
@@ -67,7 +67,8 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - Ranking: a new sortable **For you** column, 0–100, blending similarity with the current Final Score under a quality floor. Appears at the first like and becomes the default sort. Final Score and the score bias slider are unchanged; the slider still feeds the quality term.
 - Persistence: rated film slugs and verdicts in localStorage under a versioned key. The profile is derived at runtime, never stored. Reset view does not clear ratings.
 - Copy: "built from your ratings". Never described as AI.
-- Dependency: needs the full-catalogue scrape output (genres, credits) joined to the app dataset. Films without metadata show an em dash. Credits load lazily on first panel open so the initial page stays unchanged.
+- Match: cosine similarity between the profile and each film's weighted attributes (director 3, genre 2, writer 1.5, cast 1, decade 1; a pass counts minus one half), rescaled so the best unrated film reads 1. For you = floor(60 × match + 0.4 × Final Score).
+- Attributes come from the same Supabase tables through the static `/api/taste-data` route (revalidated daily, about 240 KB gzipped, cast capped at eight, summaries trimmed to 160 characters), fetched only when the panel opens or saved ratings exist. Films without attributes show an em dash.
 - Deferred: shareable profile in the URL hash, "hide rated films" toggle.
 
 ## Brand Commitments
@@ -80,7 +81,7 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 
 ## Evidence on Hand
 
-- Real dataset: `src/components/data.json` (3,963 Metacritic films with real scores and links). `src/components/data.json.old` is a stale earlier snapshot and is not referenced by code.
+- Real dataset: the Supabase catalogue (1,506 Metacritic films with real scores, credits, and links). The earlier static snapshots (`src/components/data.json`, 3,963 films, and `data.json.old`) were removed on 2026-09-12 once the app read from Supabase.
 - Existing raster assets: `public/favicon.ico`, `public/logo192.png`, `public/logo512.png`, `public/thumbnail.png`, carried over from the original Create React App build. `public/manifest.json` still reads "Create React App Sample" and does not describe this product.
 - README at repo root describes the product in two sentences.
 - Resume and portfolio: https://guth.art (Scott Guthart).

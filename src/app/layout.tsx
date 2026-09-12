@@ -7,7 +7,7 @@ const playfairDisplay = Playfair_Display({subsets:['latin'],variable:'--font-ser
 
 export const metadata: Metadata = {
   title: "MovieTable — Find your next great film",
-  description: "Explore 3,963 movies. Compare audience and critic scores, build your own filters, and find your next great film with a ranking that reflects your taste.",
+  description: "Compare audience and critic scores, rate a few films to build your own ranking, and find your next great film.",
   authors: [{ name: "Scott Guthart", url: "https://guth.art" }],
   creator: "Scott Guthart",
 };

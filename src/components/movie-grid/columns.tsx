@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import type { MovieGroup } from "@/lib/movie-groups";
 import { numberFormat, type ScoredMovie } from "@/lib/movies";
 import { isFilmRow, type GridRow } from "@/components/movie-grid/rows";
+import { forYouColumn, rateColumn, type TasteColumnOptions } from "@/components/taste/taste-columns";
 
 function formatScore(value: number | null): string {
   return value === null ? "—" : String(value);
@@ -84,10 +85,15 @@ function TitleCell({ movie, showContext }: { movie: ScoredMovie; showContext: bo
 
 const numericMeta = { headerClassName: "text-right", cellClassName: "text-right" };
 
-export const MOVIE_COLUMN_SIZES = { year: 95, title: 430, popularity: 125, users: 105, critics: 105, finalScore: 135 } as const;
+export const MOVIE_COLUMN_SIZES = { year: 88, title: 340, popularity: 112, users: 96, critics: 96, finalScore: 116 } as const;
 
-export function createMovieColumns({ showContext }: { showContext: boolean }): ColumnDef<DataGridFeatures, GridRow>[] {
-  return [
+/**
+ * The ledger's columns; with `taste` a Rate column follows Title and, once a profile is active,
+ * For you closes the row. `pinForYou` keeps that column in view on viewports that scroll the grid sideways.
+ */
+export function createMovieColumns({ showContext, taste, pinForYou = false }: { showContext: boolean; taste?: TasteColumnOptions; pinForYou?: boolean }): ColumnDef<DataGridFeatures, GridRow>[] {
+  const tasteActive = taste?.active ?? false;
+  const columns: ColumnDef<DataGridFeatures, GridRow>[] = [
     {
       id: "year",
       accessorFn: (row) => (isFilmRow(row) ? row.movie.year : row.group.label),
@@ -137,10 +143,14 @@ export function createMovieColumns({ showContext }: { showContext: boolean }): C
       accessorFn: (row) => (isFilmRow(row) ? (row.movie.finalScore ?? undefined) : row.group.averageFinalScore ?? undefined),
       header: ({ column }) => <DataGridColumnHeader title="Final Score" column={column} className="ms-auto -me-2" />,
       size: MOVIE_COLUMN_SIZES.finalScore,
-      meta: { headerClassName: "text-right pe-6", cellClassName: "text-right pe-6" },
+      meta: tasteActive ? numericMeta : { headerClassName: "text-right pe-6", cellClassName: "text-right pe-6" },
       cell: ({ row }) => (isFilmRow(row.original)
-        ? <Score value={row.original.movie.finalScore} final />
+        ? <Score value={row.original.movie.finalScore} final={!tasteActive} />
         : <BandAverage group={row.original.group} />),
     },
   ];
+  if (!taste) return columns;
+  columns.splice(2, 0, rateColumn(taste));
+  if (taste.active) columns.push(forYouColumn(taste, pinForYou));
+  return columns;
 }

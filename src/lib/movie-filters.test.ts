@@ -1,19 +1,19 @@
 import { describe, expect, test } from "bun:test";
-import data from "@/components/data.json";
 import type { FilterQuery, FilterRule } from "@/components/reui/filters/filters-types";
 import { DEFAULT_QUERY, describeQuery, emptyQuery, isCompleteRule, matchesQuery, MOVIE_FIELDS, numericValue } from "@/lib/movie-filters";
 import { normalizeMovie, scoreMovies, type ScoredMovie } from "@/lib/movies";
 
-const movie: ScoredMovie = { title: "The Great Film", year: 2020, popularity: 500, users: 80, critics: 90, finalScore: 85, link: "https://www.metacritic.com/movie/test" };
+const movie: ScoredMovie = { slug: "the-great-film", title: "The Great Film", year: 2020, popularity: 500, users: 80, critics: 90, finalScore: 85, forYou: null, link: "https://www.metacritic.com/movie/test" };
 const rule = (field: string, operator: string, value?: unknown): FilterRule => ({ id: `${field}-${operator}`, type: "rule", path: [field], operator, value });
 const group = (combinator: "and" | "or", ...rules: FilterQuery["rules"]): FilterQuery => ({ id: "group", type: "group", combinator, rules });
 const check = (field: string, operator: string, value?: unknown, row = movie) => matchesQuery(row, group("and", rule(field, operator, value)));
 
 describe("movie query evaluation", () => {
-  test("preserves the 390 default results", () => {
-    const scored = scoreMovies(data.map(normalizeMovie), 0.5);
-    expect(scored.filter((row) => matchesQuery(row, DEFAULT_QUERY))).toHaveLength(390);
-    expect(scored.filter((row) => matchesQuery(row, emptyQuery()))).toHaveLength(3963);
+  test("the default view keeps 2000–2024 films with 300–100,000 ratings and the empty query keeps everything", () => {
+    const raw = (title: string, year: number, users_rated: number) => ({ title, year, users_rated, userscore: 80, metascore: 80, link: `https://www.metacritic.com/movie/${title}` });
+    const scored = scoreMovies([raw("in-range", 2010, 500), raw("too-early", 1999, 500), raw("too-recent", 2025, 500), raw("obscure", 2010, 299), raw("huge", 2010, 100_001), raw("no-count", 2010, Number.NaN)].map(normalizeMovie), 0.5);
+    expect(scored.filter((row) => matchesQuery(row, DEFAULT_QUERY)).map((row) => row.title)).toEqual(["in-range"]);
+    expect(scored.filter((row) => matchesQuery(row, emptyQuery()))).toHaveLength(6);
   });
   test.each([
     ["contains", "GREAT", true], ["contains", "bad", false],

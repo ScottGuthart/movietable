@@ -1,4 +1,6 @@
 export interface RawMovie {
+  /** Metacritic film slug; derived from `link` when absent. */
+  slug?: string;
   title: string;
   year: number;
   users_rated?: number | null;
@@ -8,6 +10,7 @@ export interface RawMovie {
 }
 
 export interface Movie {
+  slug: string;
   title: string;
   year: number;
   popularity: number | null;
@@ -18,6 +21,8 @@ export interface Movie {
 
 export interface ScoredMovie extends Movie {
   finalScore: number | null;
+  /** Taste match, 0–100. Null until the visitor likes a film; filled by `rankMovies` in taste.ts. */
+  forYou: number | null;
 }
 
 export const DEFAULT_CRITIC_WEIGHT = 0.5;
@@ -27,8 +32,14 @@ function finiteOrNull(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
+/** The trailing path segment of a Metacritic link, e.g. `the-godfather`. */
+export function slugFromLink(link: string): string {
+  return link.replace(/\/+$/, "").split("/").pop() ?? "";
+}
+
 export function normalizeMovie(raw: RawMovie): Movie {
   return {
+    slug: raw.slug ?? slugFromLink(raw.link),
     title: raw.title,
     year: raw.year,
     popularity: finiteOrNull(raw.users_rated),
@@ -51,7 +62,7 @@ export function finalScore(movie: Pick<Movie, "users" | "critics">, criticWeight
 }
 
 export function scoreMovies(movies: Movie[], criticWeight: number): ScoredMovie[] {
-  return movies.map((movie) => ({ ...movie, finalScore: finalScore(movie, criticWeight) }));
+  return movies.map((movie) => ({ ...movie, finalScore: finalScore(movie, criticWeight), forYou: null }));
 }
 
 export function getMovieBounds(movies: Movie[]) {
@@ -64,6 +75,6 @@ export function getMovieBounds(movies: Movie[]) {
 export function matchesSearch(movie: ScoredMovie, search: string): boolean {
   const term = search.trim().toLocaleLowerCase("en-US");
   if (!term) return true;
-  return [movie.title, movie.year, movie.popularity, movie.users, movie.critics, movie.finalScore]
+  return [movie.title, movie.year, movie.popularity, movie.users, movie.critics, movie.finalScore, movie.forYou]
     .some((value) => value !== null && String(value).toLocaleLowerCase("en-US").includes(term));
 }

@@ -13,15 +13,16 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { createMovieColumns } from "@/components/movie-grid/columns";
+import type { TasteColumnOptions } from "@/components/taste/taste-columns";
 import { DisplayPopover, type Density } from "@/components/movie-grid/display-popover";
 import { BAND_ROW_HEIGHT, buildGridRows, type GridRow } from "@/components/movie-grid/rows";
 import { StickyBand, useStickyBand } from "@/components/movie-grid/sticky-band";
 import { MOVIE_FIELDS, MOVIE_OPERATOR_LABELS } from "@/lib/movie-filters";
 import { GROUP_KEY_OPTIONS, groupMovies, sortMovies, type GroupKey } from "@/lib/movie-groups";
+import { useMediaQuery } from "@/lib/use-media-query";
 import { numberFormat, type ScoredMovie } from "@/lib/movies";
 import { cn } from "@/lib/utils";
 
-/** Film row heights by density. Compact sits on the 28px score chip plus cell padding. */
 const FILM_ROW: Record<Density, { plain: { height: number; className: string }; withContext: { height: number; className: string } }> = {
   compact: { plain: { height: 41, className: "[&>td]:h-9" }, withContext: { height: 49, className: "[&>td]:h-12" } },
   comfortable: { plain: { height: 48, className: "[&>td]:h-12" }, withContext: { height: 60, className: "[&>td]:h-15" } },
@@ -47,14 +48,18 @@ interface MovieGridProps {
   onShowContextChange: (show: boolean) => void;
   actions: ReactNode;
   advancedEditor: ReactNode;
+  /** Adds the Rate column and, while a profile is active, the For you column and band grouping. */
+  taste?: TasteColumnOptions;
 }
 
 export function MovieGrid({
   movies, totalCount, query, onQueryChange, sorting, onSortingChange, expanded, onExpandedChange,
-  groupKey, onGroupKeyChange, density, onDensityChange, showContext, onShowContextChange, actions, advancedEditor,
+  groupKey, onGroupKeyChange, density, onDensityChange, showContext, onShowContextChange, actions, advancedEditor, taste,
 }: MovieGridProps) {
   const bandRows = useMemo(() => buildGridRows(groupMovies(sortMovies(movies, sorting), groupKey)), [movies, sorting, groupKey]);
-  const columns = useMemo(() => createMovieColumns({ showContext }), [showContext]);
+  const narrow = useMediaQuery("(max-width: 1023px)");
+  const columns = useMemo(() => createMovieColumns({ showContext, taste, pinForYou: narrow }), [showContext, taste, narrow]);
+  const groupOptions = GROUP_KEY_OPTIONS.filter((option) => option.value !== "forYou" || taste?.active);
   const filmRow = FILM_ROW[density][showContext ? "withContext" : "plain"];
 
   const table = useTable({
@@ -93,7 +98,6 @@ export function MovieGrid({
       onExpandedChange({ ...expanded, ...Object.fromEntries(unseen.map((band) => [band.id, true])) });
     }
   }, [bandRows, expanded, onExpandedChange]);
-
   const toggleFromSticky = useCallback(
     (row: (typeof rows)[number]) => {
       const index = rows.indexOf(row);
@@ -150,11 +154,11 @@ export function MovieGrid({
             <FieldLabel htmlFor="movie-group-by" className="shrink-0 font-normal">Group by</FieldLabel>
             <Select value={groupKey} onValueChange={(value) => onGroupKeyChange(value as GroupKey)}>
               <SelectTrigger id="movie-group-by" size="sm" className="w-[176px]">
-                <SelectValue>{GROUP_KEY_OPTIONS.find((option) => option.value === groupKey)?.label}</SelectValue>
+                <SelectValue>{groupOptions.find((option) => option.value === groupKey)?.label}</SelectValue>
               </SelectTrigger>
               <SelectContent align="start">
                 <SelectGroup>
-                  {GROUP_KEY_OPTIONS.map((option) => (
+                  {groupOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
                   ))}
                 </SelectGroup>

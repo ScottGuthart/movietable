@@ -1,7 +1,7 @@
 import type { SortingState } from "@tanstack/react-table";
 import type { ScoredMovie } from "@/lib/movies";
 
-export type GroupKey = "score" | "decade" | "popularity";
+export type GroupKey = "score" | "forYou" | "decade" | "popularity";
 
 export interface GroupKeyOption {
   value: GroupKey;
@@ -10,6 +10,7 @@ export interface GroupKeyOption {
 
 export const GROUP_KEY_OPTIONS: GroupKeyOption[] = [
   { value: "score", label: "Final Score band" },
+  { value: "forYou", label: "For you band" },
   { value: "decade", label: "Decade" },
   { value: "popularity", label: "Popularity tier" },
 ];
@@ -44,6 +45,9 @@ const SCORE_BANDS: Bucket[] = [
 ];
 const UNSCORED: Omit<Bucket, "min"> = { id: "score-none", label: "Unscored" };
 
+const FOR_YOU_BANDS: Bucket[] = SCORE_BANDS.map((band) => ({ ...band, id: band.id.replace("score-", "for-you-") }));
+const NOT_RANKED: Omit<Bucket, "min"> = { id: "for-you-none", label: "Not yet ranked" };
+
 const POPULARITY_TIERS: Bucket[] = [
   { id: "popularity-10000", label: "10,000+ ratings", min: 10_000 },
   { id: "popularity-2500", label: "2,500–9,999 ratings", min: 2_500 },
@@ -72,6 +76,8 @@ export function groupSlotFor(movie: ScoredMovie, key: GroupKey): GroupSlot {
   switch (key) {
     case "score":
       return bucketSlot(movie.finalScore, SCORE_BANDS, UNSCORED);
+    case "forYou":
+      return bucketSlot(movie.forYou, FOR_YOU_BANDS, NOT_RANKED);
     case "decade":
       return decadeSlot(movie.year);
     case "popularity":
@@ -112,7 +118,7 @@ export function groupMovies(movies: ScoredMovie[], key: GroupKey): MovieGroup[] 
     }));
 }
 
-export type SortableMovieColumn = "year" | "title" | "popularity" | "users" | "critics" | "finalScore";
+export type SortableMovieColumn = "year" | "title" | "popularity" | "users" | "critics" | "finalScore" | "forYou";
 
 const SORTABLE_COLUMNS: ReadonlySet<string> = new Set<SortableMovieColumn>([
   "year",
@@ -121,6 +127,7 @@ const SORTABLE_COLUMNS: ReadonlySet<string> = new Set<SortableMovieColumn>([
   "users",
   "critics",
   "finalScore",
+  "forYou",
 ]);
 
 function compareNullableNumbers(a: number | null, b: number | null, desc: boolean): number {

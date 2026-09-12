@@ -18,18 +18,23 @@ function returnUrl(): string {
 }
 
 function SignedIn({ email }: { email: string | undefined }) {
+  const [signOutError, setSignOutError] = useState<string | null>(null)
+  const handleSignOut = () => {
+    signOut().catch((error: unknown) => setSignOutError(error instanceof Error ? error.message : "Sign-out failed."))
+  }
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-6 text-center">
       <div className="flex flex-col gap-1.5">
-        <h1 className="text-2xl font-semibold tracking-tight text-balance sm:text-[1.6875rem]">You&rsquo;re signed in.</h1>
+        <h1 className="text-2xl font-semibold tracking-tight text-balance">You&rsquo;re signed in.</h1>
         <p className="text-muted-foreground text-sm text-pretty">
           {email ? <>Ratings on this device save to <span className="text-foreground font-medium">{email}</span>.</> : "Your ratings save to your account."}
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         <Button nativeButton={false} render={<Link href="/" />}>Back to the table</Button>
-        <Button variant="outline" onClick={() => void signOut()}>Sign out</Button>
+        <Button variant="outline" onClick={handleSignOut}>Sign out</Button>
       </div>
+      {signOutError && <p role="alert" className="text-destructive text-sm">{signOutError}</p>}
     </div>
   )
 }
@@ -83,6 +88,7 @@ function AuthBody() {
     <SignInForm
       onProvider={(provider) => void signInWith(provider)}
       onEmail={(email) => void sendLink(email)}
+      onResetEmail={() => setEmailLink({ status: "idle" })}
       pendingProvider={pendingProvider}
       providerError={providerError}
       emailLink={emailLink}

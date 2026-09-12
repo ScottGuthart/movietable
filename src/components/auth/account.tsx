@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { IconChevronDown } from "@tabler/icons-react";
+import { useState } from "react";
 import { useRatingsSync, type SyncState } from "@/components/auth/use-ratings-sync";
 import { signOut } from "@/components/auth/sign-out";
 import { useSession } from "@/components/auth/use-session";
@@ -28,10 +29,14 @@ export function Account() {
 function AccountControl() {
   const session = useSession();
   const sync = useRatingsSync(session.status === "signed-in" ? session.session : null);
+  const [signOutError, setSignOutError] = useState<string | null>(null);
+  const handleSignOut = () => {
+    signOut().catch((error: unknown) => setSignOutError(error instanceof Error ? error.message : "Sign-out failed."));
+  };
 
   if (session.status === "loading") return <span className="inline-block h-8" aria-hidden="true" />;
   if (session.status === "signed-out") {
-    return <Button variant="ghost" nativeButton={false} render={<Link href="/sign-in" />}>Sign in</Button>;
+    return <Button variant="ghost" className="-ml-2.5 sm:-mr-2.5 sm:ml-0" nativeButton={false} render={<Link href="/sign-in" />}>Sign in</Button>;
   }
 
   const { user } = session.session;
@@ -41,7 +46,7 @@ function AccountControl() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="ghost" aria-label={`Account, ${name}`} />}>
+      <DropdownMenuTrigger render={<Button variant="ghost" className="-ml-2.5 sm:-mr-2.5 sm:ml-0" aria-label={`Account, ${name}`} />}>
         <Avatar className="size-5">
           {avatarUrl && <AvatarImage src={avatarUrl} alt="" />}
           <AvatarFallback className="text-[0.625rem]">{initial}</AvatarFallback>
@@ -52,10 +57,10 @@ function AccountControl() {
       <DropdownMenuContent align="end" className="w-64">
         <DropdownMenuLabel className="flex flex-col gap-0.5">
           <span className="truncate font-medium">{user.email}</span>
-          <span className="text-muted-foreground text-xs font-normal" role="status">{syncLabel(sync)}</span>
+          <span className={signOutError ? "text-destructive text-xs font-normal" : "text-muted-foreground text-xs font-normal"} role="status">{signOutError ?? syncLabel(sync)}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => void signOut()}>Sign out</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

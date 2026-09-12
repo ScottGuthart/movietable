@@ -20,12 +20,13 @@ export type EmailLinkState =
 interface SignInFormProps {
   onProvider: (provider: OAuthProviderId) => void
   onEmail: (email: string) => void
+  onResetEmail: () => void
   pendingProvider: OAuthProviderId | null
   providerError: string | null
   emailLink: EmailLinkState
 }
 
-export function SignInForm({ onProvider, onEmail, pendingProvider, providerError, emailLink }: SignInFormProps) {
+export function SignInForm({ onProvider, onEmail, onResetEmail, pendingProvider, providerError, emailLink }: SignInFormProps) {
   const [email, setEmail] = useState("")
   const sending = emailLink.status === "sending"
 
@@ -37,7 +38,7 @@ export function SignInForm({ onProvider, onEmail, pendingProvider, providerError
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
       <div className="flex flex-col gap-1.5 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-balance sm:text-[1.6875rem]">
+        <h1 className="text-2xl font-semibold tracking-tight text-balance">
           Keep your ratings everywhere.
         </h1>
         <p className="text-muted-foreground text-sm text-pretty">
@@ -71,9 +72,12 @@ export function SignInForm({ onProvider, onEmail, pendingProvider, providerError
       </div>
 
       {emailLink.status === "sent" ? (
-        <p role="status" className="text-center text-sm leading-relaxed text-pretty">
-          Check <span className="font-medium">{emailLink.email}</span> for a sign-in link. It works once and opens the table signed in.
-        </p>
+        <div className="flex flex-col items-center gap-3">
+          <p role="status" className="text-center text-sm leading-relaxed text-pretty">
+            Check <span className="font-medium">{emailLink.email}</span> for a sign-in link. It works once and opens the table signed in.
+          </p>
+          <Button type="button" variant="ghost" onClick={onResetEmail}>Use a different email</Button>
+        </div>
       ) : (
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <FieldGroup>

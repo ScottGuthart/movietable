@@ -1,0 +1,146 @@
+"use client";
+
+import type { ColumnDef } from "@tanstack/react-table";
+import { IconArrowUpRight, IconChevronRight } from "@tabler/icons-react";
+import { Badge } from "@/components/reui/badge";
+import type { DataGridFeatures } from "@/components/reui/data-grid/data-grid";
+import { DataGridColumnHeader } from "@/components/reui/data-grid/data-grid-column-header";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import type { MovieGroup } from "@/lib/movie-groups";
+import { numberFormat, type ScoredMovie } from "@/lib/movies";
+import { isFilmRow, type GridRow } from "@/components/movie-grid/rows";
+
+function formatScore(value: number | null): string {
+  return value === null ? "—" : String(value);
+}
+
+function Score({ value, final = false }: { value: number | null; final?: boolean }) {
+  if (value === null) return <span aria-label="Unavailable" className="text-muted-foreground">—</span>;
+  return final ? (
+    <span className="bg-primary/10 text-primary inline-flex min-w-10 justify-center px-2 py-1 font-semibold tabular-nums">{value}</span>
+  ) : <span className="tabular-nums">{value}</span>;
+}
+
+export function BandToggle({ label, expanded, onToggle, tabIndex }: { label: string; expanded: boolean; onToggle: () => void; tabIndex?: number }) {
+  return (
+    <Button
+      type="button"
+      size="icon-xs"
+      variant="ghost"
+      tabIndex={tabIndex}
+      aria-expanded={expanded}
+      aria-label={expanded ? `Collapse ${label}` : `Expand ${label}`}
+      className="text-muted-foreground hover:text-foreground pointer-events-auto"
+      onClick={(event) => { event.preventDefault(); event.stopPropagation(); onToggle(); }}
+    >
+      <IconChevronRight aria-hidden="true" className={cn("transition-transform duration-150", expanded && "rotate-90")} />
+    </Button>
+  );
+}
+
+export function BandLabel({ group }: { group: MovieGroup }) {
+  const count = group.movies.length;
+  return (
+    <span className="flex min-w-0 items-center gap-2">
+      <span className="truncate font-medium">{group.label}</span>
+      <Badge variant="outline" className="shrink-0">{numberFormat.format(count)} {count === 1 ? "film" : "films"}</Badge>
+    </span>
+  );
+}
+
+export function BandAverage({ group }: { group: MovieGroup }) {
+  return (
+    <span className="text-muted-foreground tabular-nums">
+      <span className="sr-only">Average Final Score </span>
+      <span aria-hidden="true">avg </span>
+      {formatScore(group.averageFinalScore)}
+    </span>
+  );
+}
+
+function ContextLine({ movie }: { movie: ScoredMovie }) {
+  const popularity = movie.popularity === null ? "Popularity —" : `${numberFormat.format(movie.popularity)} ratings`;
+  return (
+    <span className="text-muted-foreground block truncate text-xs leading-4 tabular-nums">
+      Users {formatScore(movie.users)} · Critics {formatScore(movie.critics)} · {popularity}
+    </span>
+  );
+}
+
+function TitleCell({ movie, showContext }: { movie: ScoredMovie; showContext: boolean }) {
+  return (
+    <span className="flex min-w-0 flex-col">
+      <a className="group inline-flex max-w-full items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+        href={movie.link} target="_blank" rel="noopener noreferrer">
+        <span className="truncate">{movie.title}</span>
+        <IconArrowUpRight aria-hidden="true" className="text-muted-foreground size-4 shrink-0 opacity-40 group-hover:opacity-100" />
+        <span className="sr-only"> (Metacritic, opens in a new tab)</span>
+      </a>
+      {showContext && <ContextLine movie={movie} />}
+    </span>
+  );
+}
+
+const numericMeta = { headerClassName: "text-right", cellClassName: "text-right" };
+
+export const MOVIE_COLUMN_SIZES = { year: 95, title: 430, popularity: 125, users: 105, critics: 105, finalScore: 135 } as const;
+
+export function createMovieColumns({ showContext }: { showContext: boolean }): ColumnDef<DataGridFeatures, GridRow>[] {
+  return [
+    {
+      id: "year",
+      accessorFn: (row) => (isFilmRow(row) ? row.movie.year : row.group.label),
+      header: ({ column }) => <DataGridColumnHeader title="Year" column={column} />,
+      size: MOVIE_COLUMN_SIZES.year,
+      meta: { headerClassName: "ps-6", cellClassName: "ps-6 text-muted-foreground tabular-nums" },
+      cell: ({ row }) => {
+        if (isFilmRow(row.original)) return row.original.movie.year;
+        return (
+          <span data-band-row="" className="flex items-center">
+            <BandToggle label={row.original.group.label} expanded={row.getIsExpanded()} onToggle={row.getToggleExpandedHandler()} />
+          </span>
+        );
+      },
+    },
+    {
+      id: "title",
+      accessorFn: (row) => (isFilmRow(row) ? row.movie.title : row.group.label),
+      header: ({ column }) => <DataGridColumnHeader title="Title" column={column} />,
+      size: MOVIE_COLUMN_SIZES.title,
+      cell: ({ row }) => (isFilmRow(row.original)
+        ? <TitleCell movie={row.original.movie} showContext={showContext} />
+        : <BandLabel group={row.original.group} />),
+    },
+    {
+      id: "popularity",
+      accessorFn: (row) => (isFilmRow(row) ? (row.movie.popularity ?? undefined) : undefined),
+      header: ({ column }) => <DataGridColumnHeader title="Popularity" column={column} className="ms-auto -me-2" />,
+      size: MOVIE_COLUMN_SIZES.popularity,
+      meta: numericMeta,
+      cell: ({ row }) => {
+        if (!isFilmRow(row.original)) return null;
+        const { popularity } = row.original.movie;
+        return popularity === null ? <Score value={null} /> : <span className="tabular-nums">{numberFormat.format(popularity)}</span>;
+      },
+    },
+    ...([["users", "Users"], ["critics", "Critics"]] as const).map(([id, label]): ColumnDef<DataGridFeatures, GridRow> => ({
+      id,
+      accessorFn: (row) => (isFilmRow(row) ? (row.movie[id] ?? undefined) : undefined),
+      header: ({ column }) => <DataGridColumnHeader title={label} column={column} className="ms-auto -me-2" />,
+      size: MOVIE_COLUMN_SIZES[id],
+      meta: numericMeta,
+      cell: ({ row }) => (isFilmRow(row.original) ? <Score value={row.original.movie[id]} /> : null),
+    })),
+    {
+      id: "finalScore",
+      accessorFn: (row) => (isFilmRow(row) ? (row.movie.finalScore ?? undefined) : row.group.averageFinalScore ?? undefined),
+      header: ({ column }) => <DataGridColumnHeader title="Final Score" column={column} className="ms-auto -me-2" />,
+      size: MOVIE_COLUMN_SIZES.finalScore,
+      meta: { headerClassName: "text-right pe-6", cellClassName: "text-right pe-6" },
+      cell: ({ row }) => (isFilmRow(row.original)
+        ? <Score value={row.original.movie.finalScore} final />
+        : <BandAverage group={row.original.group} />),
+    },
+  ];
+}

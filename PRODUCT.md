@@ -1,0 +1,95 @@
+# Product
+
+<!-- impeccable:product-schema 1 -->
+
+## Platform
+
+web
+
+## Users
+
+Regular people deciding what movie to watch next. They arrive at the public site with no account and no onboarding, and they want a ranked, filterable list they can bend toward their own taste: more weight on critics, more weight on audiences, only popular films, only a certain era. Some know exactly what they are looking for and search by title; most are browsing for a pick tonight.
+
+A second audience is confirmed: people evaluating Scott Guthart's work. MovieTable is the premier app demonstrating his skill set, so the site must credit him and link to his resume. The site owner is Scott Guthart; the project is public at movietable.scottguthart.com.
+
+## Product Purpose
+
+MovieTable is a single-page ranking of the all-time top films on Metacritic. Its core move is a **score bias** slider that blends the Metacritic user score and the Metascore into one Final Score, so the whole table re-ranks as the visitor slides between "Users" and "Critics". Around that sit search, quick numeric filters, an advanced boolean filter editor, sortable columns, and pagination.
+
+Success is a visitor finding a film they want to watch and clicking through to its Metacritic page.
+
+## Positioning
+
+The visitor controls the weighting between critics and audiences, and every film is ranked by that personal blend across one merged dataset. Metacritic, IMDb, and Letterboxd each show fixed scores from a single constituency; none let the visitor re-rank the catalogue by how much they trust critics versus crowds.
+
+Planned extension of the same idea: a **taste profile** recommender. The visitor rates a handful of films, the app builds a profile from those ratings, and the table re-ranks against it. This keeps the product's stance that the visitor's taste, not an editorial one, sets the order.
+
+## Operating Context
+
+- Public, unauthenticated website. No accounts, no server-side user state.
+- Entire dataset ships to the browser as static JSON and all scoring, filtering, sorting, and paging run client-side.
+- Stack: Next.js 16 App Router, React 19, TypeScript, Bun, Tailwind CSS 4, shadcn (base-nova style, tabler icons), REUI data-grid and filters registry components, TanStack Table.
+- Dev command: `bun run dev`. Tests: `bun test src/lib`. Lint: `bun run lint`. Typecheck: `bun run typecheck`.
+- Data lives at `src/components/data.json`, one flat array of `{ year, title, users_rated, userscore, metascore, link }`. Normalized in `src/lib/movies.ts`; scoring and filter logic are unit-tested in `src/lib`.
+- Default view on load: release year 2000–2024, popularity 300–100,000, sorted by Final Score descending, 25 rows per page, score bias at equal weight (0.5).
+- Deployed at movietable.scottguthart.com.
+
+## Capabilities and Constraints
+
+**Confirmed capabilities**
+
+- Score bias slider, 0 to 1 in steps of 0.1. Final Score is `floor((1 - w) * users + w * critics)`; at the extremes it is the single constituency's score; when either input is missing the blend is unavailable.
+- Free-text search across title, year, and all numeric columns.
+- Quick filter chips and an advanced editor supporting and/or groups over year, popularity, users, critics, and Final Score with operators such as at least, at most, between, not between.
+- Sortable columns, paginated results, "Clear filters" and "Reset view" actions.
+- Every film links out to its Metacritic page.
+
+**Terminology** (binding for copy and labels)
+
+- **Users**: Metacritic user score, 0–100.
+- **Critics**: Metascore, 0–100.
+- **Popularity**: number of audience ratings on Metacritic.
+- **Final Score**: the visitor-weighted blend, rounded down.
+- **Score bias**: the critic-weight slider.
+- Unavailable values render as an em dash, never as zero and never imputed.
+
+**Data constraints**
+
+- The dataset is a static snapshot scraped outside this repo. Current snapshot: 3,963 films, 1916–2024. No scraper or refresh job exists in the repository.
+- A refresh pipeline is planned. Future work should derive counts and year ranges from the data at build time rather than hardcoding them, and should leave room for a "last updated" signal. The page already derives its counts; the site metadata description in `src/app/layout.tsx` still hardcodes the film count and will drift.
+- The UI must never present scores as live. The existing footer states this and future surfaces must keep an equivalent disclosure.
+
+**Planned, not built: taste-profile recommender** (shaped 2026-09-12, brief confirmed)
+
+- Job: visitor rates a few films, the app builds a taste profile, and the table re-ranks against it.
+- Engine: client-side metadata similarity over genres, director, writers, cast, and decade from the Metacritic scrape. No model service, no server route, no API key. Every match explains itself with the attributes it matched.
+- Input: like / not-for-me controls on table rows, plus a starter hand of twelve popular films dealt in an inline panel to solve cold start. No star scale, no free text, no imports.
+- Ranking: a new sortable **For you** column, 0–100, blending similarity with the current Final Score under a quality floor. Appears at the first like and becomes the default sort. Final Score and the score bias slider are unchanged; the slider still feeds the quality term.
+- Persistence: rated film slugs and verdicts in localStorage under a versioned key. The profile is derived at runtime, never stored. Reset view does not clear ratings.
+- Copy: "built from your ratings". Never described as AI.
+- Dependency: needs the full-catalogue scrape output (genres, credits) joined to the app dataset. Films without metadata show an em dash. Credits load lazily on first panel open so the initial page stays unchanged.
+- Deferred: shareable profile in the URL hash, "hide rated films" toggle.
+
+## Brand Commitments
+
+- The name **MovieTable** and the domain movietable.scottguthart.com are binding.
+- **Metacritic attribution and per-film outbound links are binding.** Every film keeps its link to Metacritic and the dataset credit stays visible.
+- **Maker credit is binding.** The site says it was made by Scott Guthart and links to his resume at https://guth.art. Confirmed 2026-09-12; it lives in the page footer and in site authorship metadata.
+- The current tagline and header copy are not binding and may be rewritten.
+- No logo, color, or typography commitment was made during init. Visual direction is decided in later design work.
+
+## Evidence on Hand
+
+- Real dataset: `src/components/data.json` (3,963 Metacritic films with real scores and links). `src/components/data.json.old` is a stale earlier snapshot and is not referenced by code.
+- Existing raster assets: `public/favicon.ico`, `public/logo192.png`, `public/logo512.png`, `public/thumbnail.png`, carried over from the original Create React App build. `public/manifest.json` still reads "Create React App Sample" and does not describe this product.
+- README at repo root describes the product in two sentences.
+- Resume and portfolio: https://guth.art (Scott Guthart).
+- No testimonials, usage metrics, press, or user research exist. Do not fabricate any.
+
+## Product Principles
+
+1. **The visitor sets the ranking.** Every ranking control, the score bias today and the taste profile later, must visibly re-order the table. Nothing is ranked by an editorial opinion the visitor cannot change.
+2. **Be honest about the data.** It is a snapshot, not live. Missing values are shown as missing. Counts and ranges come from the data, not from copy.
+3. **Metacritic gets the click.** MovieTable helps choose; the source of record is one link away and always credited.
+4. **Zero friction.** No accounts, no gates, no loading spinner between the visitor and the full catalogue. Anything that adds a step must earn it.
+5. **Table first, always.** New capabilities, including the recommender and data refresh, extend the table rather than replacing it with a feed or a chat.

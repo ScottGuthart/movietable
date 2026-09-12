@@ -1,4 +1,4 @@
-import { IconMovie } from "@tabler/icons-react";
+import { IconArrowUpRight, IconMovie } from "@tabler/icons-react";
 import MovieTable from "@/components/MovieTable";
 import data from "@/components/data.json";
 import { getMovieBounds, normalizeMovie, numberFormat } from "@/lib/movies";
@@ -19,7 +19,18 @@ export default function Page() {
           <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · Metacritic dataset</p>
         </header>
         <MovieTable movies={movies} />
-        <footer className="text-muted-foreground text-sm leading-relaxed">A curated dataset, not live ratings. Select any film to see its current scores on Metacritic.</footer>
+        <footer className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
+          <p>A curated dataset, not live ratings. Select any film to see its current scores on Metacritic.</p>
+          <p className="shrink-0">
+            Made by{" "}
+            <a className="group text-foreground inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+              href="https://guth.art" target="_blank" rel="noopener noreferrer author">
+              Scott Guthart
+              <IconArrowUpRight aria-hidden="true" className="text-muted-foreground size-4 opacity-40 group-hover:opacity-100" />
+              <span className="sr-only"> (resume, opens in a new tab)</span>
+            </a>
+          </p>
+        </footer>
       </div>
     </main>
   );

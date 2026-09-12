@@ -31,3 +31,14 @@ yarn-error.log*
 # scraper html cache
 /.cache
 
+
+# secrets
+.env
+.env.*.local
+
+# impeccable local state
+.impeccable/review/
+.impeccable/hook.cache.json
+.impeccable/config.local.json
+.impeccable/live/sessions/
+.impeccable/live/roots.json

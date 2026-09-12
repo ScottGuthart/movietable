@@ -63,19 +63,19 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 
 - Job: visitor rates a few films, the app builds a taste profile, and the table re-ranks against it.
 - Engine: client-side metadata similarity over genres, director, writers, cast, and decade from the Metacritic scrape. No model service, no server route, no API key. Every match explains itself with the attributes it matched.
-- Input: like / not-for-me controls on table rows, plus a starter hand of twelve popular films dealt in an inline panel to solve cold start. No star scale, no free text, no imports.
-- Ranking: a new sortable **For you** column, 0–100, blending similarity with the current Final Score under a quality floor. Appears at the first like and becomes the default sort. Final Score and the score bias slider are unchanged; the slider still feeds the quality term.
+- Input: a one-to-five star rating on every table row (REUI rating, adapted to real buttons in Marquee Crimson), plus a starter hand of twelve popular films dealt in an inline panel to solve cold start, each with a "Haven't seen" skip. No free text, no imports.
+- Ranking: a new sortable **For you** column, 0–100, blending similarity with the current Final Score under a quality floor. Appears at the first four- or five-star rating and becomes the default sort. Final Score and the score bias slider are unchanged; the slider still feeds the quality term.
 - Persistence: rated film slugs and verdicts in localStorage under a versioned key. The profile is derived at runtime, never stored. Reset view does not clear ratings.
 - Copy: "built from your ratings". Never described as AI.
-- Match: cosine similarity between the profile and each film's weighted attributes (director 3, genre 2, writer 1.5, cast 1, decade 1; a pass counts minus one half), rescaled so the best unrated film reads 1. For you = floor(60 × match + 0.4 × Final Score).
+- Match: cosine similarity between the profile and each film's weighted attributes (director 3, genre 2, writer 1.5, cast 1, decade 1), each rated film scaled by (stars − 3) / 2, so five stars speaks fully for a film, three is neutral, and one speaks fully against it; rescaled so the best unrated film reads 1. For you = floor(60 × match + 0.4 × Final Score).
 - Attributes come from the same Supabase tables through the static `/api/taste-data` route (revalidated daily, about 240 KB gzipped, cast capped at eight, summaries trimmed to 160 characters), fetched only when the panel opens or saved ratings exist. Films without attributes show an em dash.
 - Deferred: shareable profile in the URL hash, "hide rated films" toggle.
 
 **Built: account sync for ratings** (2026-09-12)
 
 - Sign-in page at `/sign-in` (adapted REUI `auth-16` block): Google, GitHub, or a one-time emailed link, all through Supabase Auth at `api.movietable.ai`. The header shows "Sign in" for guests and an account menu with sync status for signed-in visitors.
-- Storage: table `taste_ratings (user_id, slug, verdict, updated_at)` under row-level security; each visitor reads and writes only their own rows (`supabase/migrations/20260912020000_taste_ratings.sql`).
-- Merge on sign-in: union of local and account verdicts, newer `updated_at` wins, ties go to the account. Afterwards every local change is pushed after a short pause; localStorage stays the offline mirror. Signing out clears local ratings so a shared device starts clean.
+- Storage: table `taste_ratings (user_id, slug, verdict, stars, updated_at)` under row-level security, `verdict` being `rated` with one to five `stars` or `skip`; each visitor reads and writes only their own rows (`supabase/migrations/20260912020000_taste_ratings.sql`).
+- Merge on sign-in: union of local and account ratings, newer `updated_at` wins, ties go to the account. Thumbs saved before the star scale read as four stars (like) and two (pass). Afterwards every local change is pushed after a short pause; localStorage stays the offline mirror. Signing out clears local ratings so a shared device starts clean.
 - Browser needs `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`; the anon key only ever reaches rows the policies allow.
 
 ## Brand Commitments

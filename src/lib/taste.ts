@@ -1,7 +1,9 @@
 import type { ScoredMovie } from "@/lib/movies";
 
-/** What the visitor said about a film. `skip` means "haven't seen" and carries no taste signal. */
-export type Verdict = "like" | "pass" | "skip";
+/** A whole-star rating from one to five. */
+export type Stars = 1 | 2 | 3 | 4 | 5;
+/** What the visitor said about a film: stars, or `skip` for "haven't seen", which carries no taste signal. */
+export type Verdict = Stars | "skip";
 /** Verdicts keyed by Metacritic film slug. */
 export type Verdicts = Record<string, Verdict>;
 
@@ -45,8 +47,9 @@ export interface HandCandidate {
 }
 
 const KIND_WEIGHT: Record<FeatureKind, number> = { director: 3, genre: 2, writer: 1.5, cast: 1, decade: 1 };
-/** A pass counts against a film's attributes at half the strength of a like. */
-const PASS_FACTOR = -0.5;
+const STARS: readonly number[] = [1, 2, 3, 4, 5];
+/** Ratings at or above this many stars count as a favourite and can build a profile on their own. */
+const FAVOURITE_STARS = 4;
 /** For you = MATCH_SHARE × match strength + QUALITY_SHARE × Final Score, so equal matches keep the stronger film ahead. */
 const MATCH_SHARE = 60;
 const QUALITY_SHARE = 0.4;
@@ -77,8 +80,21 @@ export function filmFeatures(film: TasteFilm): Feature[] {
   return features;
 }
 
-export function hasLikes(verdicts: Verdicts): boolean {
-  return Object.values(verdicts).includes("like");
+/** Reads a saved verdict, accepting the thumbs stored before the star scale: like became four stars, pass two. */
+export function parseVerdict(value: unknown): Verdict | null {
+  if (value === "skip") return "skip";
+  if (value === "like") return 4;
+  if (value === "pass") return 2;
+  return typeof value === "number" && STARS.includes(value) ? (value as Stars) : null;
+}
+
+/** How strongly a rating speaks for a film's attributes: five stars is +1, three is neutral, one is -1. */
+export function ratingFactor(stars: Stars): number {
+  return (stars - 3) / 2;
+}
+
+export function hasPositive(verdicts: Verdicts): boolean {
+  return Object.values(verdicts).some((verdict) => verdict !== "skip" && verdict >= FAVOURITE_STARS);
 }
 
 export function ratedCount(verdicts: Verdicts): number {
@@ -89,7 +105,7 @@ function indexFilms(catalogue: TasteCatalogue): Map<string, TasteFilm> {
   return new Map(catalogue.films.map((film) => [film.slug, film]));
 }
 
-/** Sums weighted features over liked films and subtracts half weight for passed films. */
+/** Sums each rated film's weighted features, scaled by how far its rating sits from three stars. */
 export function buildProfile(catalogue: TasteCatalogue, verdicts: Verdicts): Profile {
   const films = indexFilms(catalogue);
   const profile: Profile = new Map();
@@ -97,7 +113,8 @@ export function buildProfile(catalogue: TasteCatalogue, verdicts: Verdicts): Pro
     if (verdict === "skip") continue;
     const film = films.get(slug);
     if (!film) continue;
-    const factor = verdict === "like" ? 1 : PASS_FACTOR;
+    const factor = ratingFactor(verdict);
+    if (factor === 0) continue;
     for (const feature of filmFeatures(film)) {
       const id = featureId(feature);
       profile.set(id, (profile.get(id) ?? 0) + factor * KIND_WEIGHT[feature.kind]);
@@ -109,7 +126,7 @@ export function buildProfile(catalogue: TasteCatalogue, verdicts: Verdicts): Pro
 /**
  * Cosine similarity between the profile and each film's weighted attribute vector,
  * clamped at zero and rescaled so the best match among unrated films reads 1.
- * Rated films are excluded from the scale (a liked film matches itself perfectly)
+ * Rated films are excluded from the scale (a favourite matches itself perfectly)
  * and capped at 1.
  */
 function matchStrengths(catalogue: TasteCatalogue, profile: Profile, rated: Set<string>): Map<string, number> {
@@ -144,9 +161,9 @@ export function forYouScore(match: number | null, finalScore: number | null): nu
   return Math.floor(MATCH_SHARE * match + QUALITY_SHARE * finalScore);
 }
 
-/** Fills `forYou` on every movie; leaves it null without a liked film or without attributes. */
+/** Fills `forYou` on every movie; leaves it null without a favourite or without attributes. */
 export function rankMovies(movies: ScoredMovie[], catalogue: TasteCatalogue | null, verdicts: Verdicts): ScoredMovie[] {
-  if (!catalogue || !hasLikes(verdicts)) {
+  if (!catalogue || !hasPositive(verdicts)) {
     return movies.map((movie) => (movie.forYou === null ? movie : { ...movie, forYou: null }));
   }
   const rated = new Set(Object.entries(verdicts).flatMap(([slug, verdict]) => (verdict === "skip" ? [] : [slug])));

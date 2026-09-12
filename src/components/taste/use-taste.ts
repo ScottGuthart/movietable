@@ -9,7 +9,7 @@ import {
   dealHand,
   explainMatch,
   HAND_SIZE,
-  hasLikes,
+  hasPositive,
   rankMovies,
   ratedCount,
   summarizeProfile,
@@ -35,7 +35,7 @@ export interface HandFilm {
 export interface Taste {
   verdicts: Verdicts;
   persistent: boolean;
-  liked: boolean;
+  positive: boolean;
   rated: number;
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -75,13 +75,13 @@ export function useTaste(movies: ScoredMovie[]): Taste {
   const [dealOffset, setDealOffset] = useState(0);
 
   const rated = ratedCount(verdicts);
-  const liked = hasLikes(verdicts);
+  const positive = hasPositive(verdicts);
   const { state, retry } = useTasteCatalogue(open || rated > 0);
   const catalogue = state.status === "ready" ? state.catalogue : null;
 
   const films = useMemo(() => new Map((catalogue?.films ?? []).map((film) => [film.slug, film])), [catalogue]);
   const profile = useMemo(() => (catalogue ? buildProfile(catalogue, verdicts) : null), [catalogue, verdicts]);
-  const active = profile !== null && liked;
+  const active = profile !== null && positive;
   const ranked = useMemo(() => rankMovies(movies, catalogue, verdicts), [movies, catalogue, verdicts]);
   const summary = useMemo(
     () => (active && profile && catalogue ? summarizeProfile(profile, catalogue.people) : []),
@@ -120,7 +120,7 @@ export function useTaste(movies: ScoredMovie[]): Taste {
   );
 
   return {
-    verdicts, persistent, liked, rated, open, setOpen, active, state, retry, ranked, summary,
+    verdicts, persistent, positive, rated, open, setOpen, active, state, retry, ranked, summary,
     hand, handTotal: candidates.length, dealAnother, rate: setVerdict, clear: clearVerdicts, explain, unavailableReason,
   };
 }

@@ -96,7 +96,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
               onValueChange={(value) => setCriticWeight(typeof value === "number" ? value : value[0])} />
             <div className="text-muted-foreground flex justify-between text-sm"><span>Users</span><span>Critics</span></div>
           </Field>
-          <TasteField open={taste.open} onToggle={() => taste.setOpen(!taste.open)} rated={taste.rated} liked={taste.liked} active={taste.active}
+          <TasteField open={taste.open} onToggle={() => taste.setOpen(!taste.open)} rated={taste.rated} positive={taste.positive} active={taste.active}
             summary={taste.summary} persistent={taste.persistent} state={taste.state} onClear={taste.clear} />
         </FieldGroup>
         <p role="status" className="sr-only">{taste.active ? "Table ranked for your taste." : ""}</p>
@@ -117,7 +117,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
             <>
               {taste.open && (
                 <TastePanel state={taste.state} retry={taste.retry} hand={taste.hand} handTotal={taste.handTotal} verdicts={taste.verdicts}
-                  rate={taste.rate} dealAnother={taste.dealAnother} rated={taste.rated} liked={taste.liked} />
+                  rate={taste.rate} dealAnother={taste.dealAnother} rated={taste.rated} positive={taste.positive} />
               )}
               <CollapsibleContent><AdvancedMovieFilters query={query} onQueryChange={setQuery} /></CollapsibleContent>
             </>

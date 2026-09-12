@@ -6,7 +6,8 @@ import {
   explainMatch,
   filmFeatures,
   forYouScore,
-  hasLikes,
+  hasPositive,
+  parseVerdict,
   rankMovies,
   ratedCount,
   summarizeProfile,
@@ -65,28 +66,36 @@ describe("film features", () => {
 
 describe("profile", () => {
   test("weights a like by feature kind", () => {
-    const profile = buildProfile(catalogue, { "the-godfather": "like" });
+    const profile = buildProfile(catalogue, { "the-godfather": 5 });
     expect(profile.get("director:0")).toBe(3);
     expect(profile.get("genre:Crime")).toBe(2);
     expect(profile.get("writer:1")).toBe(1.5);
     expect(profile.get("cast:3")).toBe(1);
     expect(profile.get("decade:1970")).toBe(1);
   });
-  test("subtracts half weight for a pass and ignores skips", () => {
-    const profile = buildProfile(catalogue, { "spirited-away": "pass", amelie: "skip" });
+  test("scales a rating around three stars: five is full weight, two is minus half, three is nothing", () => {
+    const profile = buildProfile(catalogue, { "the-godfather": 5, heat: 3, amelie: 4 });
+    expect(profile.get("director:0")).toBe(3);
+    expect(profile.get("director:7")).toBeUndefined();
+    expect(profile.get("genre:Thriller")).toBeUndefined();
+    expect(profile.get("director:11")).toBe(1.5);
+    expect(profile.get("genre:Comedy")).toBe(1);
+  });
+  test("a two-star rating subtracts half weight and skips carry nothing", () => {
+    const profile = buildProfile(catalogue, { "spirited-away": 2, amelie: "skip" });
     expect(profile.get("genre:Animation")).toBe(-1);
     expect(profile.get("director:9")).toBe(-1.5);
     expect(profile.has("director:11")).toBe(false);
   });
   test("accumulates across films", () => {
-    const profile = buildProfile(catalogue, { "the-godfather": "like", "the-godfather-part-ii": "like", heat: "pass" });
+    const profile = buildProfile(catalogue, { "the-godfather": 5, "the-godfather-part-ii": 5, heat: 2 });
     expect(profile.get("director:0")).toBe(6);
     expect(profile.get("cast:3")).toBe(1.5);
   });
-  test("only likes make a profile", () => {
-    expect(hasLikes({ a: "pass", b: "skip" })).toBe(false);
-    expect(hasLikes({ a: "pass", b: "like" })).toBe(true);
-    expect(ratedCount({ a: "pass", b: "like", c: "skip" })).toBe(2);
+  test("only four or five stars make a profile", () => {
+    expect(hasPositive({ a: 2, b: "skip" })).toBe(false);
+    expect(hasPositive({ a: 2, b: 4 })).toBe(true);
+    expect(ratedCount({ a: 2, b: 5, c: "skip" })).toBe(2);
   });
 });
 
@@ -107,11 +116,11 @@ describe("ranking", () => {
 
   test("leaves For you empty without a like or a catalogue", () => {
     expect(rankMovies(movies, catalogue, {}).every((row) => row.forYou === null)).toBe(true);
-    expect(rankMovies(movies, catalogue, { heat: "pass" }).every((row) => row.forYou === null)).toBe(true);
-    expect(rankMovies(movies, null, { heat: "like" }).every((row) => row.forYou === null)).toBe(true);
+    expect(rankMovies(movies, catalogue, { heat: 2 }).every((row) => row.forYou === null)).toBe(true);
+    expect(rankMovies(movies, null, { heat: 5 }).every((row) => row.forYou === null)).toBe(true);
   });
   test("liking The Godfather ranks Coppola and crime films above unrelated ones", () => {
-    const ranked = rankMovies(movies, catalogue, { "the-godfather": "like" });
+    const ranked = rankMovies(movies, catalogue, { "the-godfather": 5 });
     expect(forYouOf(ranked, "the-godfather-part-ii")).toBe(96);
     expect(forYouOf(ranked, "the-godfather")).toBe(96);
     expect(forYouOf(ranked, "heat")).toBe(58);
@@ -119,37 +128,37 @@ describe("ranking", () => {
     expect(forYouOf(ranked, "amelie")).toBe(36);
   });
   test("a pass pulls similar films down", () => {
-    const liked = rankMovies(movies, catalogue, { "the-godfather": "like" });
-    const passed = rankMovies(movies, catalogue, { "the-godfather": "like", heat: "pass" });
+    const liked = rankMovies(movies, catalogue, { "the-godfather": 5 });
+    const passed = rankMovies(movies, catalogue, { "the-godfather": 5, heat: 2 });
     expect(forYouOf(passed, "heat")!).toBeLessThan(forYouOf(liked, "heat")!);
   });
   test("a film without attributes or without a Final Score shows nothing", () => {
-    const ranked = rankMovies([...movies, scored("amelie-unscored", null)], { ...catalogue, films: [...catalogue.films, film({ slug: "amelie-unscored", genres: ["Comedy"] })] }, { "the-godfather": "like" });
+    const ranked = rankMovies([...movies, scored("amelie-unscored", null)], { ...catalogue, films: [...catalogue.films, film({ slug: "amelie-unscored", genres: ["Comedy"] })] }, { "the-godfather": 5 });
     expect(forYouOf(ranked, "no-metadata")).toBeNull();
     expect(forYouOf(ranked, "amelie-unscored")).toBeNull();
   });
   test("scales matches against the best unrated film, not the liked film itself", () => {
-    const ranked = rankMovies(movies, catalogue, { "the-godfather": "like", "the-godfather-part-ii": "pass" });
+    const ranked = rankMovies(movies, catalogue, { "the-godfather": 5, "the-godfather-part-ii": 2 });
     expect(forYouOf(ranked, "heat")).toBe(96);
   });
   test("still scores when every film with attributes has been rated", () => {
     const solo: TasteCatalogue = { films: [film({ slug: "seed", genres: ["Crime"] })], people: [] };
-    expect(forYouOf(rankMovies([scored("seed", 70)], solo, { seed: "like" }), "seed")).toBe(88);
+    expect(forYouOf(rankMovies([scored("seed", 70)], solo, { seed: 5 }), "seed")).toBe(88);
   });
   test("equal match never lets a weaker film beat a stronger one", () => {
     const twins: TasteCatalogue = { films: [film({ slug: "a", genres: ["Crime"] }), film({ slug: "b", genres: ["Crime"] }), film({ slug: "seed", genres: ["Crime"] })], people: [] };
-    const ranked = rankMovies([scored("a", 85), scored("b", 40), scored("seed", 70)], twins, { seed: "like" });
+    const ranked = rankMovies([scored("a", 85), scored("b", 40), scored("seed", 70)], twins, { seed: 5 });
     expect(forYouOf(ranked, "a")!).toBeGreaterThan(forYouOf(ranked, "b")!);
   });
   test("keeps input order and every other field", () => {
-    const ranked = rankMovies(movies, catalogue, { "the-godfather": "like" });
+    const ranked = rankMovies(movies, catalogue, { "the-godfather": 5 });
     expect(ranked.map((row) => row.slug)).toEqual(movies.map((row) => row.slug));
     expect(ranked[0]).toMatchObject({ title: "the-godfather", finalScore: 90, link: movies[0]!.link });
   });
 });
 
 describe("explanations", () => {
-  const profile = buildProfile(catalogue, { "the-godfather": "like", "spirited-away": "pass" });
+  const profile = buildProfile(catalogue, { "the-godfather": 5, "spirited-away": 2 });
 
   test("names the strongest shared attributes, heaviest first, at most three", () => {
     const reasons = explainMatch(profile, byId(catalogue.films, "the-godfather-part-ii"), catalogue.people);
@@ -166,18 +175,18 @@ describe("explanations", () => {
     expect(explainMatch(profile, byId(catalogue.films, "amelie"), catalogue.people)).toEqual([]);
   });
   test("labels decades as a range", () => {
-    const reasons = explainMatch(buildProfile(catalogue, { amelie: "like" }), byId(catalogue.films, "spirited-away"), catalogue.people);
+    const reasons = explainMatch(buildProfile(catalogue, { amelie: 5 }), byId(catalogue.films, "spirited-away"), catalogue.people);
     expect(reasons).toEqual([{ kind: "decade", label: "2000s" }]);
   });
 });
 
 describe("profile summary", () => {
   test("lists the leading genres then the leading director", () => {
-    const profile = buildProfile(catalogue, { "the-godfather": "like", heat: "like" });
+    const profile = buildProfile(catalogue, { "the-godfather": 5, heat: 5 });
     expect(summarizeProfile(profile, catalogue.people)).toEqual(["Crime", "Drama", "Francis Ford Coppola"]);
   });
   test("is empty without likes", () => {
-    expect(summarizeProfile(buildProfile(catalogue, { heat: "pass" }), catalogue.people)).toEqual([]);
+    expect(summarizeProfile(buildProfile(catalogue, { heat: 2 }), catalogue.people)).toEqual([]);
   });
 });
 
@@ -206,9 +215,22 @@ describe("starter hand", () => {
   });
 });
 
-describe("verdict typing", () => {
-  test("accepts only the three verdicts", () => {
-    const verdicts: Verdicts = { a: "like", b: "pass", c: "skip" };
+describe("verdicts", () => {
+  test("accept whole stars from one to five or a skip", () => {
+    const verdicts: Verdicts = { a: 1, b: 5, c: "skip" };
     expect(Object.keys(verdicts)).toHaveLength(3);
+  });
+  test("migrate saved thumbs and reject anything else", () => {
+    expect(parseVerdict("like")).toBe(4);
+    expect(parseVerdict("pass")).toBe(2);
+    expect(parseVerdict("skip")).toBe("skip");
+    expect(parseVerdict(3)).toBe(3);
+    expect(parseVerdict(5)).toBe(5);
+    for (const bad of [0, 6, 2.5, "loved", null, undefined, {}]) expect(parseVerdict(bad)).toBeNull();
+  });
+  test("three stars count as rated but not as a favourite", () => {
+    expect(ratedCount({ a: 3, b: "skip" })).toBe(1);
+    expect(hasPositive({ a: 3 })).toBe(false);
+    expect(hasPositive({ a: 4 })).toBe(true);
   });
 });

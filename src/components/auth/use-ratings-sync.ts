@@ -5,27 +5,34 @@ import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { getStampedVerdicts, replaceVerdicts, subscribeToVerdicts } from "@/components/taste/taste-store";
 import { diffVerdicts, mergeVerdicts, type StampedVerdicts } from "@/lib/ratings-sync";
 import { getSupabase } from "@/lib/supabase-browser";
-import type { Verdict } from "@/lib/taste";
+import { parseVerdict } from "@/lib/taste";
 
 export type SyncState = { status: "idle" } | { status: "syncing" } | { status: "synced" } | { status: "error"; message: string };
 
 interface RatingRow {
   slug: string;
-  verdict: Verdict;
+  verdict: "rated" | "skip";
+  stars: number | null;
   updated_at: string;
 }
 
 const PUSH_DELAY_MS = 600;
 
 function toStamped(rows: RatingRow[]): StampedVerdicts {
-  return Object.fromEntries(rows.map((row) => [row.slug, { verdict: row.verdict, updatedAt: Date.parse(row.updated_at) }]));
+  const stamped: StampedVerdicts = {};
+  for (const row of rows) {
+    const verdict = row.verdict === "skip" ? "skip" : parseVerdict(row.stars);
+    if (verdict !== null) stamped[row.slug] = { verdict, updatedAt: Date.parse(row.updated_at) };
+  }
+  return stamped;
 }
 
 async function upload(supabase: SupabaseClient, userId: string, entries: StampedVerdicts): Promise<void> {
   const rows = Object.entries(entries).map(([slug, entry]) => ({
     user_id: userId,
     slug,
-    verdict: entry.verdict,
+    verdict: entry.verdict === "skip" ? "skip" : "rated",
+    stars: entry.verdict === "skip" ? null : entry.verdict,
     updated_at: new Date(entry.updatedAt).toISOString(),
   }));
   if (rows.length === 0) return;
@@ -75,7 +82,7 @@ export function useRatingsSync(session: Session | null): SyncState {
     };
 
     void (async () => {
-      const { data, error } = await supabase.from("taste_ratings").select("slug, verdict, updated_at");
+      const { data, error } = await supabase.from("taste_ratings").select("slug, verdict, stars, updated_at");
       if (cancelled) return;
       if (error) {
         fail(new Error(`Loading your saved ratings failed: ${error.message}`));

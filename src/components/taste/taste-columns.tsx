@@ -19,7 +19,7 @@ export interface TasteColumnOptions {
   unavailableReason: (movie: ScoredMovie) => string | undefined;
 }
 
-export const TASTE_COLUMN_SIZES = { rate: 72, forYou: 116 } as const;
+export const TASTE_COLUMN_SIZES = { rate: 120, forYou: 116 } as const;
 
 function averageForYou(movies: Pick<ScoredMovie, "forYou">[]): number | null {
   const ranked = movies.flatMap((movie) => (movie.forYou === null ? [] : [movie.forYou]));
@@ -42,7 +42,7 @@ export function rateColumn(taste: TasteColumnOptions): ColumnDef<DataGridFeature
   return {
     id: "rate",
     enableSorting: false,
-    header: ({ column }) => <DataGridColumnHeader title="Rate" column={column} className="mx-auto" />,
+    header: ({ column }) => <DataGridColumnHeader title="Your rating" column={column} className="mx-auto" />,
     size: TASTE_COLUMN_SIZES.rate,
     meta: { headerClassName: "text-center", cellClassName: "py-0 text-center" },
     cell: ({ row }) => {

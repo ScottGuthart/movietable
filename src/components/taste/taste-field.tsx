@@ -10,7 +10,7 @@ interface TasteFieldProps {
   open: boolean;
   onToggle: () => void;
   rated: number;
-  liked: boolean;
+  positive: boolean;
   active: boolean;
   summary: string[];
   persistent: boolean;
@@ -22,13 +22,13 @@ function filmsWord(count: number): string {
   return `${count} ${count === 1 ? "film" : "films"}`;
 }
 
-function helperText({ rated, liked, active, summary, persistent, state }: Omit<TasteFieldProps, "open" | "onToggle" | "onClear">): string {
+function helperText({ rated, positive, active, summary, persistent, state }: Omit<TasteFieldProps, "open" | "onToggle" | "onClear">): string {
   if (!persistent) return "Ratings won't save in this browser.";
   if (state.status === "error") return "Film details didn't load. Open the panel to retry.";
   if (active) return summary.length > 0 ? `Built from ${filmsWord(rated)} · ${summary.join(" · ")}` : `Built from ${filmsWord(rated)}`;
-  if (rated > 0 && !liked) return "Like a film to build your ranking.";
+  if (rated > 0 && !positive) return "Give a film four or five stars to build your ranking.";
   if (rated > 0 && state.status === "loading") return "Loading film details…";
-  return "Like or pass on films you've seen.";
+  return "Rate films you've seen, one to five stars.";
 }
 
 export function TasteField(props: TasteFieldProps) {

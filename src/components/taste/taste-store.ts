@@ -2,11 +2,10 @@
 
 import { useSyncExternalStore } from "react";
 import type { StampedVerdicts } from "@/lib/ratings-sync";
-import type { Verdict, Verdicts } from "@/lib/taste";
+import { parseVerdict, type Verdict, type Verdicts } from "@/lib/taste";
 
 const STORAGE_KEY = "movietable.taste.v1";
 const EMPTY: Verdicts = {};
-const VERDICTS = new Set<string>(["like", "pass", "skip"]);
 
 interface Stored {
   verdicts: Verdicts;
@@ -23,7 +22,11 @@ function parseStored(raw: string): Stored {
   if (!parsed || typeof parsed !== "object" || !("verdicts" in parsed)) return { verdicts: {}, updatedAt: {} };
   const { verdicts, updatedAt } = parsed as { verdicts: unknown; updatedAt?: unknown };
   if (!verdicts || typeof verdicts !== "object") return { verdicts: {}, updatedAt: {} };
-  const kept = Object.fromEntries(Object.entries(verdicts).filter(([, verdict]) => typeof verdict === "string" && VERDICTS.has(verdict))) as Verdicts;
+  const kept: Verdicts = {};
+  for (const [slug, value] of Object.entries(verdicts)) {
+    const verdict = parseVerdict(value);
+    if (verdict !== null) kept[slug] = verdict;
+  }
   const stamps = updatedAt && typeof updatedAt === "object" ? (updatedAt as Record<string, unknown>) : {};
   return {
     verdicts: kept,

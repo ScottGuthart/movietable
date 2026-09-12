@@ -6,11 +6,11 @@ import type { Taste } from "@/components/taste/use-taste";
 import { Button } from "@/components/ui/button";
 import { HAND_SIZE, SHARP_PROFILE_SIZE } from "@/lib/taste";
 
-type TastePanelProps = Pick<Taste, "state" | "retry" | "hand" | "handTotal" | "verdicts" | "rate" | "dealAnother" | "rated" | "liked">;
+type TastePanelProps = Pick<Taste, "state" | "retry" | "hand" | "handTotal" | "verdicts" | "rate" | "dealAnother" | "rated" | "positive">;
 
-function guidance({ rated, liked }: Pick<TastePanelProps, "rated" | "liked">): string {
-  if (rated === 0) return "Like or pass on films you've seen. Your list re-ranks as you go.";
-  if (!liked) return "Passes alone can't build a ranking. Like at least one film.";
+function guidance({ rated, positive }: Pick<TastePanelProps, "rated" | "positive">): string {
+  if (rated === 0) return "Rate films you've seen, one to five stars. Your list re-ranks as you go.";
+  if (!positive) return "Ratings under four stars can't build a ranking on their own. Give one film four or five.";
   if (rated < SHARP_PROFILE_SIZE) return "Rate a few more for a sharper match.";
   return "Keep going here, or rate straight from the table.";
 }

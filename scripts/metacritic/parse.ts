@@ -45,6 +45,10 @@ function decodeEntities(text: string): string {
  * Registers a handler reporting the trimmed text and href of every element
  * matching `selector`, in document order.
  *
+ * Carriage returns are normalized away: the source markup contains CRLF inside
+ * some summaries, which git would rewrite under its own line-ending rules once
+ * the exported CSV is committed.
+ *
  * @param decode Decode HTML entities. Disable for `<script>` bodies, whose raw
  *   text is not entity-encoded and would be corrupted by decoding.
  */
@@ -60,7 +64,8 @@ function onText(
 			buffer = "";
 			const href = element.getAttribute("href") ?? "";
 			element.onEndTag(() => {
-				sink((decode ? decodeEntities(buffer) : buffer).trim(), href);
+				const text = decode ? decodeEntities(buffer) : buffer;
+				sink(text.replace(/\r\n?/g, "\n").trim(), href);
 				buffer = "";
 			});
 		},
@@ -102,8 +107,11 @@ interface Schema {
  */
 function pickSummary(
 	hero: string | undefined,
-	schema: string | null,
+	rawSchema: string | null,
 ): string | null {
+	// JSON.parse turns escaped \r back into a carriage return, so normalize
+	// again on this side of the parse.
+	const schema = rawSchema?.replace(/\r\n?/g, "\n").trim() ?? null;
 	const truncated = hero ? /\.\.\.\s*Read More$/.test(hero) : true;
 	if (hero && !truncated) return hero;
 	return schema ?? hero?.replace(/\s*\.\.\.\s*Read More$/, "") ?? null;

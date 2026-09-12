@@ -50,3 +50,15 @@ otherwise sign-up emails cannot be sent.
   `supabase-nvsewslbztkhznokyvmzf7cq` service was stopped, not deleted.
 - Studio: `https://api.movietable.ai/` with basic auth from `SERVICE_USER_ADMIN` /
   `SERVICE_PASSWORD_ADMIN` (`coolify --context personal service env list <uuid> -s`).
+- DigitalOcean blocks outbound SMTP (25/465/587), so auth mail goes through the
+  GoTrue send-email hook: `supabase-auth` POSTs a signed payload to the
+  `send-email` edge function (`SEND_EMAIL_HOOK_URI`, public URL through Kong;
+  GoTrue rejects plain `http://` hook URIs), which sends via Cloudflare Email
+  Service from `no-reply@movietable.ai`. The edge router skips JWT checks only for
+  names in `PUBLIC_FUNCTIONS`; the function verifies the webhook signature itself.
+- Coolify writes a file storage to disk when it is first created and keeps the
+  existing DB content on later compose re-parses. To change an inlined file
+  (`kong.yml`, `vector.yml`, edge functions) update the compose, update the DB
+  content with `coolify service storage update --uuid <id> --type file --content`,
+  and copy the file to `/data/coolify/services/<uuid>/volumes/...` on the server
+  before restarting.

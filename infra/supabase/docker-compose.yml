@@ -747,50 +747,57 @@ services:
     environment:
       - GOTRUE_API_HOST=0.0.0.0
       - GOTRUE_API_PORT=9999
-      - 'API_EXTERNAL_URL=${API_EXTERNAL_URL:-http://supabase-kong:8000}'
+      - API_EXTERNAL_URL=${API_EXTERNAL_URL:-http://supabase-kong:8000}
       - GOTRUE_DB_DRIVER=postgres
-      - 'GOTRUE_DB_DATABASE_URL=postgres://supabase_auth_admin:${SERVICE_PASSWORD_POSTGRES}@${POSTGRES_HOSTNAME:-supabase-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-postgres}'
-      - 'GOTRUE_SITE_URL=${GOTRUE_SITE_URL}'
-      - 'GOTRUE_URI_ALLOW_LIST=${ADDITIONAL_REDIRECT_URLS}'
-      - 'GOTRUE_DISABLE_SIGNUP=${DISABLE_SIGNUP:-false}'
+      - GOTRUE_DB_DATABASE_URL=postgres://supabase_auth_admin:${SERVICE_PASSWORD_POSTGRES}@${POSTGRES_HOSTNAME:-supabase-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-postgres}
+      - GOTRUE_SITE_URL=${GOTRUE_SITE_URL}
+      - GOTRUE_URI_ALLOW_LIST=${ADDITIONAL_REDIRECT_URLS}
+      - GOTRUE_DISABLE_SIGNUP=${DISABLE_SIGNUP:-false}
       - GOTRUE_JWT_ADMIN_ROLES=service_role
       - GOTRUE_JWT_AUD=authenticated
       - GOTRUE_JWT_DEFAULT_GROUP_NAME=authenticated
-      - 'GOTRUE_JWT_EXP=${JWT_EXPIRY:-3600}'
-      - 'GOTRUE_JWT_SECRET=${SERVICE_PASSWORD_JWT}'
-      - 'GOTRUE_EXTERNAL_EMAIL_ENABLED=${ENABLE_EMAIL_SIGNUP:-true}'
-      - 'GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED=${ENABLE_ANONYMOUS_USERS:-false}'
-      - 'GOTRUE_MAILER_AUTOCONFIRM=${ENABLE_EMAIL_AUTOCONFIRM:-false}'
-      - 'GOTRUE_SMTP_ADMIN_EMAIL=${SMTP_ADMIN_EMAIL}'
-      - 'GOTRUE_SMTP_HOST=${SMTP_HOST}'
-      - 'GOTRUE_SMTP_PORT=${SMTP_PORT:-587}'
-      - 'GOTRUE_SMTP_USER=${SMTP_USER}'
-      - 'GOTRUE_SMTP_PASS=${SMTP_PASS}'
-      - 'GOTRUE_SMTP_SENDER_NAME=${SMTP_SENDER_NAME}'
-      - 'GOTRUE_MAILER_URLPATHS_INVITE=${MAILER_URLPATHS_INVITE:-/auth/v1/verify}'
-      - 'GOTRUE_MAILER_URLPATHS_CONFIRMATION=${MAILER_URLPATHS_CONFIRMATION:-/auth/v1/verify}'
-      - 'GOTRUE_MAILER_URLPATHS_RECOVERY=${MAILER_URLPATHS_RECOVERY:-/auth/v1/verify}'
-      - 'GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE=${MAILER_URLPATHS_EMAIL_CHANGE:-/auth/v1/verify}'
-      - 'GOTRUE_MAILER_TEMPLATES_INVITE=${MAILER_TEMPLATES_INVITE}'
-      - 'GOTRUE_MAILER_TEMPLATES_CONFIRMATION=${MAILER_TEMPLATES_CONFIRMATION}'
-      - 'GOTRUE_MAILER_TEMPLATES_RECOVERY=${MAILER_TEMPLATES_RECOVERY}'
-      - 'GOTRUE_MAILER_TEMPLATES_MAGIC_LINK=${MAILER_TEMPLATES_MAGIC_LINK}'
-      - 'GOTRUE_MAILER_TEMPLATES_EMAIL_CHANGE=${MAILER_TEMPLATES_EMAIL_CHANGE}'
-      - 'GOTRUE_MAILER_SUBJECTS_CONFIRMATION=${MAILER_SUBJECTS_CONFIRMATION}'
-      - 'GOTRUE_MAILER_SUBJECTS_RECOVERY=${MAILER_SUBJECTS_RECOVERY}'
-      - 'GOTRUE_MAILER_SUBJECTS_MAGIC_LINK=${MAILER_SUBJECTS_MAGIC_LINK}'
-      - 'GOTRUE_MAILER_SUBJECTS_EMAIL_CHANGE=${MAILER_SUBJECTS_EMAIL_CHANGE}'
-      - 'GOTRUE_MAILER_SUBJECTS_INVITE=${MAILER_SUBJECTS_INVITE}'
-      - 'GOTRUE_EXTERNAL_PHONE_ENABLED=${ENABLE_PHONE_SIGNUP:-false}'
-      - 'GOTRUE_SMS_AUTOCONFIRM=${ENABLE_PHONE_AUTOCONFIRM:-false}'
-      - 'GOTRUE_OAUTH_SERVER_ENABLED=${GOTRUE_OAUTH_SERVER_ENABLED:-false}'
-      - 'GOTRUE_OAUTH_SERVER_AUTHORIZATION_PATH=${GOTRUE_OAUTH_SERVER_AUTHORIZATION_PATH:-/oauth/consent}'
-      - 'GOTRUE_OAUTH_SERVER_ALLOW_DYNAMIC_REGISTRATION=${GOTRUE_OAUTH_SERVER_ALLOW_DYNAMIC_REGISTRATION:-false}'
+      - GOTRUE_JWT_EXP=${JWT_EXPIRY:-3600}
+      - GOTRUE_JWT_SECRET=${SERVICE_PASSWORD_JWT}
+      - GOTRUE_EXTERNAL_EMAIL_ENABLED=${ENABLE_EMAIL_SIGNUP:-true}
+      - GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED=${ENABLE_ANONYMOUS_USERS:-false}
+      - GOTRUE_MAILER_AUTOCONFIRM=${ENABLE_EMAIL_AUTOCONFIRM:-false}
+      - GOTRUE_SMTP_ADMIN_EMAIL=${SMTP_ADMIN_EMAIL}
+      - GOTRUE_SMTP_HOST=${SMTP_HOST}
+      - GOTRUE_SMTP_PORT=${SMTP_PORT:-587}
+      - GOTRUE_SMTP_USER=${SMTP_USER}
+      - GOTRUE_SMTP_PASS=${SMTP_PASS}
+      - GOTRUE_SMTP_SENDER_NAME=${SMTP_SENDER_NAME}
+      - GOTRUE_MAILER_URLPATHS_INVITE=${MAILER_URLPATHS_INVITE:-/auth/v1/verify}
+      - GOTRUE_MAILER_URLPATHS_CONFIRMATION=${MAILER_URLPATHS_CONFIRMATION:-/auth/v1/verify}
+      - GOTRUE_MAILER_URLPATHS_RECOVERY=${MAILER_URLPATHS_RECOVERY:-/auth/v1/verify}
+      - GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE=${MAILER_URLPATHS_EMAIL_CHANGE:-/auth/v1/verify}
+      - GOTRUE_MAILER_TEMPLATES_INVITE=${MAILER_TEMPLATES_INVITE}
+      - GOTRUE_MAILER_TEMPLATES_CONFIRMATION=${MAILER_TEMPLATES_CONFIRMATION}
+      - GOTRUE_MAILER_TEMPLATES_RECOVERY=${MAILER_TEMPLATES_RECOVERY}
+      - GOTRUE_MAILER_TEMPLATES_MAGIC_LINK=${MAILER_TEMPLATES_MAGIC_LINK}
+      - GOTRUE_MAILER_TEMPLATES_EMAIL_CHANGE=${MAILER_TEMPLATES_EMAIL_CHANGE}
+      - GOTRUE_MAILER_SUBJECTS_CONFIRMATION=${MAILER_SUBJECTS_CONFIRMATION}
+      - GOTRUE_MAILER_SUBJECTS_RECOVERY=${MAILER_SUBJECTS_RECOVERY}
+      - GOTRUE_MAILER_SUBJECTS_MAGIC_LINK=${MAILER_SUBJECTS_MAGIC_LINK}
+      - GOTRUE_MAILER_SUBJECTS_EMAIL_CHANGE=${MAILER_SUBJECTS_EMAIL_CHANGE}
+      - GOTRUE_MAILER_SUBJECTS_INVITE=${MAILER_SUBJECTS_INVITE}
+      - GOTRUE_EXTERNAL_PHONE_ENABLED=${ENABLE_PHONE_SIGNUP:-false}
+      - GOTRUE_SMS_AUTOCONFIRM=${ENABLE_PHONE_AUTOCONFIRM:-false}
+      - GOTRUE_OAUTH_SERVER_ENABLED=${GOTRUE_OAUTH_SERVER_ENABLED:-false}
+      - GOTRUE_OAUTH_SERVER_AUTHORIZATION_PATH=${GOTRUE_OAUTH_SERVER_AUTHORIZATION_PATH:-/oauth/consent}
+      - GOTRUE_OAUTH_SERVER_ALLOW_DYNAMIC_REGISTRATION=${GOTRUE_OAUTH_SERVER_ALLOW_DYNAMIC_REGISTRATION:-false}
       - GOTRUE_EXTERNAL_GOOGLE_ENABLED=${ENABLE_GOOGLE_SIGNUP:-false}
       - GOTRUE_EXTERNAL_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOTRUE_EXTERNAL_GOOGLE_SECRET=${GOOGLE_CLIENT_SECRET}
       - GOTRUE_EXTERNAL_GOOGLE_REDIRECT_URI=${API_EXTERNAL_URL}/auth/v1/callback
       - GOTRUE_MAILER_EXTERNAL_HOSTS=${MAILER_EXTERNAL_HOSTS}
+      - GOTRUE_HOOK_SEND_EMAIL_ENABLED=${SEND_EMAIL_HOOK_ENABLED:-false}
+      - GOTRUE_HOOK_SEND_EMAIL_URI=${SEND_EMAIL_HOOK_URI}
+      - GOTRUE_HOOK_SEND_EMAIL_SECRETS=${SEND_EMAIL_HOOK_SECRET}
+      - GOTRUE_EXTERNAL_GITHUB_ENABLED=${ENABLE_GITHUB_SIGNUP:-false}
+      - GOTRUE_EXTERNAL_GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GOTRUE_EXTERNAL_GITHUB_SECRET=${GITHUB_CLIENT_SECRET}
+      - GOTRUE_EXTERNAL_GITHUB_REDIRECT_URI=${API_EXTERNAL_URL}/auth/v1/callback
   realtime-dev:
     image: 'supabase/realtime:v2.102.3'
     container_name: realtime-dev.supabase-realtime
@@ -982,12 +989,17 @@ services:
       - 'WORKER_CPU_SOFT_LIMIT_MS=${WORKER_CPU_SOFT_LIMIT_MS:-2000}'
       - 'WORKER_CPU_HARD_LIMIT_MS=${WORKER_CPU_HARD_LIMIT_MS:-4000}'
       - 'WORKER_MEMORY_MB=${WORKER_MEMORY_MB:-1024}'
+      - PUBLIC_FUNCTIONS=${PUBLIC_FUNCTIONS}
+      - SEND_EMAIL_HOOK_SECRET=${SEND_EMAIL_HOOK_SECRET}
+      - CLOUDFLARE_ACCOUNT_ID=${CLOUDFLARE_ACCOUNT_ID}
+      - CLOUDFLARE_EMAIL_API_TOKEN=${CLOUDFLARE_EMAIL_API_TOKEN}
+      - EMAIL_FROM=${EMAIL_FROM:-MovieTable <no-reply@movietable.ai>}
     volumes:
       - './volumes/functions:/home/deno/functions'
       - type: bind
         source: ./volumes/functions/main/index.ts
         target: /home/deno/functions/main/index.ts
-        content: |+
+        content: |
           import * as jose from 'https://deno.land/x/jose@v4.14.4/index.ts'
 
           console.log('main function started')
@@ -995,6 +1007,14 @@ services:
           const JWT_SECRET = Deno.env.get('JWT_SECRET')
           const SUPABASE_URL = Deno.env.get('SUPABASE_URL')
           const VERIFY_JWT = Deno.env.get('VERIFY_JWT') === 'true'
+          // Functions that skip JWT verification because they authenticate the caller
+          // themselves (for example, webhook signatures). Comma-separated names.
+          const PUBLIC_FUNCTIONS = new Set(
+            (Deno.env.get('PUBLIC_FUNCTIONS') ?? '')
+              .split(',')
+              .map((s) => s.trim())
+              .filter(Boolean)
+          )
 
           // Create JWKS for ES256/RS256 tokens (newer tokens)
           let SUPABASE_JWT_KEYS: ReturnType<typeof jose.createRemoteJWKSet> | null = null
@@ -1025,17 +1045,14 @@ services:
               console.error('JWT_SECRET not available for HS256 token verification')
               return false
             }
-
-            const encoder = new TextEncoder();
-            const secretKey = encoder.encode(JWT_SECRET)
-
+            const secretKey = new TextEncoder().encode(JWT_SECRET)
             try {
-              await jose.jwtVerify(jwt, secretKey);
+              await jose.jwtVerify(jwt, secretKey)
             } catch (e) {
-              console.error('Symmetric Legacy JWT verification error', e);
-              return false;
+              console.error('Symmetric Legacy JWT verification error', e)
+              return false
             }
-            return true;
+            return true
           }
 
           async function isValidJWT(jwt: string): Promise<boolean> {
@@ -1043,65 +1060,52 @@ services:
               console.error('JWKS not available for ES256/RS256 token verification')
               return false
             }
-
             try {
               await jose.jwtVerify(jwt, SUPABASE_JWT_KEYS)
             } catch (e) {
-              console.error('Asymmetric JWT verification error', e);
+              console.error('Asymmetric JWT verification error', e)
               return false
             }
-
-            return true;
+            return true
           }
 
           async function isValidHybridJWT(jwt: string): Promise<boolean> {
             const { alg: jwtAlgorithm } = jose.decodeProtectedHeader(jwt)
-
             if (jwtAlgorithm === 'HS256') {
-              console.log(`Legacy token type detected, attempting ${jwtAlgorithm} verification.`)
-
               return await isValidLegacyJWT(jwt)
             }
-
             if (jwtAlgorithm === 'ES256' || jwtAlgorithm === 'RS256') {
               return await isValidJWT(jwt)
             }
+            return false
+          }
 
-            return false;
+          function json(body: unknown, status: number): Response {
+            return new Response(JSON.stringify(body), {
+              status,
+              headers: { 'Content-Type': 'application/json' },
+            })
           }
 
           Deno.serve(async (req: Request) => {
-            if (req.method !== 'OPTIONS' && VERIFY_JWT) {
+            const { pathname } = new URL(req.url)
+            const service_name = pathname.split('/')[1]
+
+            if (!service_name || service_name === '') {
+              return json({ msg: 'missing function name in request' }, 400)
+            }
+
+            const mustVerify = req.method !== 'OPTIONS' && VERIFY_JWT && !PUBLIC_FUNCTIONS.has(service_name)
+            if (mustVerify) {
               try {
                 const token = getAuthToken(req)
-                const isValidJWT = await isValidHybridJWT(token);
-
-                if (!isValidJWT) {
-                  return new Response(JSON.stringify({ msg: 'Invalid JWT' }), {
-                    status: 401,
-                    headers: { 'Content-Type': 'application/json' },
-                  })
+                if (!(await isValidHybridJWT(token))) {
+                  return json({ msg: 'Invalid JWT' }, 401)
                 }
               } catch (e) {
                 console.error(e)
-                return new Response(JSON.stringify({ msg: e.toString() }), {
-                  status: 401,
-                  headers: { 'Content-Type': 'application/json' },
-                })
+                return json({ msg: e.toString() }, 401)
               }
-            }
-
-            const url = new URL(req.url)
-            const { pathname } = url
-            const path_parts = pathname.split('/')
-            const service_name = path_parts[1]
-
-            if (!service_name || service_name === '') {
-              const error = { msg: 'missing function name in request' }
-              return new Response(JSON.stringify(error), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-              })
             }
 
             const servicePath = `/home/deno/functions/${service_name}`
@@ -1125,14 +1129,9 @@ services:
               })
               return await worker.fetch(req)
             } catch (e) {
-              const error = { msg: e.toString() }
-              return new Response(JSON.stringify(error), {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-              })
+              return json({ msg: e.toString() }, 500)
             }
           })
-
       - type: bind
         source: ./volumes/functions/hello/index.ts
         target: /home/deno/functions/hello/index.ts
@@ -1152,6 +1151,173 @@ services:
           // curl 'http://localhost:<KONG_HTTP_PORT>/functions/v1/hello' \
           //   --header 'Authorization: Bearer <anon/service_role API key>'
 
+      - type: bind
+        source: ./volumes/functions/send-email/index.ts
+        target: /home/deno/functions/send-email/index.ts
+        content: |
+          // GoTrue "send email" hook: verifies the Standard Webhooks signature GoTrue
+          // attaches, renders the message for the auth action, and sends it through
+          // Cloudflare Email Service. Configure with:
+          //   GOTRUE_HOOK_SEND_EMAIL_ENABLED=true
+          //   GOTRUE_HOOK_SEND_EMAIL_URI=http://supabase-edge-functions:9000/send-email
+          //   GOTRUE_HOOK_SEND_EMAIL_SECRETS=v1,whsec_<base64>   (same value as SEND_EMAIL_HOOK_SECRET)
+
+          const HOOK_SECRET = Deno.env.get('SEND_EMAIL_HOOK_SECRET') ?? ''
+          const CF_ACCOUNT_ID = Deno.env.get('CLOUDFLARE_ACCOUNT_ID') ?? ''
+          const CF_TOKEN = Deno.env.get('CLOUDFLARE_EMAIL_API_TOKEN') ?? ''
+          const FROM = Deno.env.get('EMAIL_FROM') ?? 'MovieTable <no-reply@movietable.ai>'
+          const API_URL = (Deno.env.get('SUPABASE_PUBLIC_URL') ?? Deno.env.get('SUPABASE_URL') ?? '').replace(/\/$/, '')
+          const APP_NAME = Deno.env.get('EMAIL_APP_NAME') ?? 'MovieTable'
+          const TOLERANCE_SECONDS = 5 * 60
+
+          type EmailData = {
+            token: string
+            token_hash: string
+            redirect_to: string
+            email_action_type: string
+            site_url: string
+            token_new?: string
+            token_hash_new?: string
+          }
+          type HookPayload = {
+            user: { email?: string; new_email?: string; email_change?: string }
+            email_data: EmailData
+          }
+
+          function secretBytes(secret: string): ArrayBuffer {
+            const raw = atob(secret.split(',').pop()!.replace(/^whsec_/, ''))
+            const buf = new ArrayBuffer(raw.length)
+            const view = new Uint8Array(buf)
+            for (let i = 0; i < raw.length; i++) view[i] = raw.charCodeAt(i)
+            return buf
+          }
+
+          async function verifySignature(req: Request, body: string): Promise<string | null> {
+            const id = req.headers.get('webhook-id')
+            const ts = req.headers.get('webhook-timestamp')
+            const sigHeader = req.headers.get('webhook-signature')
+            if (!id || !ts || !sigHeader) return 'missing webhook headers'
+            const age = Math.abs(Date.now() / 1000 - Number(ts))
+            if (!Number.isFinite(age) || age > TOLERANCE_SECONDS) return 'webhook timestamp outside tolerance'
+            if (!HOOK_SECRET) return 'SEND_EMAIL_HOOK_SECRET not set'
+
+            const key = await crypto.subtle.importKey('raw', secretBytes(HOOK_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
+            const mac = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${id}.${ts}.${body}`))
+            const expected = btoa(String.fromCharCode(...new Uint8Array(mac)))
+            const offered = sigHeader.split(' ').map((s) => s.split(',')[1]).filter(Boolean)
+            return offered.includes(expected) ? null : 'signature mismatch'
+          }
+
+          function verifyLink(tokenHash: string, type: string, redirectTo: string): string {
+            const u = new URL(`${API_URL}/auth/v1/verify`)
+            u.searchParams.set('token', tokenHash)
+            u.searchParams.set('type', type)
+            if (redirectTo) u.searchParams.set('redirect_to', redirectTo)
+            return u.toString()
+          }
+
+          type Message = { to: string; subject: string; heading: string; body: string; link?: string; code?: string }
+
+          function messagesFor(p: HookPayload): Message[] {
+            const d = p.email_data
+            const to = p.user.email ?? ''
+            const link = (hash: string, type: string) => verifyLink(hash, type, d.redirect_to)
+            switch (d.email_action_type) {
+              case 'signup':
+                return [{ to, subject: `Confirm your ${APP_NAME} email`, heading: 'Confirm your email',
+                  body: 'Confirm this address to finish creating your account.', link: link(d.token_hash, 'signup'), code: d.token }]
+              case 'magiclink':
+                return [{ to, subject: `Your ${APP_NAME} sign-in link`, heading: 'Sign in',
+                  body: 'Use the link or the code below to sign in.', link: link(d.token_hash, 'magiclink'), code: d.token }]
+              case 'recovery':
+                return [{ to, subject: `Reset your ${APP_NAME} password`, heading: 'Reset your password',
+                  body: 'Use the link or the code below to set a new password. Ignore this email if you did not ask for it.',
+                  link: link(d.token_hash, 'recovery'), code: d.token }]
+              case 'invite':
+                return [{ to, subject: `You are invited to ${APP_NAME}`, heading: 'You are invited',
+                  body: 'Accept the invitation to create your account.', link: link(d.token_hash, 'invite') }]
+              case 'reauthentication':
+                return [{ to, subject: `Your ${APP_NAME} verification code`, heading: 'Verification code',
+                  body: 'Enter this code to confirm it is you.', code: d.token }]
+              case 'email_change_current':
+              case 'email_change': {
+                const newEmail = p.user.new_email ?? p.user.email_change ?? ''
+                const out: Message[] = []
+                if (to && d.token_hash) {
+                  out.push({ to, subject: `Confirm your ${APP_NAME} email change`, heading: 'Confirm email change',
+                    body: `Confirm changing your email${newEmail ? ` to ${newEmail}` : ''}.`, link: link(d.token_hash, 'email_change'), code: d.token })
+                }
+                if (newEmail && d.token_hash_new) {
+                  out.push({ to: newEmail, subject: `Confirm your new ${APP_NAME} email`, heading: 'Confirm your new email',
+                    body: `Confirm ${newEmail} as your new email address.`, link: link(d.token_hash_new, 'email_change'), code: d.token_new })
+                }
+                return out
+              }
+              default:
+                return []
+            }
+          }
+
+          function esc(s: string): string {
+            return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!))
+          }
+
+          function render(m: Message): { html: string; text: string } {
+            const parts: string[] = [`<h1 style="font:600 20px system-ui,sans-serif">${esc(m.heading)}</h1>`, `<p style="font:15px system-ui,sans-serif">${esc(m.body)}</p>`]
+            const lines: string[] = [m.heading, '', m.body]
+            if (m.link) {
+              parts.push(`<p><a href="${esc(m.link)}" style="font:600 15px system-ui,sans-serif;background:#111;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none">${esc(m.heading)}</a></p>`)
+              parts.push(`<p style="font:12px system-ui,sans-serif;color:#666">Or open: ${esc(m.link)}</p>`)
+              lines.push('', m.link)
+            }
+            if (m.code) {
+              parts.push(`<p style="font:15px system-ui,sans-serif">Code: <strong style="font:600 18px ui-monospace,monospace;letter-spacing:2px">${esc(m.code)}</strong></p>`)
+              lines.push('', `Code: ${m.code}`)
+            }
+            return { html: parts.join('\n'), text: lines.join('\n') }
+          }
+
+          async function sendViaCloudflare(m: Message): Promise<void> {
+            const { html, text } = render(m)
+            const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/email/sending/send`, {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${CF_TOKEN}`, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ to: m.to, from: FROM, subject: m.subject, html, text }),
+            })
+            const out = await res.json().catch(() => ({}))
+            if (!res.ok || out?.success === false) {
+              throw new Error(`cloudflare send failed (${res.status}): ${JSON.stringify(out?.errors ?? out)}`)
+            }
+          }
+
+          Deno.serve(async (req: Request) => {
+            if (req.method !== 'POST') return new Response('method not allowed', { status: 405 })
+            const body = await req.text()
+            const problem = await verifySignature(req, body)
+            if (problem) {
+              console.error('send-email: rejected request:', problem)
+              return new Response(JSON.stringify({ error: problem }), { status: 401, headers: { 'Content-Type': 'application/json' } })
+            }
+            let payload: HookPayload
+            try {
+              payload = JSON.parse(body)
+            } catch {
+              return new Response(JSON.stringify({ error: 'invalid JSON' }), { status: 400, headers: { 'Content-Type': 'application/json' } })
+            }
+            const messages = messagesFor(payload)
+            if (messages.length === 0) {
+              console.error('send-email: unsupported action', payload.email_data?.email_action_type)
+              return new Response(JSON.stringify({ error: `unsupported email_action_type ${payload.email_data?.email_action_type}` }), { status: 400, headers: { 'Content-Type': 'application/json' } })
+            }
+            try {
+              for (const m of messages) await sendViaCloudflare(m)
+            } catch (e) {
+              console.error('send-email:', e)
+              return new Response(JSON.stringify({ error: String(e) }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+            }
+            console.log(`send-email: sent ${payload.email_data.email_action_type} to ${messages.map((m) => m.to).join(', ')}`)
+            return new Response('{}', { status: 200, headers: { 'Content-Type': 'application/json' } })
+          })
     command:
       - start
       - '--main-service'

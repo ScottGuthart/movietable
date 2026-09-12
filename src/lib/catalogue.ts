@@ -111,9 +111,10 @@ async function fetchRows<T>(select: string, afterId: number, limit: number): Pro
     next: { revalidate: REVALIDATE_SECONDS },
   });
   if (!response.ok) {
+    const body = (await response.text()).replace(/\s+/g, " ").slice(0, 200);
     throw new Error(
-      `Supabase returned ${response.status} ${response.statusText} for the movies table. ` +
-        "Check SUPABASE_URL and that the anon role can read the catalogue.",
+      `Supabase at ${url.host} returned ${response.status} ${response.statusText} for the movies table` +
+        `${body ? ` (${body})` : ""}. Check SUPABASE_URL and that the anon role can read the catalogue.`,
     );
   }
   return (await response.json()) as T[];

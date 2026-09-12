@@ -28,6 +28,12 @@ typography:
     fontWeight: 600
     lineHeight: 1
     letterSpacing: "-0.025em"
+  page-heading:
+    fontFamily: "Playfair Display, Georgia, serif"
+    fontSize: "1.5rem"
+    fontWeight: 600
+    lineHeight: 1.3333
+    letterSpacing: "-0.025em"
   headline:
     fontFamily: "Playfair Display, Georgia, serif"
     fontSize: "1.25rem"
@@ -223,6 +229,7 @@ components:
     typography: "{typography.caption}"
   # icon-tile, page-current, avatar, completion-ring, and toggle-pill are defined only by the
   # unrouted demo block (src/components/blocks/data-grid-grouping-1), not by the shipped page.
+  # The header's signed-in control uses account-pill and account-avatar (24px) below instead.
   icon-tile:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
@@ -355,6 +362,65 @@ components:
     backgroundColor: "color-mix(in oklch, oklch(0.97 0 0) 45%, oklch(1 0 0))"
   pinned-column-hover:
     backgroundColor: "color-mix(in oklch, oklch(0.97 0 0) 40%, oklch(1 0 0))"
+  # Sign-in page and header account control: the provider buttons and their marks, the "or"
+  # rule, the alert line, the footnote, the account pill and its avatar, and the account menu.
+  provider-button:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "0 16px 0 8px"
+    height: "32px"
+    width: "100%"
+  provider-button-hover:
+    backgroundColor: "{colors.paper-tint}"
+  provider-mark:
+    size: "16px"
+  or-rule:
+    backgroundColor: "{colors.hairline}"
+    height: "1px"
+  or-label:
+    textColor: "{colors.faded-ink}"
+    typography: "{typography.caption}"
+  alert-line:
+    textColor: "{colors.alert-red}"
+    typography: "{typography.body}"
+  sign-in-footnote:
+    textColor: "{colors.faded-ink}"
+    typography: "{typography.body}"
+  account-pill:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.pill}"
+    padding: "0 10px 0 4px"
+    height: "32px"
+  account-pill-expanded:
+    backgroundColor: "{colors.paper-tint}"
+  account-avatar:
+    backgroundColor: "{colors.paper-tint}"
+    textColor: "{colors.faded-ink}"
+    rounded: "{rounded.pill}"
+    size: "24px"
+  account-menu:
+    backgroundColor: "oklch(1 0 0 / 0.7)"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+    padding: "4px"
+    width: "256px"
+  account-menu-label:
+    textColor: "{colors.faded-ink}"
+    typography: "{typography.caption}"
+    padding: "4px 6px"
+  account-menu-status-error:
+    textColor: "{colors.alert-red}"
+  account-menu-item:
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.none}"
+    padding: "4px 6px"
+  account-menu-item-highlighted:
+    backgroundColor: "oklch(0.145 0 0 / 0.1)"
 ---
 
 # Design System: MovieTable
@@ -373,39 +439,42 @@ The ledger also knows how to group. The table card sorts the catalogue into band
 
 Taste enters the same page as a third control and one more ruled column, never as a feed or a quiz. Beside the slider, a Your taste field holds a label, a status readout, one outline button, and a helper line. Opening it drops a Paper Tint band into the table card that deals twelve familiar films as one ruled sheet: Paper cells divided by hairlines, each with a title link, a credit line, genres, a two-line summary, a pair of ghost thumbs, and a Haven't seen action. Every film row gains the same thumbs in a Rate column, and the first Like brings a For you column into the grid. At that moment the crimson chip moves: For you takes it and the Final Score chip becomes a plain numeral, so each row still carries exactly one crimson number. Hovering, tapping, or pressing Enter on the chip opens a small Paper popover that names the attributes it matched.
 
+Sign-in is a side door, not a gate. A separate page at `/sign-in` is one more typeset sheet: the wordmark at 1rem beside the film icon, a ghost way back to the table, and a centred 24rem column holding a page heading, one sentence, two outline provider buttons, an "or" rule, an Email field, and one Faded Ink footnote. The only colour beyond the ledger's is each provider's own mark at 16px inside its outline button. The table page's header gains a quiet account control above the dataset meta: a ghost "Sign in" for guests, and for a signed-in visitor a 32px outline pill wrapping a 24px round avatar, their name at Caption size, and a selector glyph. The pill opens a menu that says whether their ratings are saved and lets them delete the saved copy or sign out. The first primary button on a shipped surface appears here, and only once the visitor is signed in: "Back to the table".
+
 **Key Characteristics:**
 - One typeface, Playfair Display, for every role including numerals and UI chrome
-- Square surfaces and controls; round only for things that are continuous or circular (slider, switch, and the demo block's avatars, dots, rings, and toggle pills)
+- Square surfaces and controls; round only for things that are continuous or circular (slider, switch, the account pill with its 24px avatar, and the demo block's avatars, dots, rings, and toggle pills)
 - Pure grayscale neutrals with crimson as ink, plus four signal tints reserved for badges, dots, and rings
 - Hairline rules and tone carry structure; nothing on the page plane casts a shadow
 - Dense, tabular data with right-aligned figures and tabular numerals, grouped into 44px band rows that pin under the column header while their films scroll
 - Tactile 32px controls with a one-pixel press
 - Taste as a third control, one ruled sheet, and two more columns: ghost thumbs on every row, and one crimson number per row that moves from Final Score to For you once a profile is active
+- Sign-in as a side door: a 24rem typeset column of outline buttons, one field, and one footnote, with a provider's brand mark as the only foreign colour and no primary button until the visitor is signed in
 
 ## Colors
 
-A white page, gray ink in three strengths, one hairline, one crimson stamp, and four signal tints that stay inside badges and marks.
+A white page, gray ink in three strengths, one hairline, one crimson stamp, and four signal tints that stay inside badges and marks. On the sign-in page, Google's and GitHub's marks are the only colours that are not the ledger's.
 
 ### Primary
-- **Marquee Crimson** (`oklch(0.525 0.223 3.958)`): The single accent. On the shipped page it appears in exactly six places: it fills the score-bias slider and the checked switch in the Display popover; it tints the Final Score chip at 10% with crimson text on top; it colors the active sort arrow, the eyebrow line, and the period that ends the wordmark. The primary button and the current pagination square keep their crimson fill in the component library but neither is on the surface. It is never a border, a background wash, or body text. Once the visitor rates a film it gains two more places: the filled Liked thumb, and the For you chip, which takes the 10% tint and crimson numeral from the Final Score chip while a profile is active.
+- **Marquee Crimson** (`oklch(0.525 0.223 3.958)`): The single accent. On the shipped page it appears in exactly six places: it fills the score-bias slider and the checked switch in the Display popover; it tints the Final Score chip at 10% with crimson text on top; it colors the active sort arrow, the eyebrow line, and the period that ends the wordmark. The current pagination square keeps its crimson fill in the component library but is not on any surface; the primary button appears once, as "Back to the table" on the sign-in page's signed-in state. On the sign-in page crimson also sets the 20px film icon and the period of the 1rem wordmark, and nothing else. It is never a border, a background wash, or body text. Once the visitor rates a film it gains two more places: the filled Liked thumb, and the For you chip, which takes the 10% tint and crimson numeral from the Final Score chip while a profile is active.
 - **Blush White** (`oklch(0.971 0.014 343.198)`): Text on crimson fills. Faintly pink so it reads as the same ink family, never stark white.
 
 ### Neutral
-- **Ink** (`oklch(0.145 0 0)`): Headings, titles, table titles, labels, and primary body text. The filled Not for me thumb sets in Ink, so a pass reads as a mark and never as a score.
+- **Ink** (`oklch(0.145 0 0)`): Headings, titles, table titles, labels, and primary body text. The filled Not for me thumb sets in Ink, so a pass reads as a mark and never as a score. On the sign-in page: the page heading, the Email label, the sent-state status line with the address at weight 500, and the address at weight 500 inside the signed-in line. In the header, the account menu's items are Ink.
 - **Header Ink** (`oklch(0.21 0.006 285.885)`): Column headers at 80% opacity, secondary badge text, and the `invert` token. A hair cooler than Ink so headers sit back from the cells beneath them.
-- **Faded Ink** (`oklch(0.556 0 0)`): Secondary text: the lede, dataset meta, year column, footnotes, the footer disclosure, result counts, chip attribute labels, the band average ("avg 91"), the film context line, the band chevron at rest, the outbound arrow beside a title at 40% opacity, and the em dash for missing values. In the demo block it also sets metric labels and the backlog stage dot at 70%. On the taste surface it sets the unset thumbs, the field's status readout and helper line, the panel's guidance line, the hand cell's credit, genres, and summary, the Haven't seen action, the For you band average, the swipe hint, and the em dash for a film that cannot be ranked.
+- **Faded Ink** (`oklch(0.556 0 0)`): Secondary text: the lede, dataset meta, year column, footnotes, the footer disclosure, result counts, chip attribute labels, the band average ("avg 91"), the film context line, the band chevron at rest, the outbound arrow beside a title at 40% opacity, and the em dash for missing values. In the demo block it also sets metric labels and the backlog stage dot at 70%. On the taste surface it sets the unset thumbs, the field's status readout and helper line, the panel's guidance line, the hand cell's credit, genres, and summary, the Haven't seen action, the For you band average, the swipe hint, and the em dash for a film that cannot be ranked. On the sign-in page and in the header: the one-sentence lede under the page heading, the field helper, the "or" label, the footnote, the initials inside the account avatar, the selector glyph on the account pill at 60%, and the account menu's label block, which stacks the name at weight 500, the email, and the sync status.
 - **Pencil Gray** (`oklch(0.708 0 0)`): Focus rings at 50% opacity and the slider thumb border.
-- **Hairline** (`oklch(0.922 0 0)`): Every rule: table row borders, input and outline-button borders, badge outlines, icon-tile borders, card section dividers, the unchecked switch track, and the completion ring's track. The card's outer edge uses Ink at 10% instead, which lands within a hair of the same gray. The starter hand's outer border and the 1px gaps between its cells are Hairline, and so is the rule at the seam of the pinned For you column.
+- **Hairline** (`oklch(0.922 0 0)`): Every rule: table row borders, input and outline-button borders, badge outlines, icon-tile borders, card section dividers, the unchecked switch track, and the completion ring's track. The card's outer edge uses Ink at 10% instead, which lands within a hair of the same gray. The starter hand's outer border and the 1px gaps between its cells are Hairline, and so is the rule at the seam of the pinned For you column. The two rules flanking "or" on the sign-in page are Hairline, and so are the account pill's border and the ring around its avatar.
 - **Secondary Paper** (`oklch(0.967 0.001 286.375)`): Hover fill on column-header sort buttons, the secondary button and badge, and the active state of a toggle pill.
-- **Paper Tint** (`oklch(0.97 0 0)`): Slider track, outline and ghost button hover, film row hover at 40%, band rows and the pinned band at 45%, the advanced editor band at 40%, and the grid toolbar band at 20%. In the library only: the card footer at 50% and avatar fallbacks. The taste panel is a 40% band like the advanced editor, and the skeleton blocks shown while the hand loads are Paper Tint at full strength.
-- **Paper** (`oklch(1 0 0)`): Page, card, the sticky column header, the opaque backing beneath the pinned band, popover, input, chip, badge-outline, and icon-tile backgrounds. Hand cells and the pinned For you column sit on opaque Paper.
+- **Paper Tint** (`oklch(0.97 0 0)`): Slider track, outline and ghost button hover, film row hover at 40%, band rows and the pinned band at 45%, the advanced editor band at 40%, and the grid toolbar band at 20%. In the library only: the card footer at 50% and avatar fallbacks. The taste panel is a 40% band like the advanced editor, and the skeleton blocks shown while the hand loads are Paper Tint at full strength. The account pill fills Paper Tint while its menu is open, and its avatar fallback is Paper Tint behind the initials.
+- **Paper** (`oklch(1 0 0)`): Page, card, the sticky column header, the opaque backing beneath the pinned band, popover, input, chip, badge-outline, and icon-tile backgrounds. Hand cells and the pinned For you column sit on opaque Paper. The 24px avatar inside the account pill wears a 1px Paper border inside its Hairline ring.
 
 ### Signal
-Signal hues come from Tailwind's palette through the `success`, `warning`, `info`, and `destructive` tokens. Each has a bright value for dots, rings, and 10% tints, and a dark "ink" value for badge text. None of them appears on the shipped page; a band in the grouped grid carries no state, so the uses below are the demo block's.
+Signal hues come from Tailwind's palette through the `success`, `warning`, `info`, and `destructive` tokens. Each has a bright value for dots, rings, and 10% tints, and a dark "ink" value for badge text. Only Alert Red appears on a shipped surface, as text in the sign-in page's alert lines and the account menu's error status; a band in the grouped grid carries no state, so the other uses below are the demo block's.
 - **Signal Green** (`oklch(0.696 0.17 162.48)`, emerald-500) with **Signal Green Ink** (`oklch(0.378 0.077 168.94)`, emerald-900): On track, Done, the Done stage dot, completion rings at 75% and above, Revenue and Reliability label dots.
 - **Signal Yellow** (`oklch(0.795 0.184 86.047)`, yellow-500) with **Signal Yellow Ink** (`oklch(0.421 0.095 57.708)`, yellow-900): At risk, the To Do stage dot, Messaging label dot.
 - **Signal Violet** (`oklch(0.606 0.25 292.717)`, violet-500) with **Signal Violet Ink** (`oklch(0.38 0.189 293.745)`, violet-900): Info badges, Knowledge and Mobile label dots.
-- **Alert Red** (`oklch(0.577 0.245 27.325)`) with **Alert Red Ink** (`oklch(0.444 0.177 26.899)`, red-800): Blocked, invalid fields, destructive actions, Access label dot. Kept distinct from Marquee Crimson by hue (27 versus 4) so an error never reads as a score.
+- **Alert Red** (`oklch(0.577 0.245 27.325)`) with **Alert Red Ink** (`oklch(0.444 0.177 26.899)`, red-800): Blocked, invalid fields, destructive actions, Access label dot. Kept distinct from Marquee Crimson by hue (27 versus 4) so an error never reads as a score. On the sign-in page it is the text of every `role="alert"` line: a failed provider sign-in beneath the provider buttons, a failed link send beneath the Email field (which also turns the label and the input border red), and a failed sign-out; in the account menu it sets the status line when sync, deletion, or sign-out fails. Always text, never a fill.
 - **Chart Sky** (`oklch(0.685 0.169 237.323)`, chart-2 / sky-500): The In Progress stage dot. The five `chart-*` tokens are a sky ramp reserved for charts and stage marks.
 
 The demo block at `src/components/blocks/data-grid-grouping-1` still writes three raw palette classes for its completion ring (`emerald-500`, `amber-500`, `rose-500`) and two for stage dots (`yellow-500`, `sky-500`). The block is not wired into any route and the shipped grid takes only its structure, not its marks; if any part of it is ever mounted, map those classes to the tokens above so a theme change moves them too.
@@ -419,6 +488,8 @@ The demo block at `src/components/blocks/data-grid-grouping-1` still writes thre
 
 **The One Crimson Number Rule.** A film row carries exactly one crimson number. Without a taste profile it is the Final Score chip; the moment a profile is active it is the For you chip, and Final Score demotes to a plain Ink numeral. The two chips are never crimson together, and the only other crimson on a row is a thumb the visitor has set to Liked.
 
+**The Provider Mark Exception.** A third party's brand mark keeps its own colours, at 16px, inside an outline button, and nowhere else. Google's four-colour G and GitHub's near-black mark are the only hues on the sign-in page that are not the ledger's; they are never enlarged, recoloured, or set on a fill.
+
 ## Typography
 
 **Display Font:** Playfair Display (with Georgia, serif), loaded through next/font as `--font-serif`
@@ -428,14 +499,15 @@ The demo block at `src/components/blocks/data-grid-grouping-1` still writes thre
 **Character:** A high-contrast transitional serif doing every job on the page. At 48px it is a masthead; at 14px in a table cell it reads like a printed listings column; at 12px in a badge it is a printed tally. The single face is what makes the page feel bound rather than built.
 
 ### Hierarchy
-- **Display** (600, 2.25rem on mobile rising to 3rem from 640px, line-height 1, tracking -0.025em): The wordmark only. "MovieTable" in Ink with the trailing period in Marquee Crimson. Balanced wrapping.
+- **Display** (600, 2.25rem on mobile rising to 3rem from 640px, line-height 1, tracking -0.025em): The wordmark only. "MovieTable" in Ink with the trailing period in Marquee Crimson. Balanced wrapping. On the sign-in page the wordmark shrinks to 1rem at weight 600 with the same tracking, 8px from a 20px film icon in Marquee Crimson, and links home with an underline on hover offset 4px.
+- **Page Heading** (600, 1.5rem, line-height 1.33, tracking -0.025em): The heading of a secondary page: "Keep your ratings everywhere.", "You're signed in.", and "Sign-in isn't available here." on the sign-in page. Balanced wrapping, centred, with a Body sentence in Faded Ink 6px beneath. It sits between Display and Headline; the table page does not use it.
 - **Headline** (600, 1.25rem, line-height 1.4, tracking -0.025em): The title of a grid view such as "Roadmap Queue" in the demo block, paired with a Body subtitle in Faded Ink. The shipped card uses Title instead.
 - **Title** (500, 1rem, line-height 1.375): Card and section titles such as "Your movie list" and "Build your own filter". Sentence case, no tracking.
 - **Lede** (400, 1rem, line-height 1.625): The introductory sentence beneath the wordmark, in Faded Ink, capped at 32rem so it wraps to two lines.
-- **Body** (400, 0.875rem, line-height 1.43): Table cells, the band average, footnotes, meta lines, chip text, the footer. The dominant size on the page. Explanatory paragraphs use line-height 1.625 instead. On the taste surface: the field's status readout and helper line, the panel's guidance line, and the hand cell's summary at line-height 1.625, clamped to two lines.
-- **Label** (500, 0.875rem, line-height 1.375): Form labels ("Find a film", "Score bias"), button text, title links in the table, band labels ("90+", "2010s"), and the maker's name in the footer. "Group by" drops to weight 400 because it sits beside its select rather than above it. The taste field label ("Your taste"), the panel heading ("Tune to your taste"), and the title link in a hand cell are Label too.
+- **Body** (400, 0.875rem, line-height 1.43): Table cells, the band average, footnotes, meta lines, chip text, the footer. The dominant size on the page. Explanatory paragraphs use line-height 1.625 instead. On the taste surface: the field's status readout and helper line, the panel's guidance line, and the hand cell's summary at line-height 1.625, clamped to two lines. On the sign-in page: the lede under the page heading and the signed-in line in Faded Ink, the field helper, the alert lines in Alert Red, the sent-state status line in Ink at line-height 1.625, and the footnote in Faded Ink, which drops to 0.75rem on a 20px line below 640px. The account menu's two items are Body.
+- **Label** (500, 0.875rem, line-height 1.375): Form labels ("Find a film", "Score bias"), button text, title links in the table, band labels ("90+", "2010s"), and the maker's name in the footer. "Group by" drops to weight 400 because it sits beside its select rather than above it. The taste field label ("Your taste"), the panel heading ("Tune to your taste"), and the title link in a hand cell are Label too. On the sign-in page and in the header: "Continue with Google", "Continue with GitHub", "Send me a sign-in link", "Back to the table", "Sign in", "Sign out", "Use a different email", and the Email field label.
 - **Column Header** (400, 0.8125rem, line-height 1.38): Table column headers in Header Ink at 80%, lighter weight than the cells beneath so the data leads.
-- **Caption** (500, 0.75rem, line-height 1.33): Badge text ("11 films"), the Display popover's section label ("Rows"), and the film context line at weight 400 ("Users 90 · Critics 96 · 1,773 ratings"). In a hand cell the credit line ("2010 · Christopher Nolan", tabular) is Caption and the genre line drops to weight 400; the swipe hint under the mobile strip and the explanation popover are 12px at weight 400, the popover at line-height 1.625.
+- **Caption** (500, 0.75rem, line-height 1.33): Badge text ("11 films"), the Display popover's section label ("Rows"), and the film context line at weight 400 ("Users 90 · Critics 96 · 1,773 ratings"). In a hand cell the credit line ("2010 · Christopher Nolan", tabular) is Caption and the genre line drops to weight 400; the swipe hint under the mobile strip and the explanation popover are 12px at weight 400, the popover at line-height 1.625. On the sign-in page the "or" between the provider buttons and the Email field is Caption at weight 400 in Faded Ink. The account pill sets the visitor's name in Caption at weight 500, and the account menu's label block is Caption throughout: the name at weight 500, then the email and the status line at weight 400, all in Faded Ink, the status in Alert Red on failure.
 - **Score** (600, 0.875rem, tabular): The Final Score numeral inside its crimson chip. The For you numeral uses the same role; whichever of the two is the chip carries it, and the demoted Final Score falls back to Body with tabular figures.
 - **Eyebrow** (500, 0.875rem): The one-line crimson strapline above the wordmark, paired with a 20px film icon.
 
@@ -460,13 +532,17 @@ Below 1024px, where the grid scrolls sideways, the For you column is pinned to t
 
 The footer is Body text in Faded Ink: one stacked column below 640px, and from 640px two paragraphs on a shared baseline with 32px between them, the dataset disclosure on the left and "Made by Scott Guthart" on the right.
 
-Breakpoints follow Tailwind defaults: 640px, 768px, 1024px. Below 640px, filter rows in the advanced editor wrap so the field, operator, and value stack vertically beneath the combinator; the toolbar band stacks with 12px between its rows, the "Group by" select staying on its label's line and the Display and Collapse groups buttons wrapping onto a second line, left-aligned; the grid scrolls horizontally; the footer's two paragraphs stack 12px apart. Below 768px the three preference fields stack; below 640px the starter hand becomes the snap strip.
+The title block's right column holds two things from top to bottom, 8px apart: the account control, then the dataset meta. Both align left below 640px and right from 640px. The ghost "Sign in" is pulled out by its own 10px padding on the aligned side so its label, not its hit area, meets the column edge; the signed-in account pill, an outline control, meets the edge with its border. While the session loads a 32px blank holds the space.
+
+The sign-in page is its own sheet on a viewport-tall column. A header in the same 72rem column with the page's 16px gutters (32px from 640px) and 20px vertical padding (24px from 640px) holds the 1rem wordmark on the left and a ghost "Back to the table" on the right, pulled out 10px like the header control. The main region fills the rest of the viewport with 24px side padding (32px from 640px) and 40px vertical padding (48px from 640px) and centres a 24rem column both ways. Inside it blocks sit 24px apart: the heading pair 6px apart, the two provider buttons 10px apart, the "or" rule with 12px to each side, and the email form with 16px between the field and its submit; the field stacks label, input, and helper 8px apart. The footer mirrors the header's gutters with 40px vertical padding (48px from 640px) and centres one Faded Ink sentence capped at 28rem.
+
+Breakpoints follow Tailwind defaults: 640px, 768px, 1024px. Below 640px, filter rows in the advanced editor wrap so the field, operator, and value stack vertically beneath the combinator; the toolbar band stacks with 12px between its rows, the "Group by" select staying on its label's line and the Display and Collapse groups buttons wrapping onto a second line, left-aligned; the grid scrolls horizontally; the footer's two paragraphs stack 12px apart. Below 768px the three preference fields stack; below 640px the starter hand becomes the snap strip. Below 640px the header account control aligns left with the wordmark, the sign-in header tightens to 16px gutters and 20px vertical padding, and the sign-in footnote drops to 0.75rem.
 
 ## Elevation & Depth
 
 Surfaces on the page plane are flat. Depth is drawn with 1px Hairline rules, a 1px Ink-at-10% ring around the card, and tone shifts into Paper Tint for the toolbar and editor bands, band rows, and hover states. Nothing sitting on the page casts a shadow: not the card, not rows, not band rows, not the pinned band, not the sticky column header, not badges, not chips, not buttons. The pinned band separates from the films sliding beneath it with opaque Paper under its 45% tint and the hairline along its bottom edge, and the sticky header does the same with its Paper fill and hairline. The demo block's stacked avatars separate with a 2px Paper ring rather than a shadow.
 
-The exception is anything that leaves the page plane. Popovers, selects, and dropdown menus float with a medium shadow and the same Ink-at-10% ring, and menus are translucent: 70% Paper over a 2xl backdrop blur with 150% saturation, so the ledger shows faintly through them.
+The exception is anything that leaves the page plane. Popovers, selects, and dropdown menus float with a medium shadow and the same Ink-at-10% ring, and menus are translucent: 70% Paper over a 2xl backdrop blur with 150% saturation, so the ledger shows faintly through them. The account menu in the header is one of these: 256px wide, anchored to the account pill's end 8px below it, with the floating-menu shadow, the Ink-at-10% ring, and the frosted surface.
 
 One element that stays on the page plane also carries a shadow, because the ledger slides beneath it: the For you column pinned to the grid's right edge below 1024px. Its seam is a 1px Hairline drawn as a shadow plus a soft leftward shadow, on opaque Paper, and both vanish from 1024px when the column stops being pinned. The band rows, the sticky band, and the column header still carry none. The explanation popover on a For you chip leaves the page plane and takes the floating-menu shadow and Ink-at-10% ring on opaque Paper.
 
@@ -487,12 +563,12 @@ One element that stays on the page plane also carries a shadow, because the ledg
 
 Surfaces and controls are square. The root radius is 0 and every `rounded-*` utility derives from it, so buttons, inputs, cards, badges, chips, popovers, icon tiles, and the score chip all have sharp corners. Borders are 1px hairlines. Edges are hemmed, not rounded. The starter hand follows the same law: one ruled sheet with a 1px Hairline border and 1px Hairline gaps between Paper cells, drawn by letting the sheet's Hairline background show through the gaps, never a grid of bordered cards. The thumbs, the For you chip, the explanation popover, the pinned column, and the loading skeleton blocks are all square.
 
-Round is reserved for things that are continuous or circular by nature, and they use `rounded-full` explicitly: the score-bias slider's 4px track and 12px thumb, the switch and its thumb (the 24px by 14px small size with a 12px thumb in the Display popover), and, in the unrouted demo block only, 20px avatars, 6px label dots and 10px stage dots, the 20px completion ring, and 28px toggle pills. On the shipped page only the slider and the switch are round. A pill reads as a state or a mark; a square reads as a surface or a control.
+Round is reserved for things that are continuous or circular by nature, and they use `rounded-full` explicitly: the score-bias slider's 4px track and 12px thumb, the switch and its thumb (the 24px by 14px small size with a 12px thumb in the Display popover), the header's 32px account pill and the 24px avatar inside it, and, in the unrouted demo block only, 20px avatars, 6px label dots and 10px stage dots, the 20px completion ring, and 28px toggle pills. On the shipped pages only the slider, the switch, and the signed-in account pill with its avatar are round; every element of the sign-in page is square. A pill reads as a state or a mark; a square reads as a surface or a control. The account pill is the one round control, and it is round because of the avatar it wraps; no control without one takes the shape.
 
 ### Named Rules
 **The Square Surface Rule.** Radius is 0 for every surface and control. Do not add `rounded-*` overrides to individual components; if the ledger ever softens, it softens by changing the root radius once.
 
-**The Round Mark Exception.** `rounded-full` is allowed on the slider, the switch, avatars, dots, rings, and toggle pills. Nothing else.
+**The Round Mark Exception.** `rounded-full` is allowed on the slider, the switch, avatars, dots, rings, toggle pills, and the one control that wraps an avatar: the header's account pill. Nothing else.
 
 ## Components
 
@@ -500,11 +576,12 @@ Controls are tactile and confident: 32px tall, square, hairline-bordered, serif-
 
 ### Buttons
 - **Shape:** Square (0px), 32px tall, 10px side padding, 6px gap to a 16px icon. Small variant is 28px tall with 14px icons; extra-small is 24px.
-- **Primary:** Marquee Crimson fill, Blush White text, weight 500. Hover fades the fill to 80%. At most one per surface, and none on the shipped page; the unrouted demo block's "New task" is the only instance in the codebase.
-- **Outline:** Paper fill, Hairline border, Ink text. Hover and expanded states fill Paper Tint. This is the workhorse: "Advanced filter", "Advanced editor", "Reset view", "Display", and the one "Collapse groups" / "Expand groups" button. On the taste surface: "Rate films", which becomes "Edit ratings" once anything is rated, with a trailing 16px chevron that turns 180 degrees over 150ms while the panel is open; "Deal another hand" with a leading shuffle icon, disabled until the catalogue is loaded and there are more than twelve films to deal; and "Try again" when the catalogue fails to load.
+- **Primary:** Marquee Crimson fill, Blush White text, weight 500. Hover fades the fill to 80%. At most one per surface. The one shipped instance is "Back to the table" on the sign-in page's signed-in state, beside an outline "Sign out"; the table page has none, and the unrouted demo block's "New task" is the only other in the codebase.
+- **Outline:** Paper fill, Hairline border, Ink text. Hover and expanded states fill Paper Tint. This is the workhorse: "Advanced filter", "Advanced editor", "Reset view", "Display", and the one "Collapse groups" / "Expand groups" button. On the taste surface: "Rate films", which becomes "Edit ratings" once anything is rated, with a trailing 16px chevron that turns 180 degrees over 150ms while the panel is open; "Deal another hand" with a leading shuffle icon, disabled until the catalogue is loaded and there are more than twelve films to deal; and "Try again" when the catalogue fails to load. On the sign-in page: the two provider buttons, full width of the 24rem column with their contents centred and a 16px provider mark leading the label; "Send me a sign-in link", full width, with a trailing 16px arrow; "Sign out" beside the primary; and the not-configured state's "Back to the table". While a provider or the link is pending, a 16px spinning loader replaces the mark or leads the label and every provider button is disabled at 50%. In the table page's header, the account pill is the outline variant bent into a pill: 32px, `rounded-full`, 4px left and 10px right padding, a 24px avatar, the name in Caption weight 500, and a 14px selector glyph at 60%; it fills Paper Tint while its menu is open.
 - **Secondary:** Secondary Paper fill, Header Ink text. Used for the active state of the demo block's toggle pills.
-- **Ghost:** Transparent, Ink text; hover fills Paper Tint. Used for "Clear filters" and the band chevron, which is the 24px icon-xs size with a 12px chevron in Faded Ink that turns Ink on hover. Disabled drops to 50% opacity. The Rate thumbs are ghost icon buttons; "Clear ratings" is a ghost beside the outline toggle; "Haven't seen" in a hand cell is the 28px small size with a 14px eye-off icon in Faded Ink that turns Ink on hover.
+- **Ghost:** Transparent, Ink text; hover fills Paper Tint. Used for "Clear filters" and the band chevron, which is the 24px icon-xs size with a 12px chevron in Faded Ink that turns Ink on hover. Disabled drops to 50% opacity. The Rate thumbs are ghost icon buttons; "Clear ratings" is a ghost beside the outline toggle; "Haven't seen" in a hand cell is the 28px small size with a 14px eye-off icon in Faded Ink that turns Ink on hover. In the headers: "Sign in" for guests, "Back to the table" on the sign-in page with a leading 16px arrow, and "Use a different email" after a link is sent.
 - **Link:** Marquee Crimson text, underline on hover with a 4px offset.
+- **Edge alignment:** A ghost that sits at a column edge is pulled out by its own 10px side padding, a negative margin on the aligned side, so its label and not its hit area meets the edge: "Sign in" in the title block's right column and "Back to the table" in the sign-in header. An outline control at the same edge, such as the account pill, meets it with its border instead.
 - **Press / Focus:** Active state translates 1px down (except menu triggers). Focus-visible draws a 3px Pencil Gray ring at 50% and swaps the border to Pencil Gray.
 
 ### Badges
@@ -542,6 +619,7 @@ Controls are tactile and confident: 32px tall, square, hairline-bordered, serif-
 - **Focus:** Border to Pencil Gray plus a 3px ring at 50%.
 - **Error / Disabled:** Invalid swaps the border to Alert Red with a 3px ring at 20%. Disabled sits at 50% opacity on a Hairline-at-50% fill.
 - **Labels:** 14px, weight 500, Ink, 8px above the control. The slider label pairs with a live value readout in Faded Ink on the same line. Inside a popover or the toolbar band, labels drop to weight 400 and sit left of their control: a 36px row in the popover, 12px before the select in the band. The Your taste label shares its line with a Body status readout in Faded Ink ("Not set", "3 films rated") the way the slider label shares its line with the weighting readout; a Body helper line in Faded Ink follows the control.
+- **Email field (sign-in):** The one field on the sign-in page: a Label "Email" 8px above a full-width input with the placeholder you@example.com, and 8px below it a Body helper in Faded Ink, "We email you a link. No password to remember." On a failed send the helper is replaced by an Alert Red `role="alert"` line, the label turns Alert Red with it, and the input takes the invalid border and 20% ring; while sending, the input is disabled.
 
 ### Selects and Popovers
 - **Trigger:** Same anatomy as an outline button with a 16px up-down chevron in Faded Ink. The 28px small variant is the norm inside chrome: the "Group by" select in the toolbar band (176px), the "Density" select in the Display popover (132px), and the selects inside filter rows.
@@ -549,6 +627,7 @@ Controls are tactile and confident: 32px tall, square, hairline-bordered, serif-
 - **Display popover:** 300px wide with zero padding, anchored to the trigger's end. One Field Group with 14px side and 12px vertical padding: a Caption section label "Rows" in Faded Ink, then two 36px horizontal field rows with weight-400 labels: "Density" with a 28px select (Compact / Comfortable) and "Scores under the title" with a small switch. No column toggles.
 - **Explanation popover:** Anchored to the left of a For you chip, 4px away, at most 256px wide with 12px side and 8px vertical padding, on opaque Paper with the floating-menu shadow and Ink-at-10% ring. One 12px line at weight 400 and line-height 1.625: "Because you liked: Christopher Nolan · Thriller · Jonathan Nolan", or "No shared attributes yet. Ranked by Final Score." Opens on hover after 150ms, on tap, and on Enter; the chip is its trigger.
 - **Dropdown checklists (demo block):** A Caption label, then checkbox items that stay open on click, then a separator and a reset item once anything is checked. The trigger shows a Secondary count badge when filters are active.
+- **Account menu:** Opens from the account pill, anchored to its end 8px below, 256px wide with 4px padding, on 70% Paper over the blur with the floating-menu shadow and Ink-at-10% ring. A label block with 6px by 4px padding stacks three Caption lines 2px apart in Faded Ink: the name at weight 500, the email, and a `role="status"` line that reads "Syncing your ratings…", "Ratings saved to your account.", "Saved ratings deleted.", or the error in Alert Red. Rules in Ink at 5% frame a 14px "Delete saved ratings" item with a 16px trash icon, disabled at 50% while nothing is rated; a first click rewrites it as "Delete 3 saved ratings? Click again" and keeps the menu open, and a second deletes and reports in the status line. Last comes "Sign out" with a 16px logout icon as the menu's destructive item. Items fill Ink at 10% when highlighted. The dropdown primitive forces destructive items to the accent-foreground token, which this theme sets to Blush White, so Sign out currently renders near-invisible on the frosted surface; that is a defect of the primitive to fix, not a colour of the system.
 
 ### Data Table (signature)
 - **Header:** Sticky at the top of the grid's scroll box on Paper, 32px tall in compact density and 40px in comfortable, with a hairline beneath. Inside it, 24px-tall sort buttons in Column Header type, Header Ink at 80%, weight 400. Hover fills Secondary Paper. The active sort shows a 16px Marquee Crimson arrow; inactive columns show a 14px up-down glyph at 60%.
@@ -578,6 +657,21 @@ The visitor's likes enter the ledger as a field, a ruled sheet, and two columns.
 - **Taste panel:** A Paper Tint band at 40% with a hairline above, inside the card between the header and the toolbar band. Heading row: "Tune to your taste" in Label with a Body guidance line in Faded Ink 4px beneath it ("Like or pass on films you've seen. Your list re-ranks as you go.", "Passes alone can't build a ranking. Like at least one film.", "Rate a few more for a sharper match.", "Keep going here, or rate straight from the table."), and the outline "Deal another hand" at the far end. On failure the body is a `role="alert"` line beside an outline "Try again"; when every dealable film is judged it is one Faded Ink line.
 - **Ruled hand sheet:** Twelve films as one sheet: a list labelled "Films to rate" with a 1px Hairline border and a Hairline background that shows through 1px gaps, so the Paper cells read as ruled, not carded. Four columns from 1024px, two from 640px; below 640px a horizontal snap strip of 256px cells with a thin Hairline scrollbar and the hint "Swipe sideways for all 12 films." in Caption weight 400, 8px beneath. Each cell has 16px padding and a 12px vertical gap: the title as a Label link with the table's 16px outbound arrow at 40% opacity; a Caption credit line, tabular ("2010 · Christopher Nolan"); the genres at Caption weight 400; a Body summary at line-height 1.625 clamped to two lines, all in Faded Ink; then a bottom row with the 32px Rate control on the left and the 28px ghost "Haven't seen" on the right. Cells fade in over 300ms. While the catalogue loads the sheet shows twelve skeleton cells of square Paper Tint blocks pulsing.
 - **Pinned For you column:** Below 1024px the For you header and cells are sticky at the grid's right edge, above the other cells, on opaque Paper with a 20px left gutter and the grid's 24px end padding; the seam is the pinned-column-edge shadow (a Hairline rule plus a soft leftward shadow). Band rows and row hover under the pinned cell use opaque mixes of Paper Tint into Paper at 45% and 40% so the tints match the rest of the row without letting titles show through. From 1024px the column is ordinary.
+
+### Sign-in and Account (signature)
+Sign-in is a side door, not a gate. The page refuses the welcome-screen pattern: no logo wall, no pitch, no terms paragraph, and no primary button until the visitor is signed in.
+- **Page:** A viewport-tall column on Paper: header, a main region that centres a 24rem column both ways, footer. The header holds the wordmark at 1rem, weight 600, with the 20px film icon in Marquee Crimson 8px before it and the crimson period, linking home, and a ghost "Back to the table" with a leading arrow, pulled out 10px to meet the column edge.
+- **Heading pair:** A Page Heading, balanced and centred, with a Body sentence in Faded Ink 6px beneath: "Keep your ratings everywhere." over "Sign in to save your likes and passes to an account and pick them up on any device."
+- **Providers:** Two full-width outline buttons 10px apart, "Continue with Google" then "Continue with GitHub", each with its 16px brand mark leading the label and its contents centred. The pressed one swaps its mark for a spinning loader and both disable. A failure prints a centred Alert Red alert line beneath them.
+- **Or rule:** Two Hairline rules flanking "or" in Caption at weight 400, Faded Ink, 12px to each side.
+- **Email:** The Email field, then 16px below it a full-width outline "Send me a sign-in link" with a trailing arrow.
+- **Sent:** The form gives way to a centred Body status line in Ink at line-height 1.625 with the address at weight 500, "Check you@example.com for a sign-in link. It works once and opens the table signed in.", and 12px beneath it a ghost "Use a different email".
+- **Signed in:** The same column, centred: Page Heading "You're signed in.", a Body line in Faded Ink with the address in Ink at weight 500, then a wrapping row 8px apart of the one primary "Back to the table" and an outline "Sign out". A failed sign-out adds an Alert Red alert line.
+- **Not configured:** When no account service is set, the heading reads "Sign-in isn't available here." over one Faded Ink sentence and an outline "Back to the table", 16px apart; the header account control renders nothing at all.
+- **Footnote:** One centred Faded Ink sentence capped at 28rem: "Signing in keeps your ratings together with the name, email address, and picture your provider shares. The table stays open to everyone." Body from 640px, 0.75rem on a 20px line below.
+- **Header account control:** Above the dataset meta in the title block's right column, 8px apart. Guests see a ghost "Sign in" linking to the page. A signed-in visitor sees the account pill: the outline button at 32px with `rounded-full`, 4px left and 10px right padding, named "Account, {name}" for assistive technology, holding a 24px round avatar (the provider's picture, or up to two initials at 0.625rem in Faded Ink on Paper Tint) with a 1px Paper border inside a Hairline ring, then the name or email in Caption weight 500 truncated at 10rem, then a 14px selector glyph at 60%. It fills Paper Tint while its menu is open and is the only round control on any surface. While the session loads a 32px blank holds the row.
+- **Account menu:** Name, email, and status in a Caption label block; "Delete saved ratings" with a second-click confirmation; "Sign out", which clears this browser's ratings and keeps the account's. Measurements under Selects and Popovers.
+- **Provider marks:** Google's four-colour G and GitHub's near-black mark are inline SVGs at 16px with their own hex fills, hidden from assistive technology, and appear nowhere else.
 
 ### Slider (signature)
 - **Track:** 4px pill in Paper Tint; the filled range is Marquee Crimson.
@@ -615,10 +709,14 @@ The visitor's likes enter the ledger as a field, a ruled sheet, and two columns.
 - **Do** lay the starter hand out as one ruled sheet: a Hairline border and 1px Hairline gaps between Paper cells, four across from 1024px, two from 640px, and a horizontal snap strip of 256px cells with a swipe hint below 640px.
 - **Do** pin the For you column to the grid's right edge below 1024px on opaque Paper with a 20px gutter, a Hairline rule, and the pinned-column-edge shadow; unpin it from 1024px.
 - **Do** explain a For you number in a popover that opens on hover, tap, and Enter and names the matched attributes in plain words.
+- **Do** keep sign-in a side door: a 24rem column of one Page Heading, one sentence, two outline provider buttons with 16px marks, an "or" rule, one Email field, and one Faded Ink footnote, with no primary button until the visitor is signed in.
+- **Do** pull a ghost button at a column edge out by its 10px padding so its label, not its hit area, meets the edge; an outline control at the same edge meets it with its border.
+- **Do** report an auth failure as an Alert Red text line with `role="alert"` beneath the control that failed, never as a filled banner.
+- **Do** confirm a destructive menu action with a second click on the same item, its label restated with the count, and keep the menu open; no dialog.
 
 ### Don't:
 - **Don't** add a second typeface, including a sans for controls or a mono for numbers.
-- **Don't** round a surface or a control. The root radius is 0; `rounded-full` belongs only to the slider, the switch, avatars, dots, rings, and toggle pills.
+- **Don't** round a surface or a control. The root radius is 0; `rounded-full` belongs only to the slider, the switch, avatars, dots, rings, toggle pills, and the account pill that wraps an avatar.
 - **Don't** put a shadow on the card, a row, a band row, the pinned band, the sticky header, a badge, a chip, or a button; shadows belong to floating menus only, with the pinned For you column's seam below 1024px as the one exception on the page plane.
 - **Don't** tint a neutral warm or cool. Every gray has zero chroma.
 - **Don't** use Marquee Crimson or a signal hue as a background wash, a border, or paragraph text.
@@ -632,3 +730,6 @@ The visitor's likes enter the ledger as a field, a ruled sheet, and two columns.
 - **Don't** show two crimson chips on one row, or set a Not for me thumb in crimson.
 - **Don't** render the starter hand as bordered cards with their own edges, shadows, or radii, or move it into a modal; it is one ruled sheet inside the table card.
 - **Don't** put the pinned-column-edge shadow on anything but a column pinned while the grid scrolls sideways.
+- **Don't** put a provider's brand colours anywhere but its own 16px mark inside an outline button; never enlarge, recolour, or fill with them.
+- **Don't** put a primary button on the sign-in page before the visitor is signed in; the side door earns one crimson action only once the visitor is through it.
+- **Don't** wrap anything but an avatar in a pill-shaped control; the account pill is round because of what it holds, and no other trigger inherits the shape.

@@ -122,7 +122,7 @@ function AccountMenu({ session }: { session: Session }) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
+        <DropdownMenuItem onClick={handleSignOut}>
           <IconLogout aria-hidden="true" />
           <span>Sign out</span>
         </DropdownMenuItem>

@@ -10,6 +10,12 @@
 
 # production
 /build
+/.next
+/out
+/.vercel
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
 
 # misc
 .DS_Store

@@ -38,6 +38,43 @@ const REVALIDATE_SECONDS = 86400;
 const MOVIE_SELECT = "id,slug,title,year,metascore,userscore,users_rated,link";
 const TASTE_SELECT = "id,slug,year,summary,movie_genres(genres(name)),credits(role,billing,people(slug,name))";
 
+export interface RetryOptions {
+  attempts?: number;
+  baseDelayMs?: number;
+  sleep?: (ms: number) => Promise<void>;
+}
+
+const DEFAULT_ATTEMPTS = 4;
+const DEFAULT_BASE_DELAY_MS = 1000;
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Fetches with doubling waits on 5xx responses and network errors, the failures a
+ * build sees while the self-hosted Supabase restarts. Client errors return at once.
+ */
+export type FetchLike = (url: string | URL, init?: RequestInit) => Promise<Response>;
+
+export async function fetchWithRetry(
+  fetchImpl: FetchLike,
+  url: string | URL,
+  init: RequestInit,
+  { attempts = DEFAULT_ATTEMPTS, baseDelayMs = DEFAULT_BASE_DELAY_MS, sleep = wait }: RetryOptions = {},
+): Promise<Response> {
+  for (let attempt = 0; ; attempt += 1) {
+    const last = attempt >= attempts - 1;
+    if (attempt > 0) await sleep(baseDelayMs * 2 ** (attempt - 1));
+    try {
+      const response = await fetchImpl(url, init);
+      if (response.status < 500 || last) return response;
+    } catch (error) {
+      if (last) throw error;
+    }
+  }
+}
+
 function requireEnv(name: string): string {
   const value = process.env[name];
   if (!value) {
@@ -69,7 +106,7 @@ async function fetchRows<T>(select: string, afterId: number, limit: number): Pro
   url.searchParams.set("id", `gt.${afterId}`);
   url.searchParams.set("order", "id");
   url.searchParams.set("limit", String(limit));
-  const response = await fetch(url, {
+  const response = await fetchWithRetry(fetch, url, {
     headers: { apikey: key, Authorization: `Bearer ${key}` },
     next: { revalidate: REVALIDATE_SECONDS },
   });

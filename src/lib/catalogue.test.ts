@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { pageAll, toRawMovies, toTasteCatalogue, truncateSummary, type MovieRow, type TasteRow } from "@/lib/catalogue";
+import { fetchWithRetry, pageAll, toRawMovies, toTasteCatalogue, truncateSummary, type MovieRow, type TasteRow } from "@/lib/catalogue";
 
 const row = (overrides: Partial<MovieRow> & Pick<MovieRow, "id" | "slug">): MovieRow => ({
   title: overrides.slug, year: 2000, metascore: 80, userscore: 75, users_rated: 400,
@@ -85,5 +85,47 @@ describe("summary trimming", () => {
     expect(cut.endsWith("…")).toBe(true);
     expect(long.startsWith(cut.slice(0, -1))).toBe(true);
     expect(cut.slice(0, -1).endsWith(" ")).toBe(false);
+  });
+});
+
+describe("retrying fetch", () => {
+  const respond = (codes: number[], calls: number[]) => async () => {
+    const code = codes.shift();
+    if (code === undefined) throw new Error("no more responses");
+    calls.push(code);
+    return new Response(code === 200 ? "[]" : "down", { status: code });
+  };
+  const noSleep = (waits: number[]) => async (ms: number) => { waits.push(ms); };
+
+  test("retries 5xx responses with doubling waits and returns the first success", async () => {
+    const calls: number[] = [];
+    const waits: number[] = [];
+    const response = await fetchWithRetry(respond([503, 502, 200], calls), "https://db.test/rest", {}, { attempts: 4, baseDelayMs: 10, sleep: noSleep(waits) });
+    expect(response.status).toBe(200);
+    expect(calls).toEqual([503, 502, 200]);
+    expect(waits).toEqual([10, 20]);
+  });
+  test("returns the last failing response once attempts run out", async () => {
+    const calls: number[] = [];
+    const response = await fetchWithRetry(respond([503, 503, 503], calls), "https://db.test/rest", {}, { attempts: 2, baseDelayMs: 1, sleep: noSleep([]) });
+    expect(response.status).toBe(503);
+    expect(calls).toEqual([503, 503]);
+  });
+  test("does not retry client errors", async () => {
+    const calls: number[] = [];
+    const response = await fetchWithRetry(respond([404, 200], calls), "https://db.test/rest", {}, { attempts: 3, baseDelayMs: 1, sleep: noSleep([]) });
+    expect(response.status).toBe(404);
+    expect(calls).toEqual([404]);
+  });
+  test("retries a thrown network error and rethrows when attempts run out", async () => {
+    let calls = 0;
+    const flaky = async () => {
+      calls += 1;
+      if (calls === 1) throw new TypeError("fetch failed");
+      return new Response("[]", { status: 200 });
+    };
+    expect((await fetchWithRetry(flaky, "https://db.test/rest", {}, { attempts: 2, baseDelayMs: 1, sleep: noSleep([]) })).status).toBe(200);
+    const dead = async () => { throw new TypeError("fetch failed"); };
+    await expect(fetchWithRetry(dead, "https://db.test/rest", {}, { attempts: 2, baseDelayMs: 1, sleep: noSleep([]) })).rejects.toThrow("fetch failed");
   });
 });

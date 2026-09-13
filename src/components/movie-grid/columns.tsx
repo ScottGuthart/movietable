@@ -62,12 +62,14 @@ export function BandAverage({ group }: { group: MovieGroup }) {
   );
 }
 
-/** Language, up to three subgenres, and the Oscar record; the scores already have columns. */
+/** Language, the Oscar record, then subgenres (two when a record needs the room); the scores already have columns. */
 function ContextLine({ movie }: { movie: ScoredMovie }) {
-  const parts = [movie.language ?? "—", movie.subgenres.slice(0, 3).join(", "), oscarSummary(movie.oscarWins, movie.oscarNominations)].filter(Boolean);
+  const oscars = oscarSummary(movie.oscarWins, movie.oscarNominations);
+  const parts = [movie.language ?? "—", oscars, movie.subgenres.slice(0, oscars ? 2 : 3).join(", ")].filter(Boolean);
+  const line = parts.join(" · ");
   return (
-    <span className="text-muted-foreground block truncate text-xs leading-4">
-      {parts.join(" · ")}
+    <span className="text-muted-foreground block truncate text-xs leading-4" title={line}>
+      {line}
     </span>
   );
 }
@@ -76,13 +78,15 @@ function TitleCell({ movie, showContext }: { movie: ScoredMovie; showContext: bo
   return (
     <span className="flex min-w-0 flex-col">
       <span className="flex min-w-0 items-center gap-1">
-        <a className="group inline-flex min-w-0 items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+        <a className="group order-2 inline-flex min-w-0 items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring md:order-1"
           href={movie.link} target="_blank" rel="noopener noreferrer">
           <span className="truncate">{movie.title}</span>
           <IconArrowUpRight aria-hidden="true" className="text-muted-foreground size-4 shrink-0 opacity-40 group-hover:opacity-100" />
           <span className="sr-only"> (Metacritic, opens in a new tab)</span>
         </a>
-        <FilmDetail movie={movie} />
+        <span className="order-1 -ml-1.5 flex shrink-0 md:order-2 md:ml-0">
+          <FilmDetail movie={movie} />
+        </span>
       </span>
       {showContext && <ContextLine movie={movie} />}
     </span>

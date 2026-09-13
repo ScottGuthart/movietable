@@ -18,6 +18,17 @@ const AWARDS_SELECT = "award,category,outcome,year,person_slug,people(name)";
 const MISSING_TABLE = "PGRST205";
 
 const cache = new Map<string, FilmDetailData>();
+let genreNames: Promise<string[]> | null = null;
+
+/** The catalogue's Metacritic genre vocabulary, fetched once so subgenres never repeat a genre. */
+function loadGenreNames(): Promise<string[]> {
+  genreNames ??= (async () => {
+    const { data, error } = await getSupabase().from("genres").select("name");
+    if (error) throw new Error(`Loading genres failed: ${error.message}`);
+    return (data as { name: string }[]).map((row) => row.name);
+  })();
+  return genreNames;
+}
 
 async function loadAwards(slug: string): Promise<AwardRow[]> {
   const { data, error } = await getSupabase().from("movie_awards").select(AWARDS_SELECT).eq("movie_slug", slug);
@@ -31,12 +42,13 @@ async function loadAwards(slug: string): Promise<AwardRow[]> {
 async function loadDetail(slug: string): Promise<FilmDetailData> {
   const cached = cache.get(slug);
   if (cached) return cached;
-  const [film, awards] = await Promise.all([
+  const [film, awards, genres] = await Promise.all([
     getSupabase().from("movies").select(DETAIL_SELECT).eq("slug", slug).single(),
     loadAwards(slug),
+    loadGenreNames(),
   ]);
   if (film.error) throw new Error(`Loading details failed: ${film.error.message}`);
-  const detail = toFilmDetail(film.data as unknown as FilmDetailRow, awards);
+  const detail = toFilmDetail(film.data as unknown as FilmDetailRow, awards, genres);
   cache.set(slug, detail);
   return detail;
 }

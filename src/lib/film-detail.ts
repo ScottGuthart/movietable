@@ -115,9 +115,9 @@ export interface FilmDetailData {
   justwatchUrl: string | null;
 }
 
-/** Shapes the raw row into what the popover shows; subgenres drop labels that repeat the film's genres. */
-export function toFilmDetail(row: FilmDetailRow, awards: AwardRow[]): FilmDetailData {
-  const genres = new Set(row.movie_genres.map((entry) => entry.genre_name.toLocaleLowerCase("en-US")));
+/** Shapes the raw row into what the popover shows; subgenres drop labels that repeat a Metacritic genre. */
+export function toFilmDetail(row: FilmDetailRow, awards: AwardRow[], genreNames: string[] = []): FilmDetailData {
+  const genres = new Set([...row.movie_genres.map((entry) => entry.genre_name), ...genreNames].map((name) => name.toLocaleLowerCase("en-US")));
   const subgenres = [...new Set(row.movie_subgenres.map((entry) => cleanSubgenre(entry.subgenre_name)))]
     .filter((label) => !genres.has(label.toLocaleLowerCase("en-US")))
     .sort((a, b) => a.localeCompare(b, "en-US"));

@@ -31,8 +31,8 @@ function PricedList({ label, offers }: { label: string; offers: PricedOffer[] })
     <p className="text-sm leading-relaxed">
       <span className="text-muted-foreground">{label}{from}: </span>
       {offers.map((offer, index) => (
-        <span key={offer.name}>
-          {index > 0 && <span className="text-muted-foreground"> · </span>}
+        <span key={offer.name} className="inline-block">
+          {index > 0 && <span className="text-muted-foreground">{"\u00a0·\u00a0"}</span>}
           <OutLink href={offer.url}>{offer.name}</OutLink>
         </span>
       ))}
@@ -51,8 +51,8 @@ function WhereToWatch({ detail }: { detail: FilmDetailData }) {
         <p className="text-sm leading-relaxed">
           <span className="text-muted-foreground">Stream: </span>
           {stream.map((offer, index) => (
-            <span key={offer.name}>
-              {index > 0 && <span className="text-muted-foreground"> · </span>}
+            <span key={offer.name} className="inline-block">
+              {index > 0 && <span className="text-muted-foreground">{"\u00a0·\u00a0"}</span>}
               <OutLink href={offer.url}>{offer.name}</OutLink>
             </span>
           ))}
@@ -108,7 +108,7 @@ function Body({ movie, state, retry }: { movie: ScoredMovie; state: FilmDetailSt
     );
   }
   const { detail } = state;
-  const meta = [detail.year, detail.directors.join(", "), detail.language ?? "Language —"].filter(Boolean).join(" · ");
+  const meta = [detail.year, detail.directors.join(", "), detail.language ?? "—"].filter(Boolean).join(" · ");
   return (
     <>
       <PopoverHeader>
@@ -141,7 +141,7 @@ export function FilmDetail({ movie }: { movie: ScoredMovie }) {
       >
         <IconInfoCircle aria-hidden="true" />
       </PopoverTrigger>
-      <PopoverContent side={narrow ? "bottom" : "right"} align="start" className="w-80 max-w-[calc(100vw-2rem)] gap-3 p-4">
+      <PopoverContent side={narrow ? "bottom" : "right"} align="start" className="max-h-[var(--available-height)] w-80 max-w-[calc(100vw-2rem)] gap-3 overflow-y-auto p-4">
         <Body movie={movie} state={state} retry={retry} />
       </PopoverContent>
     </Popover>

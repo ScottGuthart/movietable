@@ -70,6 +70,9 @@ describe("film detail", () => {
       oscars: { wins: 2, nominations: 9 }, imdbUrl: "https://www.imdb.com/title/tt0068646/", justwatchUrl: "https://www.justwatch.com/us/movie/the-godfather" });
     expect(detail.offers.stream).toEqual([{ name: "Netflix", url: "https://example.test/Netflix/flatrate/HD" }]);
   });
+  test("drops subgenres that repeat any Metacritic genre it is told about", () => {
+    expect(toFilmDetail({ ...row, movie_subgenres: [{ subgenre_name: "western film" }, { subgenre_name: "neo-noir" }] }, [], ["Western", "Crime"]).subgenres).toEqual(["Neo-noir"]);
+  });
   test("has no Oscar line or IMDb link without an IMDb match", () => {
     const detail = toFilmDetail({ ...row, movie_imdb: null }, []);
     expect(detail.oscars).toBeNull();

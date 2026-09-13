@@ -51,6 +51,7 @@ export function DisplayPopover({ density, onDensityChange, showContext, onShowCo
               <FieldLabel htmlFor="movie-context-line" className="text-sm font-normal">Details under the title</FieldLabel>
               <Switch id="movie-context-line" size="sm" checked={showContext} onCheckedChange={onShowContextChange} />
             </Field>
+            <p className="text-muted-foreground text-xs leading-relaxed">Language, subgenres, and Oscar counts come from IMDb and Wikidata; indicative, not complete.</p>
           </div>
         </FieldGroup>
       </PopoverContent>

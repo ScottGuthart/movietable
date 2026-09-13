@@ -28,7 +28,7 @@ function helperText({ rated, positive, active, summary, persistent, state }: Omi
   if (active) return summary.length > 0 ? `Built from ${filmsWord(rated)} · ${summary.join(" · ")}` : `Built from ${filmsWord(rated)}`;
   if (rated > 0 && !positive) return "Give a film four or five stars to build your ranking.";
   if (rated > 0 && state.status === "loading") return "Loading film details…";
-  return "Rate films you've seen, one to five stars.";
+  return "Rate films you've seen, half a star to five.";
 }
 
 export function TasteField(props: TasteFieldProps) {

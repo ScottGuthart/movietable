@@ -3,29 +3,12 @@
 import { useEffect, useState } from "react";
 import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { getStampedVerdicts, replaceVerdicts, subscribeToVerdicts } from "@/components/taste/taste-store";
-import { diffVerdicts, mergeVerdicts, type StampedVerdicts } from "@/lib/ratings-sync";
+import { diffVerdicts, mergeVerdicts, rowsToStamped, type RatingRow, type StampedVerdicts } from "@/lib/ratings-sync";
 import { getSupabase } from "@/lib/supabase-browser";
-import { parseVerdict } from "@/lib/taste";
 
 export type SyncState = { status: "idle" } | { status: "syncing" } | { status: "synced" } | { status: "error"; message: string };
 
-interface RatingRow {
-  slug: string;
-  verdict: "rated" | "skip";
-  stars: number | null;
-  updated_at: string;
-}
-
 const PUSH_DELAY_MS = 600;
-
-function toStamped(rows: RatingRow[]): StampedVerdicts {
-  const stamped: StampedVerdicts = {};
-  for (const row of rows) {
-    const verdict = row.verdict === "skip" ? "skip" : parseVerdict(row.stars);
-    if (verdict !== null) stamped[row.slug] = { verdict, updatedAt: Date.parse(row.updated_at) };
-  }
-  return stamped;
-}
 
 async function upload(supabase: SupabaseClient, userId: string, entries: StampedVerdicts): Promise<void> {
   const rows = Object.entries(entries).map(([slug, entry]) => ({
@@ -88,7 +71,7 @@ export function useRatingsSync(session: Session | null): SyncState {
         fail(new Error(`Loading your saved ratings failed: ${error.message}`));
         return;
       }
-      const { merged, toUpload } = mergeVerdicts(getStampedVerdicts(), toStamped(data as RatingRow[]));
+      const { merged, toUpload } = mergeVerdicts(getStampedVerdicts(), rowsToStamped(data as RatingRow[]));
       replaceVerdicts(merged);
       baseline = merged;
       try {

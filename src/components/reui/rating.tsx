@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type KeyboardEvent } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { IconStar, IconStarFilled } from "@tabler/icons-react"
 
@@ -31,35 +31,61 @@ const starVariants = cva("shrink-0", {
 })
 
 interface RatingProps extends Omit<React.ComponentProps<"div">, "onChange">, VariantProps<typeof ratingVariants> {
-  /** Current whole-star rating, or null when unrated. */
+  /** Current rating, or null when unrated. Fractions fill a star partway. */
   rating: number | null
   maxRating?: number
+  /** Smallest value the visitor can choose: 1 for whole stars, 0.5 for half stars from a star's left half or the arrow keys. */
+  step?: 1 | 0.5
   /** Renders each star as a button; hover and focus preview the value, click commits it. */
   editable?: boolean
   onRatingChange?: (rating: number) => void
   /** Accessible name for the group, e.g. "Rate The Godfather". */
   label: string
-  /** Accessible name for one star. */
-  starLabel?: (star: number, maxRating: number) => string
+  /** Accessible wording for a value, used for star names and the live value line. */
+  valueLabel?: (value: number, maxRating: number) => string
+}
+
+function clampStep(value: number, step: number, min: number, max: number): number {
+  const snapped = Math.round(value / step) * step
+  return Math.min(max, Math.max(min, snapped))
 }
 
 /**
- * Whole-star rating in the ledger's ink: filled stars in Marquee Crimson, empty stars in Pencil Gray.
- * Adapted from REUI's rating so every star is a real button with a name and a pressed state.
+ * Star rating in the ledger's ink: filled stars in Marquee Crimson, empty stars in Faded Ink.
+ * Adapted from REUI's rating so every star is a real button with a name and a pressed state,
+ * with the original's partial fill kept for half stars.
  */
 function Rating({
   rating,
   maxRating = 5,
+  step = 1,
   size,
   className,
   editable = false,
   onRatingChange,
   label,
-  starLabel = (star, max) => `${star} of ${max} stars`,
+  valueLabel = (value, max) => `${value} of ${max} stars`,
   ...props
 }: RatingProps) {
   const [previewed, setPreviewed] = useState<number | null>(null)
   const shown = editable && previewed !== null ? previewed : (rating ?? 0)
+
+  const valueAt = (star: number, event: { clientX: number; currentTarget: HTMLButtonElement }) => {
+    if (step === 1) return star
+    const { left, width } = event.currentTarget.getBoundingClientRect()
+    return event.clientX - left < width / 2 ? star - 0.5 : star
+  }
+  const commit = (value: number) => onRatingChange?.(clampStep(value, step, step, maxRating))
+  const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>, star: number) => {
+    const current = previewed ?? rating ?? star
+    if (event.key === "ArrowRight" || event.key === "ArrowUp") {
+      event.preventDefault()
+      commit(current + step)
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
+      event.preventDefault()
+      commit(current - step)
+    }
+  }
 
   return (
     <div
@@ -71,32 +97,41 @@ function Rating({
       {...props}
     >
       {Array.from({ length: maxRating }, (_, index) => index + 1).map((star) => {
-        const filled = shown >= star
-        const Icon = filled ? IconStarFilled : IconStar
+        const fill = Math.min(1, Math.max(0, shown - (star - 1)))
         const glyph = (
-          <Icon
-            aria-hidden="true"
-            data-slot={filled ? "rating-star-filled" : "rating-star-empty"}
-            className={cn(starVariants({ size }), filled ? "text-primary" : "text-muted-foreground/60")}
-          />
+          <span className="relative flex" aria-hidden="true">
+            <IconStar data-slot="rating-star-empty" className={cn(starVariants({ size }), "text-muted-foreground/60")} />
+            {fill > 0 && (
+              <span className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
+                <IconStarFilled data-slot="rating-star-filled" className={cn(starVariants({ size }), "text-primary")} />
+              </span>
+            )}
+          </span>
         )
         if (!editable) return <span key={star}>{glyph}</span>
         return (
           <button
             key={star}
             type="button"
-            aria-label={starLabel(star, maxRating)}
-            aria-pressed={rating === star}
+            aria-label={valueLabel(star, maxRating)}
+            aria-pressed={rating !== null && Math.ceil(rating) === star}
             className="flex outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px"
-            onMouseEnter={() => setPreviewed(star)}
+            onPointerMove={(event) => setPreviewed(valueAt(star, event))}
+            onPointerEnter={(event) => setPreviewed(valueAt(star, event))}
             onFocus={() => setPreviewed(star)}
             onBlur={() => setPreviewed(null)}
-            onClick={() => onRatingChange?.(star)}
+            onKeyDown={(event) => onKeyDown(event, star)}
+            onClick={(event) => commit(valueAt(star, event))}
           >
             {glyph}
           </button>
         )
       })}
+      {editable && (
+        <span className="sr-only" aria-live="polite">
+          {rating === null ? "Not rated" : valueLabel(rating, maxRating)}
+        </span>
+      )}
     </div>
   )
 }

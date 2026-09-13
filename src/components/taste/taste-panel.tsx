@@ -9,7 +9,7 @@ import { HAND_SIZE, SHARP_PROFILE_SIZE } from "@/lib/taste";
 type TastePanelProps = Pick<Taste, "state" | "retry" | "hand" | "handTotal" | "verdicts" | "rate" | "dealAnother" | "rated" | "positive">;
 
 function guidance({ rated, positive }: Pick<TastePanelProps, "rated" | "positive">): string {
-  if (rated === 0) return "Rate films you've seen, one to five stars. Your list re-ranks as you go.";
+  if (rated === 0) return "Rate films you've seen, half a star to five. Your list re-ranks as you go.";
   if (!positive) return "Ratings under four stars can't build a ranking on their own. Give one film four or five.";
   if (rated < SHARP_PROFILE_SIZE) return "Rate a few more for a sharper match.";
   return "Keep going here, or rate straight from the table.";

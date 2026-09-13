@@ -1,14 +1,15 @@
 import { describe, expect, test } from "bun:test";
-import { mergeVerdicts, type StampedVerdicts } from "@/lib/ratings-sync";
+import { mergeVerdicts, rowsToStamped, type StampedVerdicts } from "@/lib/ratings-sync";
+import type { Verdict } from "@/lib/taste";
 
-const at = (verdict: 1 | 2 | 3 | 4 | 5 | "skip", updatedAt: number) => ({ verdict, updatedAt });
+const at = (verdict: Verdict, updatedAt: number) => ({ verdict, updatedAt });
 
 describe("merging local and account ratings", () => {
   test("keeps the union and lets the newer verdict win a conflict", () => {
-    const local: StampedVerdicts = { heat: at(5, 200), amelie: at(2, 50) };
+    const local: StampedVerdicts = { heat: at(4.5, 200), amelie: at(2, 50) };
     const remote: StampedVerdicts = { heat: at(2, 100), "spirited-away": at(5, 300) };
     const { merged, toUpload } = mergeVerdicts(local, remote);
-    expect(merged).toEqual({ heat: at(5, 200), amelie: at(2, 50), "spirited-away": at(5, 300) });
+    expect(merged).toEqual({ heat: at(4.5, 200), amelie: at(2, 50), "spirited-away": at(5, 300) });
     expect(Object.keys(toUpload).sort()).toEqual(["amelie", "heat"]);
   });
   test("uploads nothing when the account already has everything", () => {
@@ -41,5 +42,21 @@ describe("diffing verdicts since the last sync", () => {
   });
   test("ignores an older local copy that the last sync already superseded", () => {
     expect(diffVerdicts({ heat: at(5, 200) }, { heat: at(2, 100) })).toEqual({ upserts: {}, deletes: [] });
+  });
+});
+
+describe("account rows", () => {
+  test("read PostgREST numeric strings and skips, and drop invalid stars", () => {
+    const stamped = rowsToStamped([
+      { slug: "heat", verdict: "rated", stars: "3.5", updated_at: "2026-09-12T00:00:00.000Z" },
+      { slug: "amelie", verdict: "rated", stars: 4, updated_at: "2026-09-12T00:00:01.000Z" },
+      { slug: "unseen", verdict: "skip", stars: null, updated_at: "2026-09-12T00:00:02.000Z" },
+      { slug: "broken", verdict: "rated", stars: "7", updated_at: "2026-09-12T00:00:03.000Z" },
+    ]);
+    expect(stamped).toEqual({
+      heat: { verdict: 3.5, updatedAt: Date.parse("2026-09-12T00:00:00.000Z") },
+      amelie: { verdict: 4, updatedAt: Date.parse("2026-09-12T00:00:01.000Z") },
+      unseen: { verdict: "skip", updatedAt: Date.parse("2026-09-12T00:00:02.000Z") },
+    });
   });
 });

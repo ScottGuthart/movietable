@@ -9,6 +9,7 @@ import {
   hasPositive,
   parseVerdict,
   rankMovies,
+  ratingFactor,
   ratedCount,
   summarizeProfile,
   type TasteCatalogue,
@@ -220,13 +221,26 @@ describe("verdicts", () => {
     const verdicts: Verdicts = { a: 1, b: 5, c: "skip" };
     expect(Object.keys(verdicts)).toHaveLength(3);
   });
-  test("migrate saved thumbs and reject anything else", () => {
+  test("migrate saved thumbs, accept half steps, and reject anything else", () => {
     expect(parseVerdict("like")).toBe(4);
     expect(parseVerdict("pass")).toBe(2);
     expect(parseVerdict("skip")).toBe("skip");
     expect(parseVerdict(3)).toBe(3);
+    expect(parseVerdict(3.5)).toBe(3.5);
+    expect(parseVerdict(0.5)).toBe(0.5);
     expect(parseVerdict(5)).toBe(5);
-    for (const bad of [0, 6, 2.5, "loved", null, undefined, {}]) expect(parseVerdict(bad)).toBeNull();
+    for (const bad of [0, 5.5, 6, 2.25, "loved", null, undefined, {}]) expect(parseVerdict(bad)).toBeNull();
+  });
+  test("weights run from fully against at half a star to fully for at five, neutral at three", () => {
+    expect(ratingFactor(0.5)).toBe(-1);
+    expect(ratingFactor(1.5)).toBeCloseTo(-0.6);
+    expect(ratingFactor(3)).toBe(0);
+    expect(ratingFactor(3.5)).toBe(0.25);
+    expect(ratingFactor(4.5)).toBe(0.75);
+    expect(ratingFactor(5)).toBe(1);
+    expect(hasPositive({ a: 3.5 })).toBe(false);
+    expect(hasPositive({ a: 4.5 })).toBe(true);
+    expect(buildProfile(catalogue, { "the-godfather": 4.5 }).get("director:0")).toBe(2.25);
   });
   test("three stars count as rated but not as a favourite", () => {
     expect(ratedCount({ a: 3, b: "skip" })).toBe(1);

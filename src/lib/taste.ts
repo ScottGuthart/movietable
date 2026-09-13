@@ -1,7 +1,7 @@
 import type { ScoredMovie } from "@/lib/movies";
 
-/** A whole-star rating from one to five. */
-export type Stars = 1 | 2 | 3 | 4 | 5;
+/** A rating in half-star steps from half a star to five. */
+export type Stars = 0.5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5;
 /** What the visitor said about a film: stars, or `skip` for "haven't seen", which carries no taste signal. */
 export type Verdict = Stars | "skip";
 /** Verdicts keyed by Metacritic film slug. */
@@ -47,7 +47,10 @@ export interface HandCandidate {
 }
 
 const KIND_WEIGHT: Record<FeatureKind, number> = { director: 3, genre: 2, writer: 1.5, cast: 1, decade: 1 };
-const STARS: readonly number[] = [1, 2, 3, 4, 5];
+const STARS: readonly number[] = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+const NEUTRAL_STARS = 3;
+const MAX_STARS = 5;
+const MIN_STARS = 0.5;
 /** Ratings at or above this many stars count as a favourite and can build a profile on their own. */
 const FAVOURITE_STARS = 4;
 /** For you = MATCH_SHARE × match strength + QUALITY_SHARE × Final Score, so equal matches keep the stronger film ahead. */
@@ -88,9 +91,10 @@ export function parseVerdict(value: unknown): Verdict | null {
   return typeof value === "number" && STARS.includes(value) ? (value as Stars) : null;
 }
 
-/** How strongly a rating speaks for a film's attributes: five stars is +1, three is neutral, one is -1. */
+/** How strongly a rating speaks for a film's attributes: five stars is +1, three is neutral, half a star is -1. */
 export function ratingFactor(stars: Stars): number {
-  return (stars - 3) / 2;
+  if (stars >= NEUTRAL_STARS) return (stars - NEUTRAL_STARS) / (MAX_STARS - NEUTRAL_STARS);
+  return (stars - NEUTRAL_STARS) / (NEUTRAL_STARS - MIN_STARS);
 }
 
 export function hasPositive(verdicts: Verdicts): boolean {

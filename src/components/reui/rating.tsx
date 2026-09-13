@@ -76,15 +76,15 @@ function Rating({
     return event.clientX - left < width / 2 ? star - 0.5 : star
   }
   const commit = (value: number) => onRatingChange?.(clampStep(value, step, step, maxRating))
+  /** Arrow keys move the saved rating (or start from the focused star) by one step; a press at either end changes nothing. */
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>, star: number) => {
-    const current = previewed ?? rating ?? star
-    if (event.key === "ArrowRight" || event.key === "ArrowUp") {
-      event.preventDefault()
-      commit(current + step)
-    } else if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
-      event.preventDefault()
-      commit(current - step)
-    }
+    const direction = event.key === "ArrowRight" || event.key === "ArrowUp" ? 1 : event.key === "ArrowLeft" || event.key === "ArrowDown" ? -1 : 0
+    if (direction === 0) return
+    event.preventDefault()
+    const next = clampStep((rating ?? star) + direction * step, step, step, maxRating)
+    if (next === rating) return
+    setPreviewed(next)
+    onRatingChange?.(next)
   }
 
   return (

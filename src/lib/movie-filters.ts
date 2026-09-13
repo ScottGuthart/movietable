@@ -131,14 +131,16 @@ export function filterVocabulary(movies: Pick<ScoredMovie, "language" | "subgenr
   return { languages: sorted(languages), subgenres: sorted(subgenres), genres: sorted(genres) };
 }
 
+/**
+ * Nothing is filtered on arrival: the visitor meets the whole catalogue and
+ * narrows it themselves. An era and a popularity floor were preset here, which
+ * hid most of the catalogue behind conditions nobody chose.
+ */
 export const DEFAULT_QUERY: FilterQuery = {
   id: "movie-query",
   type: "group",
   combinator: "and",
-  rules: [
-    { id: "default-years", type: "rule", path: ["year"], operator: "between", value: [2000, 2024] },
-    { id: "default-popularity", type: "rule", path: ["popularity"], operator: "between", value: [300, 100000] },
-  ],
+  rules: [],
 };
 
 export function emptyQuery(): FilterQuery {

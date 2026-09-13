@@ -43,7 +43,7 @@ const catalogue: TasteCatalogue = {
 };
 
 const scored = (slug: string, finalScore: number | null = 90): ScoredMovie => ({
-  slug, title: slug, year: 2000, popularity: 1000, users: finalScore, critics: finalScore, finalScore, forYou: null,
+  slug, title: slug, year: 2000, popularity: 1000, popularityScore: 50, users: finalScore, critics: finalScore, finalScore, forYou: null,
   language: null, subgenres: [], oscarWins: null, oscarNominations: null,
   link: `https://www.metacritic.com/movie/${slug}/`,
 });

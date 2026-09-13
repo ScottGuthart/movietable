@@ -3,16 +3,17 @@ import type { FilterQuery, FilterRule } from "@/components/reui/filters/filters-
 import { createMovieFields, filterVocabulary, DEFAULT_QUERY, describeQuery, emptyQuery, isCompleteRule, matchesQuery, MOVIE_FIELDS, numericValue } from "@/lib/movie-filters";
 import { normalizeMovie, scoreMovies, type ScoredMovie } from "@/lib/movies";
 
-const movie: ScoredMovie = { slug: "the-great-film", title: "The Great Film", year: 2020, popularity: 500, users: 80, critics: 90, finalScore: 85, forYou: null, language: "French", subgenres: ["Gangster", "Epic"], oscarWins: 2, oscarNominations: 9, link: "https://www.metacritic.com/movie/test" };
+const movie: ScoredMovie = { slug: "the-great-film", title: "The Great Film", year: 2020, popularity: 500, popularityScore: 62, users: 80, critics: 90, finalScore: 85, forYou: null, language: "French", subgenres: ["Gangster", "Epic"], oscarWins: 2, oscarNominations: 9, link: "https://www.metacritic.com/movie/test" };
 const rule = (field: string, operator: string, value?: unknown): FilterRule => ({ id: `${field}-${operator}`, type: "rule", path: [field], operator, value });
 const group = (combinator: "and" | "or", ...rules: FilterQuery["rules"]): FilterQuery => ({ id: "group", type: "group", combinator, rules });
 const check = (field: string, operator: string, value?: unknown, row = movie) => matchesQuery(row, group("and", rule(field, operator, value)));
 
 describe("movie query evaluation", () => {
-  test("the default view keeps 2000–2024 films with 300–100,000 ratings and the empty query keeps everything", () => {
+  test("no filter is applied by default, so the catalogue arrives whole", () => {
     const raw = (title: string, year: number, users_rated: number) => ({ title, year, users_rated, userscore: 80, metascore: 80, link: `https://www.metacritic.com/movie/${title}` });
     const scored = scoreMovies([raw("in-range", 2010, 500), raw("too-early", 1999, 500), raw("too-recent", 2025, 500), raw("obscure", 2010, 299), raw("huge", 2010, 100_001), raw("no-count", 2010, Number.NaN)].map(normalizeMovie), 0.5);
-    expect(scored.filter((row) => matchesQuery(row, DEFAULT_QUERY)).map((row) => row.title)).toEqual(["in-range"]);
+    expect(DEFAULT_QUERY.rules).toHaveLength(0);
+    expect(scored.filter((row) => matchesQuery(row, DEFAULT_QUERY))).toHaveLength(6);
     expect(scored.filter((row) => matchesQuery(row, emptyQuery()))).toHaveLength(6);
   });
   test.each([

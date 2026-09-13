@@ -3,7 +3,7 @@
 import { parseAsFloat, parseAsJson, parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
 import { DEFAULT_QUERY, parseFilterQuery } from "@/lib/movie-filters";
 import { GROUP_KEY_OPTIONS, type GroupKey } from "@/lib/movie-groups";
-import { DEFAULT_CRITIC_WEIGHT } from "@/lib/movies";
+import { DEFAULT_CRITIC_WEIGHT, DEFAULT_POPULARITY_WEIGHT } from "@/lib/movies";
 
 const GROUP_KEYS = GROUP_KEY_OPTIONS.map((option) => option.value) as [GroupKey, ...GroupKey[]];
 
@@ -16,6 +16,7 @@ export const viewParsers = {
   search: parseAsString.withDefault(""),
   group: parseAsStringLiteral(GROUP_KEYS),
   bias: parseAsFloat.withDefault(DEFAULT_CRITIC_WEIGHT),
+  pop: parseAsFloat.withDefault(DEFAULT_POPULARITY_WEIGHT),
 };
 
 export function useViewParams() {
@@ -25,4 +26,9 @@ export function useViewParams() {
 /** Keeps a shared link honest: bias outside the slider's range snaps back to equal weight. */
 export function clampBias(bias: number): number {
   return Number.isFinite(bias) && bias >= 0 && bias <= 1 ? Math.round(bias * 10) / 10 : DEFAULT_CRITIC_WEIGHT;
+}
+
+/** Same guard for the popularity weight a shared link may carry. */
+export function clampPopularity(weight: number): number {
+  return Number.isFinite(weight) && weight >= 0 && weight <= 1 ? Math.round(weight * 10) / 10 : DEFAULT_POPULARITY_WEIGHT;
 }

@@ -5,10 +5,11 @@ import type { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { IconChevronDown, IconRefresh, IconSearch, IconX } from "@tabler/icons-react";
 import { AdvancedMovieFilters } from "@/components/examples/c-filters-11";
 import type { Density } from "@/components/movie-grid/display-popover";
+import { FilterStatus } from "@/components/movie-grid/filter-status";
 import { MovieGrid } from "@/components/movie-grid/movie-grid";
 import type { ProviderUsage } from "@/components/movie-grid/services-popover";
 import { canStream, useMyServices } from "@/components/movie-grid/use-my-services";
-import { clampBias, useViewParams } from "@/components/movie-grid/view-params";
+import { clampBias, clampPopularity, useViewParams } from "@/components/movie-grid/view-params";
 import type { ProviderIndex } from "@/components/movie-grid/watch-column";
 import type { FilterQuery } from "@/components/reui/filters/filters-types";
 import { countFilterRules } from "@/components/reui/filters/filters-query";
@@ -56,10 +57,12 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
   const query = view.q;
   const search = view.search;
   const criticWeight = clampBias(view.bias);
+  const popularityWeight = clampPopularity(view.pop);
   const groupKeyOverride = view.group;
   const setQuery = (next: FilterQuery) => void setView({ q: next });
   const setSearch = (next: string) => void setView({ search: next });
   const setCriticWeight = (next: number) => void setView({ bias: next });
+  const setPopularityWeight = (next: number) => void setView({ pop: next });
   const setGroupKeyOverride = (next: GroupKey | null) => void setView({ group: next });
   const [sortingOverride, setSortingOverride] = useState<SortingState | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
@@ -73,7 +76,7 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
   const providerIndex = useMemo<ProviderIndex>(() => new Map(providers.map((provider) => [provider.id, provider])), [providers]);
   const providerUsage = useMemo(() => rankProviders(providers, movies), [providers, movies]);
 
-  const scored = useMemo(() => scoreMovies(movies, criticWeight), [movies, criticWeight]);
+  const scored = useMemo(() => scoreMovies(movies, criticWeight, popularityWeight), [movies, criticWeight, popularityWeight]);
   const taste = useTaste(scored);
   const rows = useMemo(
     () => taste.ranked.filter((movie) => matchesQuery(movie, query) && matchesSearch(movie, search) && (!services.onlyMine || canStream(movie.signals, services))),
@@ -90,7 +93,7 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
   // Picking the default key clears the URL param instead of pinning it; with a taste profile the default is For you, so score stays explicit.
   const changeGroupKey = (key: GroupKey) => { setGroupKeyOverride(key === DEFAULT_GROUP_KEY && !taste.active ? null : key); setCollapsedBands(NONE); };
   const resetView = () => {
-    void setView({ q: null, search: null, bias: null, group: null });
+    void setView({ q: null, search: null, bias: null, pop: null, group: null });
     setSortingOverride(null);
     setDensity(DEFAULT_DENSITY);
     setShowContext(false);
@@ -122,11 +125,22 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
               onValueChange={(value) => setCriticWeight(typeof value === "number" ? value : value[0])} />
             <div className="text-muted-foreground flex justify-between text-sm"><span>Users</span><span>Critics</span></div>
           </Field>
+          <Field className="md:max-w-sm">
+            <div className="flex items-center justify-between gap-3">
+              <FieldLabel id="popularity-weight-label">Popularity weight</FieldLabel>
+              <output className="text-muted-foreground text-sm" data-testid="popularity-weight">{popularityWeight === 0 ? "Not counted" : Math.round(popularityWeight * 100) + "% popularity"}</output>
+            </div>
+            <Slider value={[popularityWeight]} min={0} max={1} step={0.1} aria-labelledby="popularity-weight-label"
+              thumbProps={{ "aria-label": "Popularity weighting", getAriaValueText: (_, value) => Math.round(value * 100) + " percent popularity" }}
+              onValueChange={(value) => setPopularityWeight(typeof value === "number" ? value : value[0])} />
+            <div className="text-muted-foreground flex justify-between text-sm"><span>Ignore</span><span>Favour widely seen</span></div>
+          </Field>
           <TasteField open={taste.open} onToggle={() => taste.setOpen(!taste.open)} rated={taste.rated} positive={taste.positive} active={taste.active}
             summary={taste.summary} persistent={taste.persistent} state={taste.state} />
         </FieldGroup>
         <p role="status" className="sr-only">{taste.active ? "Table ranked for your taste." : ""}</p>
       </section>
+      <FilterStatus query={query} shown={rows.length} total={movies.length} />
       <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
         <MovieGrid
           movies={rows} totalCount={movies.length} fields={fields} query={query} onQueryChange={setQuery}

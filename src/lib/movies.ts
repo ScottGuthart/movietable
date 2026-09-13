@@ -51,12 +51,16 @@ export interface Movie {
 }
 
 export interface ScoredMovie extends Movie {
+  /** Popularity as a catalogue percentile, 0-100. Null when the film has no rating count. */
+  popularityScore: number | null;
   finalScore: number | null;
   /** Taste match, 0–100. Null until the visitor likes a film; filled by `rankMovies` in taste.ts. */
   forYou: number | null;
 }
 
 export const DEFAULT_CRITIC_WEIGHT = 0.5;
+/** Popularity stays out of the blend until the visitor asks for it, so Final Score is unchanged on arrival. */
+export const DEFAULT_POPULARITY_WEIGHT = 0;
 export const numberFormat = new Intl.NumberFormat("en-US");
 
 function finiteOrNull(value: unknown): number | null {
@@ -84,20 +88,67 @@ export function normalizeMovie(raw: RawMovie): Movie {
   };
 }
 
-export function finalScore(movie: Pick<Movie, "users" | "critics">, criticWeight: number): number | null {
-  if (!Number.isFinite(criticWeight) || criticWeight < 0 || criticWeight > 1) {
-    throw new RangeError("Critic weight must be between 0 and 1.");
-  }
-  const users = finiteOrNull(movie.users);
-  const critics = finiteOrNull(movie.critics);
-  if (criticWeight === 0) return users === null ? null : Math.floor(users);
-  if (criticWeight === 1) return critics === null ? null : Math.floor(critics);
-  if (users === null || critics === null) return null;
-  return Math.floor((1 - criticWeight) * users + criticWeight * critics);
+/**
+ * Popularity as a percentile of the catalogue, 0-100.
+ *
+ * Rating counts run from a handful to six figures and are heavily skewed, so a
+ * linear rescale would press nearly every film against zero. A percentile answers
+ * what the count is actually read for - how widely seen is this, against everything
+ * else here - and lands on the same scale as the scores.
+ */
+export function popularityPercentiles(movies: Pick<Movie, "popularity">[]): (number | null)[] {
+  const counts = movies.map((movie) => finiteOrNull(movie.popularity));
+  const ranked = counts.filter((count): count is number => count !== null).sort((a, b) => a - b);
+  if (ranked.length === 0) return counts.map(() => null);
+  const cut = (value: number, orEqual: boolean) => {
+    let low = 0;
+    let high = ranked.length;
+    while (low < high) {
+      const mid = (low + high) >> 1;
+      if (orEqual ? ranked[mid]! <= value : ranked[mid]! < value) low = mid + 1;
+      else high = mid;
+    }
+    return low;
+  };
+  // Midrank, so films on the same count share one percentile.
+  return counts.map((count) => (count === null ? null : Math.round(((cut(count, false) + cut(count, true)) / 2 / ranked.length) * 100)));
 }
 
-export function scoreMovies(movies: Movie[], criticWeight: number): ScoredMovie[] {
-  return movies.map((movie) => ({ ...movie, finalScore: finalScore(movie, criticWeight), forYou: null }));
+function checkWeight(weight: number, name: string): void {
+  if (!Number.isFinite(weight) || weight < 0 || weight > 1) throw new RangeError(name + " must be between 0 and 1.");
+}
+
+/** A weight of 0 or 1 takes that side alone, so a missing value on the unused side never voids the result. */
+function weighted(low: number | null, high: number | null, weight: number): number | null {
+  if (weight === 0) return low;
+  if (weight === 1) return high;
+  if (low === null || high === null) return null;
+  return (1 - weight) * low + weight * high;
+}
+
+/**
+ * The visitor-weighted blend, rounded down. Critic weight slides between the
+ * audience and critic scores; popularity weight then mixes in how widely seen
+ * the film is. At zero popularity weight this is the critic/audience blend alone.
+ */
+export function finalScore(
+  movie: Pick<Movie, "users" | "critics"> & Partial<Pick<ScoredMovie, "popularityScore">>,
+  criticWeight: number,
+  popularityWeight: number = DEFAULT_POPULARITY_WEIGHT,
+): number | null {
+  checkWeight(criticWeight, "Critic weight");
+  checkWeight(popularityWeight, "Popularity weight");
+  const base = weighted(finiteOrNull(movie.users), finiteOrNull(movie.critics), criticWeight);
+  const blended = weighted(base, finiteOrNull(movie.popularityScore ?? null), popularityWeight);
+  return blended === null ? null : Math.floor(blended);
+}
+
+export function scoreMovies(movies: Movie[], criticWeight: number, popularityWeight: number = DEFAULT_POPULARITY_WEIGHT): ScoredMovie[] {
+  const percentiles = popularityPercentiles(movies);
+  return movies.map((movie, index) => {
+    const popularityScore = percentiles[index] ?? null;
+    return { ...movie, popularityScore, finalScore: finalScore({ ...movie, popularityScore }, criticWeight, popularityWeight), forYou: null };
+  });
 }
 
 export function getMovieBounds(movies: Movie[]) {

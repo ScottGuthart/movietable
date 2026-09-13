@@ -4,11 +4,19 @@ export const USER_AGENT =
 	"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " +
 	"(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 
+/**
+ * Browse rankings whose union forms the catalogue.
+ *
+ * `recent` is also metascore-sorted but restricted to 2010 onwards. Without it
+ * the mix skews old: the userscore ranking's URL caps at 2011, so it can only
+ * contribute older films.
+ */
 export const BROWSE_SOURCES = {
 	metascore: `${BASE}/browse/movie/?releaseYearMin=1910&releaseYearMax=2026`,
 	userscore:
 		`${BASE}/browse/movie/all/all/all-time/userscore/` +
 		`?releaseYearMin=1910&releaseYearMax=2011`,
+	recent: `${BASE}/browse/movie/?releaseYearMin=2010&releaseYearMax=2026`,
 } as const;
 
 export type SortKey = keyof typeof BROWSE_SOURCES;

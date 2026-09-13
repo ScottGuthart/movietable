@@ -138,7 +138,11 @@ export function buildTables(scraped: ScrapedMovie[]): SeedTables {
 		summary: movie.summary,
 		link: movie.link,
 		justwatch_url: movie.justwatch_url,
-		in_metascore_ranking: movie.ranked_by.includes("metascore"),
+		// "recent" is the same metascore ranking with a year filter, so a film
+		// found through it is genuinely in the metascore ranking.
+		in_metascore_ranking:
+			movie.ranked_by.includes("metascore") ||
+			movie.ranked_by.includes("recent"),
 		in_userscore_ranking: movie.ranked_by.includes("userscore"),
 	}));
 

@@ -13,9 +13,7 @@ export type FilmDetailState =
 const DETAIL_SELECT =
   "title,year,summary,justwatch_url,movie_imdb(imdb_id,language,oscar_wins,oscar_nominations),movie_genres(genre_name)," +
   "movie_subgenres(subgenre_name),credits(role,billing,person_slug,people(name)),streaming_offers(monetization,price,quality,url,providers(name))";
-const AWARDS_SELECT = "award,category,outcome,year,person_slug,people(name)";
-/** PostgREST's code for a relation that does not exist yet; the awards table is planned, not shipped. */
-const MISSING_TABLE = "PGRST205";
+const AWARDS_SELECT = "award_name,result,year,person_name,person_slug";
 
 const cache = new Map<string, FilmDetailData>();
 let genreNames: Promise<string[]> | null = null;
@@ -30,11 +28,12 @@ function loadGenreNames(): Promise<string[]> {
   return genreNames;
 }
 
+/** Awards detail one section of the note, so a failure there reports itself and leaves the rest standing. */
 async function loadAwards(slug: string): Promise<AwardRow[]> {
   const { data, error } = await getSupabase().from("movie_awards").select(AWARDS_SELECT).eq("movie_slug", slug);
   if (error) {
-    if (error.code === MISSING_TABLE) return [];
-    throw new Error(`Loading awards failed: ${error.message}`);
+    console.warn(`Loading awards for ${slug} failed: ${error.message}`);
+    return [];
   }
   return data as unknown as AwardRow[];
 }

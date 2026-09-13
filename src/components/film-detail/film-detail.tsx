@@ -68,21 +68,27 @@ function WhereToWatch({ detail }: { detail: FilmDetailData }) {
 function Oscars({ detail }: { detail: FilmDetailData }) {
   if (!detail.oscars) return null;
   const summary = oscarSummary(detail.oscars.wins, detail.oscars.nominations);
-  if (!summary && detail.awards.length === 0) return null;
+  const { lines, hiddenNominations } = detail.awards;
+  if (!summary && lines.length === 0) return null;
   return (
     <div className="flex flex-col gap-1">
       {summary && <p className="text-sm font-medium">{summary}</p>}
-      {detail.awards.length > 0 && (
+      {lines.length > 0 && (
         <ul className="flex flex-col gap-0.5 text-sm">
-          {detail.awards.map((line) => (
+          {lines.map((line) => (
             <li key={`${line.text}-${line.detail}`} className="flex justify-between gap-3">
               <span>{line.text}</span>
               <span className="text-muted-foreground shrink-0">{line.detail}</span>
             </li>
           ))}
+          {hiddenNominations > 0 && (
+            <li className="text-muted-foreground">and {hiddenNominations} more nomination{hiddenNominations === 1 ? "" : "s"}</li>
+          )}
         </ul>
       )}
-      <p className="text-muted-foreground text-xs">Academy Award counts from Wikidata, indicative rather than complete.</p>
+      <p className="text-muted-foreground text-xs">
+        Academy Awards from Wikidata. Counts are indicative, and awards to the film itself, such as Best Picture, are often missing from the list.
+      </p>
     </div>
   );
 }

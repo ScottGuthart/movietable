@@ -3,12 +3,22 @@ import { cache } from "react";
 import { IconArrowUpRight, IconMovie } from "@tabler/icons-react";
 import { Account } from "@/components/auth/account";
 import MovieTable from "@/components/MovieTable";
-import { fetchCatalogue } from "@/lib/catalogue";
-import { getMovieBounds, normalizeMovie, numberFormat } from "@/lib/movies";
+import { fetchCatalogue, fetchProviders, fetchSignals } from "@/lib/catalogue";
+import { getMovieBounds, normalizeMovie, numberFormat, type Movie } from "@/lib/movies";
 
-export const revalidate = 86400;
+/** The view lives in the URL (filters, search, grouping, bias), so the page renders per request; the catalogue fetches stay cached for a day. */
+export const dynamic = "force-dynamic";
 
-const loadMovies = cache(async () => (await fetchCatalogue()).map(normalizeMovie));
+const loadCatalogue = cache(async () => {
+  const [raw, signals, providers] = await Promise.all([fetchCatalogue(), fetchSignals(), fetchProviders()]);
+  const movies = raw.map((entry): Movie => {
+    const movie = normalizeMovie(entry);
+    const signal = signals[movie.slug];
+    return signal ? { ...movie, signals: signal } : movie;
+  });
+  return { movies, providers };
+});
+const loadMovies = async () => (await loadCatalogue()).movies;
 
 export async function generateMetadata(): Promise<Metadata> {
   const movies = await loadMovies();
@@ -18,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  const movies = await loadMovies();
+  const { movies, providers } = await loadCatalogue();
   const bounds = getMovieBounds(movies);
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 font-serif sm:px-8 sm:py-12 lg:py-16">
@@ -34,7 +44,7 @@ export default async function Page() {
             <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · Metacritic dataset</p>
           </div>
         </header>
-        <MovieTable movies={movies} />
+        <MovieTable movies={movies} providers={providers} />
         <footer className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
           <p>A curated dataset, not live ratings. Select any film to see its current scores on Metacritic.</p>
           <p className="shrink-0">

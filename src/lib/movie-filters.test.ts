@@ -38,7 +38,7 @@ describe("movie query evaluation", () => {
   });
   test("all exposed fields and operators have evaluation coverage", () => {
     const covered = ["contains", "not_contains", "starts_with", "ends_with", "is", "is_not", "is_any_of", "is_none_of", "has_any_of", "has_all_of", "has_none_of", "eq", "neq", "gt", "gte", "lt", "lte", "between", "not_between", "empty", "not_empty"];
-    expect(MOVIE_FIELDS.map((field) => field.id)).toEqual(["title", "year", "popularity", "users", "critics", "finalScore", "language", "subgenres", "oscarWins", "oscarNominations"]);
+    expect(MOVIE_FIELDS.map((field) => field.id)).toEqual(["title", "genre", "year", "popularity", "users", "critics", "finalScore", "language", "subgenres", "oscarWins", "oscarNominations"]);
     for (const field of MOVIE_FIELDS) {
       if (!Array.isArray(field.operators)) throw new Error("Expected an explicit operator catalog");
       for (const operator of field.operators) expect(covered).toContain(operator.value);
@@ -127,23 +127,24 @@ describe("enrichment filters", () => {
     expect(isCompleteRule(rule("language", "is", ""))).toBe(false);
   });
   test("fields can carry the catalogue's vocabulary as options", () => {
-    const fields = createMovieFields({ languages: ["English", "French"], subgenres: ["Epic", "Gangster"] });
+    const fields = createMovieFields({ languages: ["English", "French"], subgenres: ["Epic", "Gangster"], genres: [] });
     expect(fields.find((field) => field.id === "language")?.options?.map((option) => option.value)).toEqual(["English", "French"]);
     expect(fields.find((field) => field.id === "subgenres")?.options?.map((option) => option.label)).toEqual(["Epic", "Gangster"]);
-    expect(MOVIE_FIELDS.map((field) => field.id)).toEqual(["title", "year", "popularity", "users", "critics", "finalScore", "language", "subgenres", "oscarWins", "oscarNominations"]);
+    expect(MOVIE_FIELDS.map((field) => field.id)).toEqual(["title", "genre", "year", "popularity", "users", "critics", "finalScore", "language", "subgenres", "oscarWins", "oscarNominations"]);
   });
   test("describes membership rules with their values", () => {
-    expect(describeQuery(group("and", rule("subgenres", "has_any_of", ["Epic", "Gangster"])))).toBe("Subgenre has any of Epic and Gangster");
+    expect(describeQuery(group("and", rule("subgenres", "has_any_of", ["Epic", "Gangster"])))).toBe("Subgenre has any of Epic, Gangster");
   });
 });
 
 describe("filter vocabulary", () => {
-  test("collects distinct languages and subgenres in alphabetical order", () => {
+  test("collects distinct languages, subgenres, and genres in alphabetical order", () => {
+    const signals = { directors: [], writers: [], streamOn: [], free: false };
     const vocabulary = filterVocabulary([
-      { language: "Japanese", subgenres: ["Gangster", "Epic"] },
-      { language: null, subgenres: ["Epic", "Anime"] },
+      { language: "Japanese", subgenres: ["Gangster", "Epic"], signals: { ...signals, genres: ["Thriller", "Drama"] } },
+      { language: null, subgenres: ["Epic", "Anime"], signals: { ...signals, genres: ["Drama"] } },
       { language: "English", subgenres: [] },
     ]);
-    expect(vocabulary).toEqual({ languages: ["English", "Japanese"], subgenres: ["Anime", "Epic", "Gangster"] });
+    expect(vocabulary).toEqual({ languages: ["English", "Japanese"], subgenres: ["Anime", "Epic", "Gangster"], genres: ["Drama", "Thriller"] });
   });
 });

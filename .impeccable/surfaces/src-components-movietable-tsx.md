@@ -2,44 +2,48 @@
 version: 1
 slug: "src-components-movietable-tsx"
 primary_target: "src/components/MovieTable.tsx"
-related_targets: ["src/components/movie-grid/movie-grid.tsx"]
+related_targets: ["src/components/movie-grid/movie-grid.tsx","src/components/movie-grid/detail-row.tsx"]
 ---
 
-# Surface brief: MovieTable table card (grouped grid)
+# Surface brief: MovieTable table card (grouped grid with credits and streaming)
 
 ## Scope and mode
 
-Route `/`, the table card rendered by `src/components/MovieTable.tsx`. Mode: Operate. Replaces the flat paginated grid (`examples/c-filters-10.tsx`) with a grouped, virtual-scrolled grid built on the installed REUI grouping block and `DataGridTableVirtual`. Page header, search field, score-bias slider, advanced filter chips and inline editor, footnote, and the "not live" footer are untouched.
+Route `/`, the table card rendered by `src/components/MovieTable.tsx` and `src/components/movie-grid/*`. Mode: Operate. Second extension of the grouped grid: credits (director, writers, cast) and streaming availability from the Supabase catalogue join the ledger. Page header, slider, band mechanics, sticky band, advanced editor, taste controls, sign-in, and the footer credit are untouched.
 
 ## Audience, job, proof
 
-Public film-picker arriving cold, no account. Task: scan films in bands of Final Score, open a band, pick a film, click through to Metacritic. Proof is the product's own mechanism: moving the score-bias slider re-forms the bands live, and counts and averages update with it. Real data only: 3,963 films, 390 on default filters.
+Same public film-picker, with a sharper question: "can I watch this tonight, and who made it?" Availability becomes the second scan signal after Final Score; credits give the portfolio audience visible data depth. Real data only: 1,506 films, 24,397 people, 33,112 credits (median 1 director, 2 writers, 20 cast), 24 genres, 159 providers, 12,221 US offers; 1,041 films streamable on a subscription, 1,446 with any offer, 60 with none; synopsis 37 to 2,060 characters.
 
 ## Confirmed decisions (2026-09-12)
 
-- Production-ready; old grid deleted.
-- Group by Final Score band by default (90+, 80–89, 70–79, 60–69, under 60, Unscored last); switchable to Decade (2020s … 1910s) and Popularity tier (10,000+, 2,500+, 1,000+, 300+, under 300, no data) via a 28px "Group by" select in a new toolbar band under the card header.
-- Bands keep fixed order; column sort applies within each band.
-- Group row carries count of films and average Final Score. Display popover keeps density (compact / comfortable) and a context line toggle. One outline "Expand groups / Collapse groups" button.
-- Virtual scroll, no pagination. **Sticky band rows** while scrolling a band's films: the user chose to extend the renderer.
-- No stage dots, no signal colors on bands, no icon tiles, avatars, rings, toasts, or a primary button on this surface.
+- Watch column after Title, before the numbers: up to four 16px JustWatch provider icons, grayscale at rest and full color on row hover, then "+n"; subscription only; free-with-ads shows one outline "Free" badge; no offer shows nothing; a failed icon falls back to a one-letter outline chip.
+- Film rows open on whole-row click (title link and Rate controls excepted) and through a 24px ghost disclosure at the end of the Title cell. Multiple films may be open.
+- Detail band beneath an open film: full table width, Paper Tint 20%, card side padding, two columns from 768px. Left: synopsis clamped to three lines with "More" opening the REUI c-popover-9 pattern (inline dashed-underline trigger, compact popover with a bordered header line) holding the full text; genres as outline badges; Directed by, Written by, Cast (top 8 with character in Faded Ink), names linking to metacritic.com/person/<slug>/, then "+n more on Metacritic". Right, "Where to watch": Stream, Free, Rent, Buy lists, each row an outbound link with mono icon, provider name, quality and USD price in Faded Ink tabular; "All options on JustWatch" closes it. Skeleton while loading; inline error with Retry; empty copy "Not streaming in the US right now".
+- My services popover in the toolbar band beside Group by: searchable provider checklist ordered by film count, a switch "Only films I can stream", a checkbox "Count free with ads"; remembered in localStorage on this device; count badge on the trigger; bands re-form when it filters.
+- Group by Director: directors with two or more films in the current view ordered by count then name; the rest gather in a closing "Other directors" band; co-directed films sit under the first-billed director.
+- Genre joins the advanced filter fields as a multiselect ("has any of").
+- Search matches titles, directors, and writers; cast is not searched. The context line under a title starts with the director.
+- Data: directors, writers, genres, and subscription provider ids ship inline with each film through the catalogue load; cast, characters, full synopsis, and all offers come from a per-film API route with daily revalidation, fetched when a row opens and cached in memory.
+- The view is shareable as a link (added mid-build at the user's request, with nuqs): the filter tree (`q`), search, grouping override (`group`), and score bias (`bias`) live in the URL with defaults cleared; density, the context line, open films, and My services stay on the device. The page renders per request so a shared link serves the right view server-side.
 
 ## Direction contract
 
-THESIS: The ledger groups itself by the visitor's own score. A flat top-N list is the category default; this surface refuses it and shows the whole catalogue as bands that reshuffle when the slider moves, so the mechanism is visible instead of implied.
+THESIS: The ledger answers "who made it and where can I watch it" without leaving the row. The category default is a detail page per film; this surface refuses it and opens the film in place, inside its band, with availability visible before the click.
 
-OWN-WORLD: The Critics' Ledger as recorded in DESIGN.md: Playfair Display everywhere, square surfaces, hairline rules, Paper Tint bands, Marquee Crimson only on the Final Score chip, slider fill, checked switch, active sort arrow. Group rows are 44px Paper Tint at 45% with a chevron, band label, outline count badge, and an average Final Score in Faded Ink. Film rows are the existing six columns, 36px compact, with an optional Caption context line.
+OWN-WORLD: The Critics' Ledger unchanged: Playfair Display, square surfaces, hairlines, Paper Tint bands, crimson only on the score chip, slider, checked switch, and active sort arrow. Provider logos are the one new foreign element and enter mono: grayscale at rest, color on hover, 16px. The detail band is a quieter Paper Tint (20%) than band rows (45%), typeset as two columns of Body and Caption with outline badges and Ink links carrying the film-title arrow treatment.
 
-STORY: The visitor sees the catalogue already sorted into "90+", "80–89", and so on for their current bias. They drag the slider and watch films change bands. They open a band, scan titles and figures, and click through to Metacritic.
+STORY: The visitor scans bands, notices mono marks in the Watch column, opens a row, reads the synopsis, sees who directed and wrote it and the top cast, and clicks straight to the provider or to Metacritic. With My services set, the table shows only what they can stream tonight.
 
-FIRST VIEWPORT: Unchanged page header, search, and slider above the card. Card header: "Your movie list", live count, Advanced filter, Advanced editor. New toolbar band beneath: "Group by" select left; Display popover and Expand/Collapse groups right. Then the grid with a sticky column header, the first band row "90+" pinned as its films scroll, and roughly twelve film rows visible inside the 640px cap. No primary button: the surface's action is the film title link.
+FIRST VIEWPORT: Header, controls, card header, and toolbar band as before, with My services added between Group by and the right-hand buttons. The grid gains a 120px Watch column after Title (after Rate when the taste column is present). The first band "90+" is open with mono provider marks on most rows; one film may be opened by the visitor into a detail band spanning the full grid width.
 
-FORM: Extension of an existing surface inside an established world; first and only structure on the list (card header → toolbar band → grouped virtual grid). No concept-seed run; seed key: none.
+FORM: Extension of an existing surface inside an established world; single structure (card header → toolbar band → grouped virtual grid with expandable film rows). No concept-seed run; seed key: none.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Open decisions for the builder
 
-- Sticky bands are implemented as a composed overlay driven by the virtualizer's scroll state, not by editing the REUI file, so registry updates do not overwrite it.
-- Sorting is manual: films are sorted by the table's sorting state before grouping so bands never reorder.
-- Density and group-by are in-memory only; no persistence.
+- The detail band renders as a synthetic sub-row of the film row inside the virtualized grid; its content lives in the first cell and spans the table width, so the virtualizer measures the real height.
+- Provider icons hotlink from images.justwatch.com with a plain img, lazy loading, and no referrer.
+- "Other directors" threshold is two films; cast cutoff is eight.
+- Reset view closes open films and resets grouping, but keeps My services (a device preference).

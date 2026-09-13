@@ -1,7 +1,7 @@
 import type { SortingState } from "@tanstack/react-table";
 import type { ScoredMovie } from "@/lib/movies";
 
-export type GroupKey = "score" | "forYou" | "decade" | "popularity" | "language" | "oscars";
+export type GroupKey = "score" | "forYou" | "decade" | "director" | "popularity" | "language" | "oscars";
 
 export interface GroupKeyOption {
   value: GroupKey;
@@ -12,6 +12,7 @@ export const GROUP_KEY_OPTIONS: GroupKeyOption[] = [
   { value: "score", label: "Final Score band" },
   { value: "forYou", label: "For you band" },
   { value: "decade", label: "Decade" },
+  { value: "director", label: "Director" },
   { value: "popularity", label: "Popularity tier" },
   { value: "language", label: "Language" },
   { value: "oscars", label: "Oscars" },
@@ -81,6 +82,43 @@ function oscarSlot(wins: number | null, nominations: number | null): GroupSlot {
   return { id: "oscars-none", label: "No Oscar record", order: 3 };
 }
 
+/** Directors with fewer films than this in the current view share one closing band. */
+export const DIRECTOR_BAND_MIN_FILMS = 2;
+const OTHER_DIRECTORS = { id: "director-other", label: "Other directors" };
+
+function directorSlot(movie: ScoredMovie): GroupSlot {
+  const lead = movie.signals?.directors[0];
+  return lead ? { id: `director-${lead.slug}`, label: lead.name, order: 0 } : { ...OTHER_DIRECTORS, order: Number.POSITIVE_INFINITY };
+}
+
+/**
+ * Bands by first-billed director, most films first, then name. Directors below
+ * the threshold and films without a director close the list as one band.
+ */
+function groupByDirector(movies: ScoredMovie[]): MovieGroup[] {
+  const byDirector = new Map<string, { name: string; movies: ScoredMovie[] }>();
+  for (const movie of movies) {
+    const lead = movie.signals?.directors[0];
+    if (!lead) continue;
+    const entry = byDirector.get(lead.slug) ?? { name: lead.name, movies: [] };
+    entry.movies.push(movie);
+    byDirector.set(lead.slug, entry);
+  }
+  const banded = [...byDirector.entries()]
+    .filter(([, entry]) => entry.movies.length >= DIRECTOR_BAND_MIN_FILMS)
+    .sort(([, a], [, b]) => b.movies.length - a.movies.length || a.name.localeCompare(b.name, "en-US"));
+  const bandedFilms = new Set(banded.flatMap(([, entry]) => entry.movies));
+  const rest = movies.filter((movie) => !bandedFilms.has(movie));
+  const groups: MovieGroup[] = banded.map(([slug, entry]) => ({
+    id: `director-${slug}`,
+    label: entry.name,
+    movies: entry.movies,
+    averageFinalScore: averageFinalScore(entry.movies),
+  }));
+  if (rest.length > 0) groups.push({ ...OTHER_DIRECTORS, movies: rest, averageFinalScore: averageFinalScore(rest) });
+  return groups;
+}
+
 function decadeSlot(year: number): GroupSlot {
   const decade = Math.floor(year / 10) * 10;
   return { id: `decade-${decade}`, label: `${decade}s`, order: -decade };
@@ -94,6 +132,8 @@ export function groupSlotFor(movie: ScoredMovie, key: GroupKey): GroupSlot {
       return bucketSlot(movie.forYou, FOR_YOU_BANDS, NOT_RANKED);
     case "decade":
       return decadeSlot(movie.year);
+    case "director":
+      return directorSlot(movie);
     case "popularity":
       return bucketSlot(movie.popularity, POPULARITY_TIERS, NO_POPULARITY);
     case "language":
@@ -116,6 +156,7 @@ export function averageFinalScore(movies: Pick<ScoredMovie, "finalScore">[]): nu
  * Empty groups are omitted; group order never depends on sort direction.
  */
 export function groupMovies(movies: ScoredMovie[], key: GroupKey): MovieGroup[] {
+  if (key === "director") return groupByDirector(movies);
   const slots = new Map<string, GroupSlot & { movies: ScoredMovie[] }>();
   for (const movie of movies) {
     const slot = groupSlotFor(movie, key);

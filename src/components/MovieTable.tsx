@@ -1,11 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { ExpandedState, OnChangeFn, SortingState } from "@tanstack/react-table";
+import type { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { IconChevronDown, IconRefresh, IconSearch, IconX } from "@tabler/icons-react";
 import { AdvancedMovieFilters } from "@/components/examples/c-filters-11";
 import type { Density } from "@/components/movie-grid/display-popover";
 import { MovieGrid } from "@/components/movie-grid/movie-grid";
+import type { ProviderUsage } from "@/components/movie-grid/services-popover";
+import { canStream, useMyServices } from "@/components/movie-grid/use-my-services";
+import { clampBias, useViewParams } from "@/components/movie-grid/view-params";
+import type { ProviderIndex } from "@/components/movie-grid/watch-column";
 import type { FilterQuery } from "@/components/reui/filters/filters-types";
 import { countFilterRules } from "@/components/reui/filters/filters-query";
 import type { TasteColumnOptions } from "@/components/taste/taste-columns";
@@ -17,14 +21,15 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
 import { Slider } from "@/components/ui/slider";
-import { createMovieFields, DEFAULT_QUERY, emptyQuery, filterVocabulary, matchesQuery } from "@/lib/movie-filters";
+import type { Provider } from "@/lib/catalogue";
+import { createMovieFields, emptyQuery, filterVocabulary, matchesQuery } from "@/lib/movie-filters";
 import { DEFAULT_GROUP_KEY, type GroupKey } from "@/lib/movie-groups";
-import { DEFAULT_CRITIC_WEIGHT, matchesSearch, scoreMovies, type Movie } from "@/lib/movies";
+import { matchesSearch, scoreMovies, type Movie } from "@/lib/movies";
 
 const DEFAULT_SORT: SortingState = [{ id: "finalScore", desc: true }];
 const FOR_YOU_SORT: SortingState = [{ id: "forYou", desc: true }];
 const DEFAULT_DENSITY: Density = "compact";
-const ALL_EXPANDED: ExpandedState = true;
+const NONE: ReadonlySet<string> = new Set();
 
 /** An explicit choice wins unless it points at For you while no profile is active; otherwise the profile sets the default. */
 function resolveSorting(override: SortingState | null, tasteActive: boolean): SortingState {
@@ -37,21 +42,43 @@ function resolveGroupKey(override: GroupKey | null, tasteActive: boolean): Group
   return tasteActive ? "forYou" : DEFAULT_GROUP_KEY;
 }
 
-export default function MovieTable({ movies }: { movies: Movie[] }) {
-  const [query, setQuery] = useState<FilterQuery>(DEFAULT_QUERY);
-  const [search, setSearch] = useState("");
-  const [criticWeight, setCriticWeight] = useState(DEFAULT_CRITIC_WEIGHT);
+/** Providers that carry at least one subscription film, most films first. */
+function rankProviders(providers: Provider[], movies: Movie[]): ProviderUsage[] {
+  const films = new Map<number, number>();
+  for (const movie of movies) for (const id of movie.signals?.streamOn ?? []) films.set(id, (films.get(id) ?? 0) + 1);
+  return providers
+    .flatMap((provider) => (films.has(provider.id) ? [{ ...provider, films: films.get(provider.id)! }] : []))
+    .sort((a, b) => b.films - a.films || a.name.localeCompare(b.name, "en-US"));
+}
+
+export default function MovieTable({ movies, providers }: { movies: Movie[]; providers: Provider[] }) {
+  const [view, setView] = useViewParams();
+  const query = view.q;
+  const search = view.search;
+  const criticWeight = clampBias(view.bias);
+  const groupKeyOverride = view.group;
+  const setQuery = (next: FilterQuery) => void setView({ q: next });
+  const setSearch = (next: string) => void setView({ search: next });
+  const setCriticWeight = (next: number) => void setView({ bias: next });
+  const setGroupKeyOverride = (next: GroupKey | null) => void setView({ group: next });
   const [sortingOverride, setSortingOverride] = useState<SortingState | null>(null);
-  const [groupKeyOverride, setGroupKeyOverride] = useState<GroupKey | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [density, setDensity] = useState<Density>(DEFAULT_DENSITY);
   const [showContext, setShowContext] = useState(false);
-  const [expanded, setExpanded] = useState<ExpandedState>(ALL_EXPANDED);
+  const [collapsedBands, setCollapsedBands] = useState<ReadonlySet<string>>(NONE);
+  const [openFilms, setOpenFilms] = useState<ReadonlySet<string>>(NONE);
+  const [services, setServices] = useMyServices();
+
+  const fields = useMemo(() => createMovieFields(filterVocabulary(movies)), [movies]);
+  const providerIndex = useMemo<ProviderIndex>(() => new Map(providers.map((provider) => [provider.id, provider])), [providers]);
+  const providerUsage = useMemo(() => rankProviders(providers, movies), [providers, movies]);
 
   const scored = useMemo(() => scoreMovies(movies, criticWeight), [movies, criticWeight]);
-  const filterFields = useMemo(() => createMovieFields(filterVocabulary(movies)), [movies]);
   const taste = useTaste(scored);
-  const rows = useMemo(() => taste.ranked.filter((movie) => matchesQuery(movie, query) && matchesSearch(movie, search)), [taste.ranked, query, search]);
+  const rows = useMemo(
+    () => taste.ranked.filter((movie) => matchesQuery(movie, query) && matchesSearch(movie, search) && (!services.onlyMine || canStream(movie.signals, services))),
+    [taste.ranked, query, search, services],
+  );
   const sorting = resolveSorting(sortingOverride, taste.active);
   const groupKey = resolveGroupKey(groupKeyOverride, taste.active);
   const tasteColumns = useMemo<TasteColumnOptions>(
@@ -60,17 +87,15 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
   );
 
   const applySorting: OnChangeFn<SortingState> = (updater) => setSortingOverride(typeof updater === "function" ? updater(sorting) : updater);
-  const applyExpanded: OnChangeFn<ExpandedState> = (next) => setExpanded(next);
-  const changeGroupKey = (key: GroupKey) => { setGroupKeyOverride(key); setExpanded(ALL_EXPANDED); };
+  // Picking the default key clears the URL param instead of pinning it; with a taste profile the default is For you, so score stays explicit.
+  const changeGroupKey = (key: GroupKey) => { setGroupKeyOverride(key === DEFAULT_GROUP_KEY && !taste.active ? null : key); setCollapsedBands(NONE); };
   const resetView = () => {
-    setQuery(DEFAULT_QUERY);
-    setSearch("");
-    setCriticWeight(DEFAULT_CRITIC_WEIGHT);
+    void setView({ q: null, search: null, bias: null, group: null });
     setSortingOverride(null);
-    setGroupKeyOverride(null);
     setDensity(DEFAULT_DENSITY);
     setShowContext(false);
-    setExpanded(ALL_EXPANDED);
+    setCollapsedBands(NONE);
+    setOpenFilms(NONE);
     taste.setOpen(false);
   };
 
@@ -81,7 +106,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
           <Field className="md:max-w-md">
             <FieldLabel htmlFor="movie-search">Find a film</FieldLabel>
             <InputGroup>
-              <InputGroupInput id="movie-search" placeholder="Search titles, years, scores…" value={search}
+              <InputGroupInput id="movie-search" placeholder="Search titles, directors, writers…" value={search}
                 onChange={(event) => setSearch(event.target.value)} />
               <InputGroupAddon><IconSearch aria-hidden="true" /></InputGroupAddon>
               {search && <InputGroupAddon align="inline-end"><InputGroupButton aria-label="Clear search" size="icon-sm" onClick={() => setSearch("")}><IconX aria-hidden="true" /></InputGroupButton></InputGroupAddon>}
@@ -104,10 +129,13 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
       </section>
       <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
         <MovieGrid
-          movies={rows} totalCount={movies.length} query={query} onQueryChange={setQuery}
-          sorting={sorting} onSortingChange={applySorting} expanded={expanded} onExpandedChange={applyExpanded}
+          movies={rows} totalCount={movies.length} fields={fields} query={query} onQueryChange={setQuery}
+          sorting={sorting} onSortingChange={applySorting}
+          collapsedBands={collapsedBands} onCollapsedBandsChange={setCollapsedBands} openFilms={openFilms} onOpenFilmsChange={setOpenFilms}
           groupKey={groupKey} onGroupKeyChange={changeGroupKey} density={density} onDensityChange={setDensity}
-          showContext={showContext} onShowContextChange={setShowContext} taste={tasteColumns} fields={filterFields}
+          showContext={showContext} onShowContextChange={setShowContext}
+          providers={providerIndex} providerUsage={providerUsage} services={services} onServicesChange={setServices}
+          taste={tasteColumns}
           actions={
             <CollapsibleTrigger render={<Button variant="outline" />}>
               Advanced editor
@@ -120,7 +148,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
                 <TastePanel state={taste.state} retry={taste.retry} hand={taste.hand} handTotal={taste.handTotal} verdicts={taste.verdicts}
                   rate={taste.rate} dealAnother={taste.dealAnother} rated={taste.rated} positive={taste.positive} />
               )}
-              <CollapsibleContent><AdvancedMovieFilters query={query} onQueryChange={setQuery} fields={filterFields} /></CollapsibleContent>
+              <CollapsibleContent><AdvancedMovieFilters fields={fields} query={query} onQueryChange={setQuery} /></CollapsibleContent>
             </>
           }
         />

@@ -15,6 +15,24 @@ export interface RawMovie {
   oscar_nominations?: number | null;
 }
 
+export interface Person {
+  /** Metacritic person slug, the path segment of metacritic.com/person/<slug>/. */
+  slug: string;
+  name: string;
+}
+
+/** Facts every film carries inline so the table can search, group, filter, and mark availability without a fetch. */
+export interface FilmSignals {
+  /** Billing order. */
+  directors: Person[];
+  writers: Person[];
+  genres: string[];
+  /** JustWatch provider ids carrying a subscription (flatrate) offer in the US. */
+  streamOn: number[];
+  /** True when a free or ad-supported offer exists. */
+  free: boolean;
+}
+
 export interface Movie {
   slug: string;
   title: string;
@@ -28,6 +46,8 @@ export interface Movie {
   /** Academy Award counts from Wikidata; null when the film has no IMDb match. Indicative, not complete. */
   oscarWins: number | null;
   oscarNominations: number | null;
+  /** Absent when the catalogue had no credits or offers for the film. */
+  signals?: FilmSignals;
 }
 
 export interface ScoredMovie extends Movie {
@@ -90,6 +110,7 @@ export function getMovieBounds(movies: Movie[]) {
 export function matchesSearch(movie: ScoredMovie, search: string): boolean {
   const term = search.trim().toLocaleLowerCase("en-US");
   if (!term) return true;
-  return [movie.title, movie.year, movie.popularity, movie.users, movie.critics, movie.finalScore, movie.forYou]
+  const people = [...(movie.signals?.directors ?? []), ...(movie.signals?.writers ?? [])].map((person) => person.name);
+  return [movie.title, movie.year, movie.popularity, movie.users, movie.critics, movie.finalScore, movie.forYou, ...people]
     .some((value) => value !== null && String(value).toLocaleLowerCase("en-US").includes(term));
 }

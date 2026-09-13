@@ -51,7 +51,11 @@ const oscarFields = [
 export interface FilterVocabulary {
   languages: string[];
   subgenres: string[];
+  /** Metacritic genres, from each film's inline signals. */
+  genres: string[];
 }
+
+export const GENRE_FIELD_ID = "genre";
 
 function numberField(id: string, label: string, description: string, defaultOperator: string): FilterField {
   return {
@@ -73,9 +77,19 @@ function numberField(id: string, label: string, description: string, defaultOper
 }
 
 /** Filter fields, with option lists filled from the catalogue when a vocabulary is given. */
-export function createMovieFields(vocabulary: FilterVocabulary = { languages: [], subgenres: [] }): FilterField[] {
+export function createMovieFields(vocabulary: FilterVocabulary = { languages: [], subgenres: [], genres: [] }): FilterField[] {
   return [
     { id: "title", label: "Title", type: "text", operators: operators.text, defaultOperator: "contains", placeholder: "Search a movie title…" },
+    {
+      id: GENRE_FIELD_ID,
+      label: "Genre",
+      description: "Metacritic genres",
+      type: "multiselect",
+      operators: operators.multiselect,
+      defaultOperator: "has_any_of",
+      options: vocabulary.genres.map((value) => ({ value, label: value })),
+      placeholder: "Search genres…",
+    },
     ...numericFields.map(([id, label, description]) => numberField(id, label, description, id === "year" || id === "popularity" ? "between" : "gte")),
     {
       id: "language",
@@ -104,15 +118,17 @@ export function createMovieFields(vocabulary: FilterVocabulary = { languages: []
 export const MOVIE_FIELDS: FilterField[] = createMovieFields();
 
 /** Distinct languages and subgenres present in the catalogue, alphabetical. */
-export function filterVocabulary(movies: Pick<ScoredMovie, "language" | "subgenres">[]): FilterVocabulary {
+export function filterVocabulary(movies: Pick<ScoredMovie, "language" | "subgenres" | "signals">[]): FilterVocabulary {
   const languages = new Set<string>();
   const subgenres = new Set<string>();
+  const genres = new Set<string>();
   for (const movie of movies) {
     if (movie.language) languages.add(movie.language);
     for (const subgenre of movie.subgenres) subgenres.add(subgenre);
+    for (const genre of movie.signals?.genres ?? []) genres.add(genre);
   }
   const sorted = (values: Set<string>) => [...values].sort((a, b) => a.localeCompare(b, "en-US"));
-  return { languages: sorted(languages), subgenres: sorted(subgenres) };
+  return { languages: sorted(languages), subgenres: sorted(subgenres), genres: sorted(genres) };
 }
 
 export const DEFAULT_QUERY: FilterQuery = {
@@ -177,7 +193,7 @@ function evaluateMembership(actual: unknown, operator: string, chosen: string[])
 function evaluateRule(movie: ScoredMovie, rule: FilterRule): boolean | undefined {
   if (!isCompleteRule(rule)) return undefined;
   const field = fieldForRule(rule);
-  const actual = movie[rule.path[0] as keyof ScoredMovie];
+  const actual = rule.path[0] === GENRE_FIELD_ID ? (movie.signals?.genres ?? []) : movie[rule.path[0] as keyof ScoredMovie];
   const missing = actual === null || actual === undefined || actual === "" || (Array.isArray(actual) && actual.length === 0);
   let result = false;
   if (rule.operator === "empty") result = missing;
@@ -224,6 +240,35 @@ function evaluateNode(movie: ScoredMovie, node: FilterNode): boolean | undefined
   return node.combinator === "and" ? results.every(Boolean) : results.some(Boolean);
 }
 
+const COMBINATORS = new Set(["and", "or"]);
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function parseFilterNode(input: unknown): FilterNode | null {
+  if (!isRecord(input) || typeof input.id !== "string") return null;
+  if (input.type === "group") {
+    if (typeof input.combinator !== "string" || !COMBINATORS.has(input.combinator) || !Array.isArray(input.rules)) return null;
+    const rules = input.rules.map(parseFilterNode);
+    if (rules.some((rule) => rule === null)) return null;
+    return { id: input.id, type: "group", combinator: input.combinator as "and" | "or", rules: rules as FilterNode[] };
+  }
+  if (input.type === "rule") {
+    if (!Array.isArray(input.path) || !input.path.every((segment) => typeof segment === "string") || typeof input.operator !== "string") return null;
+    const rule: FilterRule = { id: input.id, type: "rule", path: input.path as string[], operator: input.operator, value: input.value };
+    if (input.negated === true) rule.negated = true;
+    return rule;
+  }
+  return null;
+}
+
+/** A query tree from untrusted JSON (a URL, storage); null when the shape is wrong, so a bad link falls back to the default view. */
+export function parseFilterQuery(input: unknown): FilterQuery | null {
+  const node = parseFilterNode(input);
+  return node && node.type === "group" ? node : null;
+}
+
 export function matchesQuery(movie: ScoredMovie, query: FilterQuery): boolean {
   return evaluateNode(movie, query) ?? true;
 }
@@ -242,7 +287,8 @@ export function describeQuery(node: FilterNode, depth = 0): string {
   let text = `${label} ${operator}`;
   if (node.operator !== "empty" && node.operator !== "not_empty") {
     const values = Array.isArray(node.value) ? node.value : [node.value];
-    text += ` ${values.map((value) => field?.type === "text" ? JSON.stringify(value) : String(value)).join(" and ")}`;
+    const separator = field?.type === "multiselect" || field?.type === "select" ? ", " : " and ";
+    text += ` ${values.map((value) => field?.type === "text" ? JSON.stringify(value) : String(value)).join(separator)}`;
   }
   return node.negated ? `NOT (${text})` : text;
 }

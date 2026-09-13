@@ -1,4 +1,5 @@
-import type { RawMovie } from "@/lib/movies";
+import { awardLines, imdbUrl, type AwardRow, type AwardSummary } from "@/lib/film-detail";
+import type { FilmSignals, Person, RawMovie } from "@/lib/movies";
 import type { TasteCatalogue, TasteFilm } from "@/lib/taste";
 
 export interface ImdbRow {
@@ -115,13 +116,11 @@ export async function pageAll<T>(
   }
 }
 
-async function fetchRows<T>(select: string, afterSlug: string, limit: number): Promise<T[]> {
+/** One PostgREST read of `table` with the given query parameters. */
+async function fetchTable<T>(table: string, params: Record<string, string>): Promise<T[]> {
   const key = requireEnv("SUPABASE_ANON_KEY");
-  const url = new URL(`${requireEnv("SUPABASE_URL")}/rest/v1/movies`);
-  url.searchParams.set("select", select);
-  url.searchParams.set("slug", `gt.${afterSlug}`);
-  url.searchParams.set("order", "slug");
-  url.searchParams.set("limit", String(limit));
+  const url = new URL(`${requireEnv("SUPABASE_URL")}/rest/v1/${table}`);
+  for (const [name, value] of Object.entries(params)) url.searchParams.set(name, value);
   const response = await fetchWithRetry(fetch, url, {
     headers: { apikey: key, Authorization: `Bearer ${key}` },
     next: { revalidate: REVALIDATE_SECONDS },
@@ -129,11 +128,15 @@ async function fetchRows<T>(select: string, afterSlug: string, limit: number): P
   if (!response.ok) {
     const body = (await response.text()).replace(/\s+/g, " ").slice(0, 200);
     throw new Error(
-      `Supabase at ${url.host} returned ${response.status} ${response.statusText} for the movies table` +
+      `Supabase at ${url.host} returned ${response.status} ${response.statusText} for the ${table} table` +
         `${body ? ` (${body})` : ""}. Check SUPABASE_URL and that the anon role can read the catalogue.`,
     );
   }
   return (await response.json()) as T[];
+}
+
+async function fetchRows<T>(select: string, afterSlug: string, limit: number, extra: Record<string, string> = {}): Promise<T[]> {
+  return fetchTable<T>("movies", { select, slug: `gt.${afterSlug}`, order: "slug", limit: String(limit), ...extra });
 }
 
 /** Turns a Wikidata film-genre label into a sentence-case subgenre: "crime drama film" becomes "Crime drama". */
@@ -259,4 +262,174 @@ export async function fetchCatalogue(): Promise<RawMovie[]> {
 export async function fetchTasteData(): Promise<TasteCatalogue> {
   const rows = await pageAll((afterSlug, limit) => fetchRows<TasteRow>(TASTE_SELECT, afterSlug, limit), (row) => row.slug, TASTE_PAGE_SIZE);
   return toTasteCatalogue(rows);
+}
+
+/** Streaming, rental, and purchase services, keyed on JustWatch provider ids. */
+export interface Provider {
+  id: number;
+  name: string;
+  icon_url: string | null;
+}
+
+export type Monetization = "flatrate" | "free" | "ads" | "rent" | "buy";
+
+/** A `movies` row with the light embeds every film carries inline. */
+export interface SignalRow {
+  slug: string;
+  movie_genres: { genre_name: string }[];
+  credits: CreditRow[];
+  streaming_offers: { provider_id: number; monetization: Monetization }[];
+}
+
+const SIGNAL_SELECT =
+  "slug,movie_genres(genre_name),credits(role,billing,person_slug,people(name)),streaming_offers(provider_id,monetization)";
+const SIGNAL_PAGE_SIZE = 500;
+const SIGNAL_PARAMS = {
+  "credits.role": "in.(director,writer)",
+  "credits.order": "billing",
+  "streaming_offers.monetization": "in.(flatrate,free,ads)",
+};
+
+function people(credits: CreditRow[], role: CreditRow["role"]): Person[] {
+  return credits
+    .filter((credit) => credit.role === role)
+    .sort((a, b) => a.billing - b.billing)
+    .map((credit) => ({ slug: credit.person_slug, name: credit.people.name }));
+}
+
+/** Folds signal rows into a slug-keyed map; subscription providers are deduplicated and sorted by id. */
+export function toSignals(rows: SignalRow[]): Record<string, FilmSignals> {
+  const signals: Record<string, FilmSignals> = {};
+  for (const row of rows) {
+    const streamOn = [...new Set(row.streaming_offers.filter((offer) => offer.monetization === "flatrate").map((offer) => offer.provider_id))].sort((a, b) => a - b);
+    signals[row.slug] = {
+      directors: people(row.credits, "director"),
+      writers: people(row.credits, "writer"),
+      genres: row.movie_genres.map((entry) => entry.genre_name),
+      streamOn,
+      free: row.streaming_offers.some((offer) => offer.monetization === "free" || offer.monetization === "ads"),
+    };
+  }
+  return signals;
+}
+
+/** Directors, writers, genres, and subscription availability for every film, cached for a day. */
+export async function fetchSignals(): Promise<Record<string, FilmSignals>> {
+  const rows = await pageAll(
+    (afterSlug, limit) => fetchRows<SignalRow>(SIGNAL_SELECT, afterSlug, limit, SIGNAL_PARAMS),
+    (row) => row.slug,
+    SIGNAL_PAGE_SIZE,
+  );
+  return toSignals(rows);
+}
+
+/** Every provider the offers table refers to, cached for a day. */
+export async function fetchProviders(): Promise<Provider[]> {
+  return fetchTable<Provider>("providers", { select: "id,name,icon_url", order: "id" });
+}
+
+export interface OfferRow {
+  monetization: Monetization;
+  quality: string;
+  url: string;
+  /** PostgREST returns numerics as strings. */
+  price: number | string | null;
+  currency_code: string | null;
+  providers: Provider;
+}
+
+/** A `movies` row with everything the detail band shows. */
+export interface DetailRow {
+  slug: string;
+  summary: string | null;
+  justwatch_url: string | null;
+  movie_imdb: { imdb_id: string } | null;
+  movie_genres: { genre_name: string }[];
+  credits: (CreditRow & { character: string | null })[];
+  streaming_offers: OfferRow[];
+}
+
+export interface FilmOffer {
+  providerId: number;
+  provider: string;
+  iconUrl: string | null;
+  monetization: Monetization;
+  quality: string;
+  url: string;
+  price: number | null;
+  currency: string | null;
+}
+
+export interface CastMember extends Person {
+  character: string | null;
+}
+
+export interface FilmDetail {
+  slug: string;
+  summary: string | null;
+  justwatchUrl: string | null;
+  imdbUrl: string | null;
+  genres: string[];
+  directors: Person[];
+  writers: Person[];
+  /** Top-billed cast, at most `CAST_LIMIT`. */
+  cast: CastMember[];
+  castTotal: number;
+  offers: FilmOffer[];
+  /** Oscar categories from `movie_awards`: wins first, then up to five nominations and a count of the rest. */
+  awards: AwardSummary;
+}
+
+const DETAIL_SELECT =
+  "slug,summary,justwatch_url,movie_imdb(imdb_id),movie_genres(genre_name),credits(role,billing,character,person_slug,people(name))," +
+  "streaming_offers(monetization,quality,url,price,currency_code,providers(id,name,icon_url))";
+const AWARDS_SELECT = "award_name,result,year,person_name,person_slug";
+
+const MONETIZATION_ORDER: Record<Monetization, number> = { flatrate: 0, free: 1, ads: 2, rent: 3, buy: 4 };
+
+function priceOf(offer: OfferRow): number | null {
+  if (offer.price === null) return null;
+  const value = Number(offer.price);
+  return Number.isFinite(value) ? value : null;
+}
+
+export function toFilmDetail(row: DetailRow, awards: AwardRow[] = []): FilmDetail {
+  const cast = row.credits
+    .filter((credit) => credit.role === "cast")
+    .sort((a, b) => a.billing - b.billing);
+  const offers = [...row.streaming_offers]
+    .sort((a, b) => MONETIZATION_ORDER[a.monetization] - MONETIZATION_ORDER[b.monetization] || a.providers.name.localeCompare(b.providers.name, "en-US"))
+    .map((offer) => ({
+      providerId: offer.providers.id,
+      provider: offer.providers.name,
+      iconUrl: offer.providers.icon_url,
+      monetization: offer.monetization,
+      quality: offer.quality,
+      url: offer.url,
+      price: priceOf(offer),
+      currency: offer.currency_code,
+    }));
+  return {
+    slug: row.slug,
+    summary: row.summary?.trim() || null,
+    justwatchUrl: row.justwatch_url,
+    imdbUrl: row.movie_imdb ? imdbUrl(row.movie_imdb.imdb_id) : null,
+    genres: row.movie_genres.map((entry) => entry.genre_name),
+    directors: people(row.credits, "director"),
+    writers: people(row.credits, "writer"),
+    cast: cast.slice(0, CAST_LIMIT).map((credit) => ({ slug: credit.person_slug, name: credit.people.name, character: credit.character })),
+    castTotal: cast.length,
+    offers,
+    awards: awardLines(awards),
+  };
+}
+
+/** Synopsis, credits, awards, and every US offer for one film, or null when the slug is unknown. */
+export async function fetchFilmDetail(slug: string): Promise<FilmDetail | null> {
+  const [rows, awards] = await Promise.all([
+    fetchTable<DetailRow>("movies", { select: DETAIL_SELECT, slug: `eq.${slug}`, "credits.order": "billing", limit: "1" }),
+    fetchTable<AwardRow>("movie_awards", { select: AWARDS_SELECT, movie_slug: `eq.${slug}`, order: "award_name" }),
+  ]);
+  const row = rows[0];
+  return row ? toFilmDetail(row, awards) : null;
 }

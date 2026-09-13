@@ -68,7 +68,7 @@ const PINNED_CELL =
 export function forYouColumn(taste: TasteColumnOptions, pinned = false): ColumnDef<DataGridFeatures, GridRow> {
   return {
     id: "forYou",
-    accessorFn: (row) => (isFilmRow(row) ? (row.movie.forYou ?? undefined) : (averageForYou(row.group.movies) ?? undefined)),
+    accessorFn: (row) => (isFilmRow(row) ? (row.movie.forYou ?? undefined) : row.kind === "band" ? (averageForYou(row.group.movies) ?? undefined) : undefined),
     header: ({ column }) => <DataGridColumnHeader title="For you" column={column} className="ms-auto -me-2" />,
     size: TASTE_COLUMN_SIZES.forYou,
     meta: {
@@ -76,6 +76,7 @@ export function forYouColumn(taste: TasteColumnOptions, pinned = false): ColumnD
       cellClassName: cn("text-right pe-6 motion-safe:animate-in motion-safe:fade-in duration-300", pinned && PINNED_CELL),
     },
     cell: ({ row }) => {
+      if (row.original.kind === "detail") return null;
       if (!isFilmRow(row.original)) return <BandAverageForYou movies={row.original.group.movies} />;
       const { movie } = row.original;
       return <ForYouCell value={movie.forYou} explain={() => taste.explain(movie.slug)} unavailable={taste.unavailableReason(movie)} />;

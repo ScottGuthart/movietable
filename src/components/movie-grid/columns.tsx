@@ -1,18 +1,19 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { IconArrowUpRight, IconChevronRight } from "@tabler/icons-react";
+import { IconArrowUpRight, IconChevronDown, IconChevronRight } from "@tabler/icons-react";
 import { Badge } from "@/components/reui/badge";
 import type { DataGridFeatures } from "@/components/reui/data-grid/data-grid";
 import { DataGridColumnHeader } from "@/components/reui/data-grid/data-grid-column-header";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { oscarSummary } from "@/lib/film-detail";
 import type { MovieGroup } from "@/lib/movie-groups";
 import { numberFormat, type ScoredMovie } from "@/lib/movies";
-import { isFilmRow, type GridRow } from "@/components/movie-grid/rows";
+import { FilmDetailCell } from "@/components/movie-grid/detail-row";
+import { isDetailRow, isFilmRow, type GridRow } from "@/components/movie-grid/rows";
+import { watchColumn, type ProviderIndex } from "@/components/movie-grid/watch-column";
 import { forYouColumn, rateColumn, type TasteColumnOptions } from "@/components/taste/taste-columns";
-import { FilmDetail } from "@/components/film-detail/film-detail";
-import { oscarSummary } from "@/lib/film-detail";
 
 function formatScore(value: number | null): string {
   return value === null ? "—" : String(value);
@@ -62,10 +63,10 @@ export function BandAverage({ group }: { group: MovieGroup }) {
   );
 }
 
-/** Language, the Oscar record, then subgenres (two when a record needs the room); the scores already have columns. */
+/** Director, language, the Oscar record, then subgenres (two when a record needs the room); the scores already have columns. */
 function ContextLine({ movie }: { movie: ScoredMovie }) {
   const oscars = oscarSummary(movie.oscarWins, movie.oscarNominations);
-  const parts = [movie.language ?? "—", oscars, movie.subgenres.slice(0, oscars ? 2 : 3).join(", ")].filter(Boolean);
+  const parts = [movie.signals?.directors[0]?.name, movie.language ?? "—", oscars, movie.subgenres.slice(0, oscars ? 2 : 3).join(", ")].filter(Boolean);
   const line = parts.join(" · ");
   return (
     <span className="text-muted-foreground block truncate text-xs leading-4" title={line}>
@@ -74,46 +75,65 @@ function ContextLine({ movie }: { movie: ScoredMovie }) {
   );
 }
 
-function TitleCell({ movie, showContext }: { movie: ScoredMovie; showContext: boolean }) {
+function TitleCell({ movie, showContext, expanded, onToggle }: { movie: ScoredMovie; showContext: boolean; expanded: boolean; onToggle: () => void }) {
   return (
-    <span className="flex min-w-0 flex-col">
-      <span className="flex min-w-0 items-center gap-1">
-        <a className="group order-2 inline-flex min-w-0 items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring md:order-1"
-          href={movie.link} target="_blank" rel="noopener noreferrer">
+    <span className="flex min-w-0 items-center gap-1" data-film-slug={movie.slug}>
+      <span className="flex min-w-0 flex-1 flex-col">
+        <a className="group inline-flex max-w-full items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+          href={movie.link} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()}>
           <span className="truncate">{movie.title}</span>
           <IconArrowUpRight aria-hidden="true" className="text-muted-foreground size-4 shrink-0 opacity-40 group-hover:opacity-100" />
           <span className="sr-only"> (Metacritic, opens in a new tab)</span>
         </a>
-        <span className="order-1 -ml-1.5 flex shrink-0 md:order-2 md:ml-0">
-          <FilmDetail movie={movie} />
-        </span>
+        {showContext && <ContextLine movie={movie} />}
       </span>
-      {showContext && <ContextLine movie={movie} />}
+      <Button
+        type="button"
+        size="icon-xs"
+        variant="ghost"
+        aria-expanded={expanded}
+        aria-label={expanded ? `Hide details for ${movie.title}` : `Details for ${movie.title}`}
+        className="text-muted-foreground hover:text-foreground shrink-0 opacity-50 group-hover/movie-row:opacity-100 focus-visible:opacity-100 aria-expanded:opacity-100"
+        onClick={(event) => { event.stopPropagation(); onToggle(); }}
+      >
+        <IconChevronDown aria-hidden="true" className={cn("transition-transform duration-150", expanded && "rotate-180")} />
+      </Button>
     </span>
   );
 }
 
 const numericMeta = { headerClassName: "text-right", cellClassName: "text-right" };
+/** The detail band lives in the first cell and must escape the cell's truncation. */
+const DETAIL_CELL = "[tr:has([data-detail-row])>&]:overflow-visible [tr:has([data-detail-row])>&]:whitespace-normal [tr:has([data-detail-row])>&]:align-top";
 
-export const MOVIE_COLUMN_SIZES = { year: 88, title: 340, popularity: 112, users: 96, critics: 96, finalScore: 116 } as const;
+export const MOVIE_COLUMN_SIZES = { year: 88, title: 300, popularity: 104, users: 92, critics: 92, finalScore: 116 } as const;
+
+export interface MovieColumnOptions {
+  showContext: boolean;
+  providers: ProviderIndex;
+  taste?: TasteColumnOptions;
+  pinForYou?: boolean;
+}
 
 /**
- * The ledger's columns; with `taste` a Rate column follows Title and, once a profile is active,
- * For you closes the row. `pinForYou` keeps that column in view on viewports that scroll the grid sideways.
+ * The ledger's columns: Year, Title, Watch, the figures, Final Score. With `taste`
+ * a Rate column follows Title and, once a profile is active, For you closes the row.
+ * `pinForYou` keeps that column in view on viewports that scroll the grid sideways.
  */
-export function createMovieColumns({ showContext, taste, pinForYou = false }: { showContext: boolean; taste?: TasteColumnOptions; pinForYou?: boolean }): ColumnDef<DataGridFeatures, GridRow>[] {
+export function createMovieColumns({ showContext, providers, taste, pinForYou = false }: MovieColumnOptions): ColumnDef<DataGridFeatures, GridRow>[] {
   const tasteActive = taste?.active ?? false;
   const columns: ColumnDef<DataGridFeatures, GridRow>[] = [
     {
       id: "year",
-      accessorFn: (row) => (isFilmRow(row) ? row.movie.year : row.group.label),
+      accessorFn: (row) => (isFilmRow(row) ? row.movie.year : isDetailRow(row) ? undefined : row.group.label),
       header: ({ column }) => <DataGridColumnHeader title="Year" column={column} />,
       size: MOVIE_COLUMN_SIZES.year,
-      meta: { headerClassName: "ps-6", cellClassName: "ps-6 text-muted-foreground tabular-nums" },
+      meta: { headerClassName: "ps-6", cellClassName: cn("ps-6 text-muted-foreground tabular-nums", DETAIL_CELL) },
       cell: ({ row }) => {
         if (isFilmRow(row.original)) return row.original.movie.year;
+        if (isDetailRow(row.original)) return <FilmDetailCell movie={row.original.movie} />;
         return (
-          <span data-band-row="" className="flex items-center">
+          <span data-band-row={row.original.group.id} className="flex items-center">
             <BandToggle label={row.original.group.label} expanded={row.getIsExpanded()} onToggle={row.getToggleExpandedHandler()} />
           </span>
         );
@@ -121,13 +141,18 @@ export function createMovieColumns({ showContext, taste, pinForYou = false }: { 
     },
     {
       id: "title",
-      accessorFn: (row) => (isFilmRow(row) ? row.movie.title : row.group.label),
+      accessorFn: (row) => (isFilmRow(row) ? row.movie.title : isDetailRow(row) ? undefined : row.group.label),
       header: ({ column }) => <DataGridColumnHeader title="Title" column={column} />,
       size: MOVIE_COLUMN_SIZES.title,
-      cell: ({ row }) => (isFilmRow(row.original)
-        ? <TitleCell movie={row.original.movie} showContext={showContext} />
-        : <BandLabel group={row.original.group} />),
+      cell: ({ row }) => {
+        if (isFilmRow(row.original)) {
+          return <TitleCell movie={row.original.movie} showContext={showContext} expanded={row.getIsExpanded()} onToggle={row.getToggleExpandedHandler()} />;
+        }
+        if (isDetailRow(row.original)) return null;
+        return <BandLabel group={row.original.group} />;
+      },
     },
+    watchColumn(providers),
     {
       id: "popularity",
       accessorFn: (row) => (isFilmRow(row) ? (row.movie.popularity ?? undefined) : undefined),
@@ -150,13 +175,15 @@ export function createMovieColumns({ showContext, taste, pinForYou = false }: { 
     })),
     {
       id: "finalScore",
-      accessorFn: (row) => (isFilmRow(row) ? (row.movie.finalScore ?? undefined) : row.group.averageFinalScore ?? undefined),
+      accessorFn: (row) => (isFilmRow(row) ? (row.movie.finalScore ?? undefined) : isDetailRow(row) ? undefined : row.group.averageFinalScore ?? undefined),
       header: ({ column }) => <DataGridColumnHeader title="Final Score" column={column} className="ms-auto -me-2" />,
       size: MOVIE_COLUMN_SIZES.finalScore,
       meta: tasteActive ? numericMeta : { headerClassName: "text-right pe-6", cellClassName: "text-right pe-6" },
-      cell: ({ row }) => (isFilmRow(row.original)
-        ? <Score value={row.original.movie.finalScore} final={!tasteActive} />
-        : <BandAverage group={row.original.group} />),
+      cell: ({ row }) => {
+        if (isFilmRow(row.original)) return <Score value={row.original.movie.finalScore} final={!tasteActive} />;
+        if (isDetailRow(row.original)) return null;
+        return <BandAverage group={row.original.group} />;
+      },
     },
   ];
   if (!taste) return columns;

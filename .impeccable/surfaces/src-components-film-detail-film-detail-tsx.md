@@ -41,3 +41,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 - Subgenre labels are cleaned from Wikidata: trailing "film" removed, sentence case, labels equal to any Metacritic genre dropped, ordered by catalogue frequency in the context line (two when an Oscar record shares the line, else three) and alphabetically in the popover. The Display toggle carries the IMDb and Wikidata caveat.
 - Language grouping is alphabetical with "Unknown language" last; Oscars bands are 3+ wins, 1–2 wins, Nominated only, No Oscar record.
 - Detail results are cached per film for the page's lifetime; the info button hides when the browser-visible Supabase env is missing.
+
+## Superseded (2026-09-12)
+
+The info-button popover was replaced by the in-row detail band built for `src/components/movie-grid/detail-row.tsx` (see the MovieTable surface brief). The band absorbed this brief's content: language and subgenres in the facts line, the Oscar line with its caveat and the award lines from `movie_awards` (which landed as `award_name, result, year, person_name, person_slug` rather than the shape planned here), the IMDb and JustWatch links, and offers. The context line, filter fields, Group by options, and taste features from this brief stand as built. `src/components/film-detail/` no longer exists; `src/lib/film-detail.ts` keeps `awardLines`, `imdbUrl`, and `oscarSummary`.

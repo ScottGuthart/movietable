@@ -114,7 +114,16 @@ function Body({ movie, state, retry }: { movie: ScoredMovie; state: FilmDetailSt
       <PopoverHeader>
         <PopoverTitle className="text-base leading-snug">{detail.title}</PopoverTitle>
         <PopoverDescription className="tabular-nums">{meta}</PopoverDescription>
-        {detail.subgenres.length > 0 && <p className="text-muted-foreground text-xs">{detail.subgenres.join(" · ")}</p>}
+        {detail.subgenres.length > 0 && (
+          <p className="text-muted-foreground text-xs">
+            {detail.subgenres.map((subgenre, index) => (
+              <span key={subgenre} className="inline-block">
+                {index > 0 && "\u00a0·\u00a0"}
+                {subgenre}
+              </span>
+            ))}
+          </p>
+        )}
       </PopoverHeader>
       {detail.summary && <p className="text-sm leading-relaxed text-pretty">{detail.summary}</p>}
       <Oscars detail={detail} />

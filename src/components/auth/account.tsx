@@ -8,6 +8,7 @@ import { signOut } from "@/components/auth/sign-out";
 import { useRatingsSync, type SyncState } from "@/components/auth/use-ratings-sync";
 import { useSession } from "@/components/auth/use-session";
 import { clearVerdicts, useTasteVerdicts } from "@/components/taste/taste-store";
+import { AppearanceMenuGroup } from "@/components/theme/appearance-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -121,6 +122,8 @@ function AccountMenu({ session }: { session: Session }) {
             <span>{confirmingDelete ? `Delete ${rated} saved ${rated === 1 ? "rating" : "ratings"}? Click again` : "Delete saved ratings"}</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <AppearanceMenuGroup />
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut}>
           <IconLogout aria-hidden="true" />

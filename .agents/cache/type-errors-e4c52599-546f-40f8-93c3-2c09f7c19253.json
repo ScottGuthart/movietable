@@ -1,0 +1,21 @@
+{
+  "timestamp": 1789304159228.6714,
+  "errorCount": 2,
+  "errors": [
+    {
+      "file": "scripts/imdb/awards.ts",
+      "line": 157,
+      "column": 20,
+      "code": "TS2552",
+      "message": "Cannot find name 'IdCache'. Did you mean 'cache'?"
+    },
+    {
+      "file": "scripts/imdb/wikidata.ts",
+      "line": 105,
+      "column": 20,
+      "code": "TS2552",
+      "message": "Cannot find name 'IdCache'. Did you mean 'cache'?"
+    }
+  ],
+  "summary": "2 type errors in 2 files"
+}

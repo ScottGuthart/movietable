@@ -1,0 +1,37 @@
+# Session Handoff
+
+**Branch**: master
+**When**: 2026-09-12 15:09:05 UTC
+**Session**: 75cd74f0-57fe-40de-b5bf-0135d50507d6
+
+## Summary
+Full record from [metacritic-movies.json](metacritic-movies.json):
+
+```
+title        The Godfather
+year         1972
+metascore    100
+userscore    92        (page shows 9.2, rescaled ×10)
+users_rated  4569
+link         https://www.metacritic.com/movie/the-godfather/
+ranked_by    metascore, userscore   ← appears in both lists
+genres       Crime, Drama
+director     Francis Ford Coppola
+writers      Mario Puzo, Francis Ford Coppola
+```
+
+Cast (20 — page cap):
+```
+Marlon Brando          Al Pacino              James Caan
+Diane Keaton           Richard S.
+
+## Modified Files
+- .gitignore
+- bun.lock
+- scripts/metacritic/fetch.ts
+- scripts/metacritic/parse.ts
+- scripts/metacritic/types.ts
+- scripts/scrape-metacritic.ts
+
+## Patterns Noted
+- When a page ships schema.org JSON-LD, prefer it for content fields — it's the publisher's own canonical copy and doesn't shift when they restyle the hero.

@@ -1,0 +1,166 @@
+[2026-09-12T14:10:32.707Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T14:10:32.707Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T14:18:34.104Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T14:18:34.104Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T14:30:21.348Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T14:30:21.348Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T14:43:26.395Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T14:43:26.395Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T14:44:41.259Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T14:44:41.259Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T15:05:49.908Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T15:05:49.908Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T15:09:12.204Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T15:09:12.204Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T15:19:38.593Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T15:19:38.593Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T15:22:46.741Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T15:22:46.741Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T16:21:20.148Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 08059522-50a1-48ef-bd5f-fcadcd64c001)
+[2026-09-12T16:21:20.148Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T16:37:15.991Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T16:37:15.992Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T16:56:42.742Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T16:56:42.742Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T17:36:12.669Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 08059522-50a1-48ef-bd5f-fcadcd64c001)
+[2026-09-12T17:36:12.669Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T17:56:02.931Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T17:56:02.931Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:02:41.111Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T18:02:41.111Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:10:01.145Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T18:10:01.145Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:17:01.819Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: finish-reviewer (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T18:17:01.819Z] [auto-spawn-quality] No auto-spawn conditions matched for finish-reviewer
+[2026-09-12T18:26:52.990Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 08059522-50a1-48ef-bd5f-fcadcd64c001)
+[2026-09-12T18:26:52.990Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:28:28.441Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T18:28:28.441Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:29:24.231Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: finish-reviewer (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T18:29:24.231Z] [auto-spawn-quality] No auto-spawn conditions matched for finish-reviewer
+[2026-09-12T18:49:28.069Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: finish-reviewer (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T18:49:28.069Z] [auto-spawn-quality] No auto-spawn conditions matched for finish-reviewer
+[2026-09-12T18:54:49.916Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: finish-reviewer (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T18:54:49.916Z] [auto-spawn-quality] No auto-spawn conditions matched for finish-reviewer
+[2026-09-12T18:55:38.821Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T18:55:38.821Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:56:24.039Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T18:56:24.039Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:57:57.686Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T18:57:57.686Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T18:58:29.248Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: taste-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T18:58:29.248Z] [auto-spawn-quality] No auto-spawn conditions matched for taste-finish-reviewer
+[2026-09-12T19:07:41.102Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: documenter (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T19:07:41.102Z] [auto-spawn-quality] No auto-spawn conditions matched for documenter
+[2026-09-12T19:09:31.365Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: taste-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T19:09:31.365Z] [auto-spawn-quality] No auto-spawn conditions matched for taste-finish-reviewer
+[2026-09-12T19:11:41.009Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: taste-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T19:11:41.009Z] [auto-spawn-quality] No auto-spawn conditions matched for taste-finish-reviewer
+[2026-09-12T19:15:41.891Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T19:15:41.892Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T19:23:31.515Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T19:23:31.515Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T19:24:26.141Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T19:24:26.141Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T19:26:31.306Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: taste-documenter (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T19:26:31.306Z] [auto-spawn-quality] No auto-spawn conditions matched for taste-documenter
+[2026-09-12T19:30:07.533Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T19:30:07.533Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T21:32:02.868Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 08059522-50a1-48ef-bd5f-fcadcd64c001)
+[2026-09-12T21:32:02.868Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T21:43:31.372Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-12T21:43:31.372Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T21:58:14.806Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T21:58:14.806Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T22:17:55.251Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 08059522-50a1-48ef-bd5f-fcadcd64c001)
+[2026-09-12T22:17:55.251Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T22:42:04.358Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: auth-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T22:42:04.358Z] [auto-spawn-quality] No auto-spawn conditions matched for auth-finish-reviewer
+[2026-09-12T22:46:53.802Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: auth-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T22:46:53.802Z] [auto-spawn-quality] No auto-spawn conditions matched for auth-finish-reviewer
+[2026-09-12T22:48:53.001Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 08059522-50a1-48ef-bd5f-fcadcd64c001)
+[2026-09-12T22:48:53.001Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T22:51:51.394Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T22:51:51.395Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T22:55:34.090Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T22:55:34.091Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T22:59:36.981Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-12T22:59:36.981Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T23:03:36.310Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T23:03:36.310Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T23:07:10.657Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: auth-documenter (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T23:07:10.658Z] [auto-spawn-quality] No auto-spawn conditions matched for auth-documenter
+[2026-09-12T23:08:02.158Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: auth-documenter (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T23:08:02.159Z] [auto-spawn-quality] No auto-spawn conditions matched for auth-documenter
+[2026-09-12T23:11:35.464Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T23:11:35.465Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-12T23:33:45.709Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: stars-documenter (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T23:33:45.709Z] [auto-spawn-quality] No auto-spawn conditions matched for stars-documenter
+[2026-09-12T23:38:14.119Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-12T23:38:14.119Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:36:39.535Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T00:36:39.535Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:42:30.918Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T00:42:30.918Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:44:00.434Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T00:44:00.434Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:47:27.040Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T00:47:27.040Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:47:54.541Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T00:47:54.541Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:50:40.396Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: dark-documenter (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T00:50:40.397Z] [auto-spawn-quality] No auto-spawn conditions matched for dark-documenter
+[2026-09-13T00:55:20.364Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T00:55:20.364Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:55:30.169Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T00:55:30.170Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T00:58:45.946Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T00:58:45.946Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T01:17:18.581Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: finish-reviewer-2 (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-13T01:17:18.581Z] [auto-spawn-quality] No auto-spawn conditions matched for finish-reviewer-2
+[2026-09-13T01:21:29.852Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T01:21:29.852Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T01:24:17.847Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: detail-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T01:24:17.847Z] [auto-spawn-quality] No auto-spawn conditions matched for detail-finish-reviewer
+[2026-09-13T01:28:59.560Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: detail-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T01:28:59.560Z] [auto-spawn-quality] No auto-spawn conditions matched for detail-finish-reviewer
+[2026-09-13T01:31:20.992Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T01:31:20.992Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T01:34:55.666Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: detail-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T01:34:55.666Z] [auto-spawn-quality] No auto-spawn conditions matched for detail-finish-reviewer
+[2026-09-13T01:35:30.897Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T01:35:30.897Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T01:41:04.425Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T01:41:04.425Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T01:44:03.134Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: finish-reviewer-2 (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-13T01:44:03.135Z] [auto-spawn-quality] No auto-spawn conditions matched for finish-reviewer-2
+[2026-09-13T01:44:22.823Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T01:44:22.823Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T01:46:19.652Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-13T01:46:19.652Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T01:49:05.059Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: detail-documenter (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T01:49:05.059Z] [auto-spawn-quality] No auto-spawn conditions matched for detail-documenter
+[2026-09-13T04:21:58.787Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T04:21:58.788Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T07:29:11.981Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T07:29:11.981Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T12:25:45.560Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T12:25:45.560Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T12:37:53.952Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: finish-reviewer-2 (session: e4c52599-546f-40f8-93c3-2c09f7c19253)
+[2026-09-13T12:37:53.952Z] [auto-spawn-quality] No auto-spawn conditions matched for finish-reviewer-2
+[2026-09-13T12:38:25.888Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T12:38:25.888Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T12:57:55.537Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T12:57:55.537Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T12:59:03.600Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T12:59:03.600Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T12:59:37.555Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T12:59:37.555Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T13:00:10.803Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T13:00:10.803Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T13:00:43.965Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T13:00:43.965Z] [auto-spawn-quality] Skipping unknown agent type
+[2026-09-13T13:01:03.636Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: impeccable-finish-reviewer (session: 94e21e86-d365-4a2d-8e13-18fb9d8b1f61)
+[2026-09-13T13:01:03.636Z] [auto-spawn-quality] No auto-spawn conditions matched for impeccable-finish-reviewer
+[2026-09-13T13:03:24.187Z] [auto-spawn-quality] Checking auto-spawn conditions for agent: unknown (session: 75cd74f0-57fe-40de-b5bf-0135d50507d6)
+[2026-09-13T13:03:24.187Z] [auto-spawn-quality] Skipping unknown agent type

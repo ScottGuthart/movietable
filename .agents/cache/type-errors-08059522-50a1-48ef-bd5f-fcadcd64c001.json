@@ -1,0 +1,14 @@
+{
+  "timestamp": 1789304124965.4924,
+  "errorCount": 1,
+  "errors": [
+    {
+      "file": "scripts/imdb/wikidata.ts",
+      "line": 105,
+      "column": 20,
+      "code": "TS2552",
+      "message": "Cannot find name 'IdCache'. Did you mean 'cache'?"
+    }
+  ],
+  "summary": "1 type error in 1 file"
+}

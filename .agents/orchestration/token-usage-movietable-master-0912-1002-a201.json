@@ -1,0 +1,90 @@
+{
+  "sessionId": "movietable-master-0912-1002-a201",
+  "totalTokensInjected": 1966,
+  "byCategory": {
+    "prompt": 1966
+  },
+  "byHook": {
+    "prompt-dispatcher": 1966
+  },
+  "records": [
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 192,
+      "timestamp": "2026-09-12T14:16:23.941Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 162,
+      "timestamp": "2026-09-12T14:35:53.460Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 423,
+      "timestamp": "2026-09-12T15:07:44.422Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 321,
+      "timestamp": "2026-09-12T15:15:07.421Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 110,
+      "timestamp": "2026-09-12T16:20:38.494Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 110,
+      "timestamp": "2026-09-12T16:38:37.177Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 82,
+      "timestamp": "2026-09-12T16:53:30.362Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 88,
+      "timestamp": "2026-09-12T18:23:40.650Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 88,
+      "timestamp": "2026-09-12T21:40:17.639Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 82,
+      "timestamp": "2026-09-13T00:27:06.178Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 110,
+      "timestamp": "2026-09-13T12:38:54.909Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 110,
+      "timestamp": "2026-09-13T12:54:43.986Z"
+    },
+    {
+      "hookName": "prompt-dispatcher",
+      "category": "prompt",
+      "tokens": 88,
+      "timestamp": "2026-09-13T13:01:17.348Z"
+    }
+  ]
+}

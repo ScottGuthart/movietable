@@ -1,0 +1,1 @@
+{"timestamp":1789305354511,"command":"cd /private/tmp/claude-502/-Users-e070209-workspace-movietable/75cd74f0-57fe-40de-b5bf-0135d50507d6/scratchpad/mc-db-wt && echo \"=== typecheck ===\" && bun run typecheck 2>&1 | head -30; echo \"=== tests ===\" && bun test src/lib 2>&1 | tail -25","session_id":"75cd74f0-57fe-40de-b5bf-0135d50507d6"}

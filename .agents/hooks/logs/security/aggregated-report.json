@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-09-13T13:18:05.931Z",
+  "summary": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0
+  },
+  "scans_completed": [
+    "npm-audit",
+    "secrets"
+  ]
+}

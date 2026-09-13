@@ -1,0 +1,7 @@
+2026-09-12T15:16:15.130Z | agent-browser | no args
+2026-09-12T16:24:06.327Z | shadcn | add @reui/data-grid-grouping-1 --preset b4v2IOzLZa
+2026-09-12T18:10:51.187Z | agent-browser | no args
+2026-09-12T18:14:08.793Z | superpowers:test-driven-development | no args
+2026-09-12T18:27:21.079Z | agent-browser | no args
+2026-09-13T12:53:50.637Z | impeccable | design an Open Graph image (1200x630) with a CTA and a favicon set for MovieTable, combining the Phosphor popcorn, film-strip, and film-reel icons in an avatar-group treatment
+2026-09-13T13:07:42.242Z | impeccable | Add popularity to the weighted score composition in the MovieTable UI: normalize popularity to the same 0-100 scale as critic and user scores, and let users weight it in the final score. Simple, intuitive controls. No filters applied by default.

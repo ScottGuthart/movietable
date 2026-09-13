@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { cn } from "cn"
+import { useSafeAreaPadding } from "@/hooks/use-safe-area-padding"
 import { IconChevronRight, IconCheck } from "@tabler/icons-react"
 
 function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {
@@ -29,6 +30,7 @@ function DropdownMenuContent({
     MenuPrimitive.Positioner.Props,
     "align" | "alignOffset" | "side" | "sideOffset"
   >) {
+  const collisionPadding = useSafeAreaPadding()
   return (
     <MenuPrimitive.Portal>
       <MenuPrimitive.Positioner
@@ -37,6 +39,7 @@ function DropdownMenuContent({
         alignOffset={alignOffset}
         side={side}
         sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
       >
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"

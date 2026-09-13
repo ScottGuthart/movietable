@@ -2,6 +2,7 @@
 
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 import { cn } from "cn"
+import { useSafeAreaPadding } from "@/hooks/use-safe-area-padding"
 
 function TooltipProvider({
   delay = 0,
@@ -37,6 +38,7 @@ function TooltipContent({
     TooltipPrimitive.Positioner.Props,
     "align" | "alignOffset" | "side" | "sideOffset"
   >) {
+  const collisionPadding = useSafeAreaPadding()
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Positioner
@@ -44,6 +46,7 @@ function TooltipContent({
         alignOffset={alignOffset}
         side={side}
         sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
         className="isolate z-50"
       >
         <TooltipPrimitive.Popup

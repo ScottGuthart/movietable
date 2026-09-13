@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useSafeAreaPadding } from "@/hooks/use-safe-area-padding"
 import { useCascaderActions } from "@/components/reui/cascader/cascader-context"
 import {
   CASCADER_ACTION_CLASS,
@@ -574,6 +575,7 @@ function CascaderSubmenuContent({
   alignOffset = 0,
   ...props
 }: CascaderSubmenuContentProps) {
+  const collisionPadding = useSafeAreaPadding()
   const { rowRef, close, triggerId, keyboardRef } = useCascaderSubmenu()
   const direction = useDirection()
   const popupRef = React.useRef<HTMLDivElement | null>(null)
@@ -677,6 +679,7 @@ function CascaderSubmenuContent({
       <PopoverPrimitive.Positioner
         /* The ROW, not whatever Base UI last treated as the trigger. */
         anchor={rowRef}
+        collisionPadding={collisionPadding}
         side={side}
         align={align}
         sideOffset={sideOffset}

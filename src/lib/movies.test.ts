@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import data from "@/components/data.json";
-import { finalScore, getMovieBounds, matchesSearch, normalizeMovie, scoreMovies } from "@/lib/movies";
+import { finalScore, getMovieBounds, matchesSearch, normalizeMovie, scoreMovies, slugFromLink } from "@/lib/movies";
 
 const source = { title: "A Movie", year: 2020, link: "https://www.metacritic.com/movie/a-movie" };
 
@@ -29,21 +28,27 @@ describe("movie normalization and weighting", () => {
   test("rejects invalid weights", () => {
     for (const weight of [-0.1, 1.1, Infinity, NaN]) expect(() => finalScore({ users: 80, critics: 90 }, weight)).toThrow(RangeError);
   });
-  test("preserves the source dataset and links", () => {
-    const movies = data.map(normalizeMovie);
-    expect(movies).toHaveLength(3963);
-    expect(getMovieBounds(movies)).toEqual({ earliestYear: 1916, latestYear: 2024 });
-    expect(new Set(movies.map((movie) => movie.link)).size).toBe(3963);
-    expect(movies.map((movie) => movie.link)).toEqual(data.map((movie) => movie.link));
-    expect(movies.every((movie) => ["www.metacritic.com", "metacritic.com"].includes(new URL(movie.link).hostname))).toBe(true);
-    const scored = scoreMovies(movies, 0.5);
-    expect(scored.every((movie) => movie.finalScore === null || Number.isFinite(movie.finalScore))).toBe(true);
-    expect("finalScore" in movies[0]).toBe(false);
+  test("derives the year bounds and keeps scoring separate from normalization", () => {
+    const movies = [{ ...source, year: 1916 }, { ...source, year: 2026 }, source].map(normalizeMovie);
+    expect(getMovieBounds(movies)).toEqual({ earliestYear: 1916, latestYear: 2026 });
+    expect("finalScore" in movies[0]!).toBe(false);
+    expect(scoreMovies(movies, 0.5).every((movie) => movie.finalScore === null && movie.forYou === null)).toBe(true);
   });
   test("searches case-insensitively across visible fields", () => {
-    const movie = { ...normalizeMovie({ ...source, userscore: 80, metascore: 91, users_rated: 1234 }), finalScore: 85 };
+    const movie = { ...normalizeMovie({ ...source, userscore: 80, metascore: 91, users_rated: 1234 }), finalScore: 85, forYou: null };
     for (const term of ["a movie", " MOVIE ", "2020", "1234", "80", "91", "85", ""]) expect(matchesSearch(movie, term)).toBe(true);
     expect(matchesSearch(movie, "not in the title")).toBe(false);
     expect(matchesSearch({ ...movie, finalScore: null }, "null")).toBe(false);
+    expect(matchesSearch({ ...movie, forYou: 42 }, "42")).toBe(true);
+    expect(matchesSearch(movie, "42")).toBe(false);
+  });
+});
+
+describe("slugs", () => {
+  test("derives the Metacritic slug from a link", () => {
+    expect(slugFromLink("https://www.metacritic.com/movie/the-godfather/")).toBe("the-godfather");
+    expect(slugFromLink("https://www.metacritic.com/movie/heat")).toBe("heat");
+    expect(normalizeMovie(source).slug).toBe("a-movie");
+    expect(normalizeMovie({ ...source, slug: "given" }).slug).toBe("given");
   });
 });

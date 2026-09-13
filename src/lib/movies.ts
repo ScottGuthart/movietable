@@ -1,23 +1,39 @@
 export interface RawMovie {
+  /** Metacritic film slug; derived from `link` when absent. */
+  slug?: string;
   title: string;
   year: number;
   users_rated?: number | null;
   userscore?: number | null;
   metascore?: number | null;
   link: string;
+  /** Original language from IMDb/Wikidata, when matched. */
+  language?: string | null;
+  /** Cleaned Wikidata subgenres, most common first. */
+  subgenres?: string[];
+  oscar_wins?: number | null;
+  oscar_nominations?: number | null;
 }
 
 export interface Movie {
+  slug: string;
   title: string;
   year: number;
   popularity: number | null;
   users: number | null;
   critics: number | null;
   link: string;
+  language: string | null;
+  subgenres: string[];
+  /** Academy Award counts from Wikidata; null when the film has no IMDb match. Indicative, not complete. */
+  oscarWins: number | null;
+  oscarNominations: number | null;
 }
 
 export interface ScoredMovie extends Movie {
   finalScore: number | null;
+  /** Taste match, 0–100. Null until the visitor likes a film; filled by `rankMovies` in taste.ts. */
+  forYou: number | null;
 }
 
 export const DEFAULT_CRITIC_WEIGHT = 0.5;
@@ -27,14 +43,24 @@ function finiteOrNull(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
+/** The trailing path segment of a Metacritic link, e.g. `the-godfather`. */
+export function slugFromLink(link: string): string {
+  return link.replace(/\/+$/, "").split("/").pop() ?? "";
+}
+
 export function normalizeMovie(raw: RawMovie): Movie {
   return {
+    slug: raw.slug ?? slugFromLink(raw.link),
     title: raw.title,
     year: raw.year,
     popularity: finiteOrNull(raw.users_rated),
     users: finiteOrNull(raw.userscore),
     critics: finiteOrNull(raw.metascore),
     link: raw.link,
+    language: raw.language ?? null,
+    subgenres: raw.subgenres ?? [],
+    oscarWins: finiteOrNull(raw.oscar_wins),
+    oscarNominations: finiteOrNull(raw.oscar_nominations),
   };
 }
 
@@ -51,7 +77,7 @@ export function finalScore(movie: Pick<Movie, "users" | "critics">, criticWeight
 }
 
 export function scoreMovies(movies: Movie[], criticWeight: number): ScoredMovie[] {
-  return movies.map((movie) => ({ ...movie, finalScore: finalScore(movie, criticWeight) }));
+  return movies.map((movie) => ({ ...movie, finalScore: finalScore(movie, criticWeight), forYou: null }));
 }
 
 export function getMovieBounds(movies: Movie[]) {
@@ -64,6 +90,6 @@ export function getMovieBounds(movies: Movie[]) {
 export function matchesSearch(movie: ScoredMovie, search: string): boolean {
   const term = search.trim().toLocaleLowerCase("en-US");
   if (!term) return true;
-  return [movie.title, movie.year, movie.popularity, movie.users, movie.critics, movie.finalScore]
+  return [movie.title, movie.year, movie.popularity, movie.users, movie.critics, movie.finalScore, movie.forYou]
     .some((value) => value !== null && String(value).toLocaleLowerCase("en-US").includes(term));
 }

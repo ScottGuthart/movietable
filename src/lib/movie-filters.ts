@@ -12,6 +12,11 @@ import type { ScoredMovie } from "@/lib/movies";
 
 export const MOVIE_OPERATOR_LABELS: Record<string, string> = {
   ...DEFAULT_FILTER_OPERATOR_LABELS,
+  is_any_of: "is any of",
+  is_none_of: "is none of",
+  has_any_of: "has any of",
+  has_all_of: "has all of",
+  has_none_of: "has none of",
   gt: "greater than",
   gte: "at least",
   lt: "less than",
@@ -37,15 +42,25 @@ const numericFields = [
   ["finalScore", "Final Score", "Your weighted score, out of 100"],
 ] as const;
 
-export const MOVIE_FIELDS: FilterField[] = [
-  { id: "title", label: "Title", type: "text", operators: operators.text, defaultOperator: "contains", placeholder: "Search a movie title…" },
-  ...numericFields.map(([id, label, description]): FilterField => ({
+const oscarFields = [
+  ["oscarWins", "Oscar wins", "Academy Award wins from Wikidata; indicative, not complete"],
+  ["oscarNominations", "Oscar nominations", "Academy Award nominations from Wikidata; indicative, not complete"],
+] as const;
+
+/** The catalogue's languages and subgenres, so the pickers list real values. */
+export interface FilterVocabulary {
+  languages: string[];
+  subgenres: string[];
+}
+
+function numberField(id: string, label: string, description: string, defaultOperator: string): FilterField {
+  return {
     id,
     label,
     description,
     type: "number",
     operators: operators.number,
-    defaultOperator: id === "year" || id === "popularity" ? "between" : "gte",
+    defaultOperator,
     validate: ({ value, arity }) => {
       if (arity === "none") return null;
       const values = arity === "range" ? (Array.isArray(value) ? value : []) : [value];
@@ -54,8 +69,51 @@ export const MOVIE_FIELDS: FilterField[] = [
       if (arity === "range" && (numbers.length !== 2 || numbers[0]! > numbers[1]!)) return "The minimum must not exceed the maximum.";
       return null;
     },
-  })),
-];
+  };
+}
+
+/** Filter fields, with option lists filled from the catalogue when a vocabulary is given. */
+export function createMovieFields(vocabulary: FilterVocabulary = { languages: [], subgenres: [] }): FilterField[] {
+  return [
+    { id: "title", label: "Title", type: "text", operators: operators.text, defaultOperator: "contains", placeholder: "Search a movie title…" },
+    ...numericFields.map(([id, label, description]) => numberField(id, label, description, id === "year" || id === "popularity" ? "between" : "gte")),
+    {
+      id: "language",
+      label: "Language",
+      description: "Original language, when IMDb lists one",
+      type: "select",
+      operators: operators.select,
+      defaultOperator: "is",
+      options: vocabulary.languages.map((value) => ({ value, label: value })),
+      placeholder: "Search languages…",
+    },
+    {
+      id: "subgenres",
+      label: "Subgenre",
+      description: "Wikidata film genres, finer than Metacritic's",
+      type: "multiselect",
+      operators: operators.multiselect,
+      defaultOperator: "has_any_of",
+      options: vocabulary.subgenres.map((value) => ({ value, label: value })),
+      placeholder: "Search subgenres…",
+    },
+    ...oscarFields.map(([id, label, description]) => numberField(id, label, description, "gte")),
+  ];
+}
+
+export const MOVIE_FIELDS: FilterField[] = createMovieFields();
+
+/** Distinct languages and subgenres present in the catalogue, alphabetical. */
+export function filterVocabulary(movies: Pick<ScoredMovie, "language" | "subgenres">[]): FilterVocabulary {
+  const languages = new Set<string>();
+  const subgenres = new Set<string>();
+  for (const movie of movies) {
+    if (movie.language) languages.add(movie.language);
+    for (const subgenre of movie.subgenres) subgenres.add(subgenre);
+  }
+  const sorted = (values: Set<string>) => [...values].sort((a, b) => a.localeCompare(b, "en-US"));
+  return { languages: sorted(languages), subgenres: sorted(subgenres) };
+}
 
 export const DEFAULT_QUERY: FilterQuery = {
   id: "movie-query",
@@ -75,13 +133,24 @@ function fieldForRule(rule: FilterRule) {
   return rule.path.length === 1 ? MOVIE_FIELDS.find((field) => field.id === rule.path[0]) : undefined;
 }
 
+const OPERATOR_CATALOGS = { text: operators.text, number: operators.number, select: operators.select, multiselect: operators.multiselect } as const;
+
+function catalogFor(type: FilterField["type"]) {
+  return type && type in OPERATOR_CATALOGS ? OPERATOR_CATALOGS[type as keyof typeof OPERATOR_CATALOGS] : operators.number;
+}
+
+function chosenValues(value: unknown): string[] {
+  const values = Array.isArray(value) ? value : [value];
+  return values.filter((entry): entry is string => typeof entry === "string" && entry.trim().length > 0);
+}
+
 export function isCompleteRule(rule: FilterRule): boolean {
   const field = fieldForRule(rule);
   if (!field) return false;
-  const catalog = field.type === "text" ? operators.text : operators.number;
-  const operator = catalog.find((entry) => entry.value === rule.operator);
+  const operator = catalogFor(field.type).find((entry) => entry.value === rule.operator);
   if (!operator) return false;
   if (operator.arity === "none") return true;
+  if (field.type === "select" || field.type === "multiselect") return chosenValues(rule.value).length > 0;
   if (field.type === "text") return typeof rule.value === "string" && rule.value.trim().length > 0;
   if (operator.arity === "range") {
     if (!Array.isArray(rule.value) || rule.value.length !== 2) return false;
@@ -91,14 +160,31 @@ export function isCompleteRule(rule: FilterRule): boolean {
   return numericValue(rule.value) !== undefined;
 }
 
+function evaluateMembership(actual: unknown, operator: string, chosen: string[]): boolean {
+  const own = new Set(Array.isArray(actual) ? actual.map(String) : [String(actual)]);
+  switch (operator) {
+    case "is": return chosen.length === 1 && own.has(chosen[0]!);
+    case "is_not": return !(chosen.length === 1 && own.has(chosen[0]!));
+    case "is_any_of":
+    case "has_any_of": return chosen.some((value) => own.has(value));
+    case "is_none_of":
+    case "has_none_of": return !chosen.some((value) => own.has(value));
+    case "has_all_of": return chosen.every((value) => own.has(value));
+    default: return false;
+  }
+}
+
 function evaluateRule(movie: ScoredMovie, rule: FilterRule): boolean | undefined {
   if (!isCompleteRule(rule)) return undefined;
+  const field = fieldForRule(rule);
   const actual = movie[rule.path[0] as keyof ScoredMovie];
-  const missing = actual === null || actual === undefined || actual === "";
+  const missing = actual === null || actual === undefined || actual === "" || (Array.isArray(actual) && actual.length === 0);
   let result = false;
   if (rule.operator === "empty") result = missing;
   else if (rule.operator === "not_empty") result = !missing;
-  else if (!missing && rule.path[0] === "title") {
+  else if (!missing && (field?.type === "select" || field?.type === "multiselect")) {
+    result = evaluateMembership(actual, rule.operator, chosenValues(rule.value));
+  } else if (!missing && rule.path[0] === "title") {
     const text = String(actual).toLocaleLowerCase("en-US");
     const term = String(rule.value).trim().toLocaleLowerCase("en-US");
     switch (rule.operator) {

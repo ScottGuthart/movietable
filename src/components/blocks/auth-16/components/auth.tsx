@@ -7,6 +7,7 @@ import { signOut } from "@/components/auth/sign-out"
 import { useSession } from "@/components/auth/use-session"
 import { Button } from "@/components/ui/button"
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase-browser"
+import { isV0Preview } from "@/lib/preview-mode"
 
 import { AuthFooter } from "./auth-footer"
 import { AuthHeader } from "./auth-header"
@@ -42,8 +43,10 @@ function SignedIn({ email }: { email: string | undefined }) {
 function NotConfigured() {
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-4 text-center">
-      <h1 className="text-2xl font-semibold tracking-tight text-balance">Sign-in isn&rsquo;t available here.</h1>
-      <p className="text-muted-foreground text-sm text-pretty">This deployment has no account service configured. Your ratings still save in this browser.</p>
+      <h1 className="text-2xl font-semibold tracking-tight text-balance">{isV0Preview() ? "You’re in v0 preview." : "Sign-in isn’t available here."}</h1>
+      <p className="text-muted-foreground text-sm text-pretty">{isV0Preview()
+        ? "Explore sample movies and rate them without an account. Preview ratings save only in this browser, separately from your real ratings. Sign-in and cloud sync are disabled."
+        : "This deployment has no account service configured. Your ratings still save in this browser."}</p>
       <Button variant="outline" nativeButton={false} render={<Link href="/" />}>Back to the table</Button>
     </div>
   )

@@ -3,6 +3,8 @@ import { cache } from "react";
 import { IconArrowUpRight, IconMovie } from "@tabler/icons-react";
 import { Account } from "@/components/auth/account";
 import { InstallHelp } from "@/components/pwa/install-help";
+import { PreviewNotice } from "@/components/preview-notice";
+import { isV0Preview } from "@/lib/preview-mode";
 import MovieTable from "@/components/MovieTable";
 import { fetchCatalogue, fetchProviders, fetchSignals } from "@/lib/catalogue";
 import { getMovieBounds, normalizeMovie, numberFormat, type Movie } from "@/lib/movies";
@@ -45,9 +47,10 @@ export default async function Page() {
               <InstallHelp />
               <Account />
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · Metacritic dataset</p>
+            <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · {isV0Preview() ? "Sample catalogue" : "Metacritic dataset"}</p>
           </div>
         </header>
+        {isV0Preview() && <PreviewNotice />}
         <MovieTable movies={movies} providers={providers} />
         <footer className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
           <p>A curated dataset, not live ratings. Select any film to see its current scores on Metacritic.</p>

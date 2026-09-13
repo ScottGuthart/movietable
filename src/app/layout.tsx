@@ -5,10 +5,12 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { cn } from "@/lib/utils";
 import { PwaRuntime } from "@/components/pwa/pwa-runtime";
+import { isV0Preview } from "@/lib/preview-mode";
 
 const playfairDisplay = Playfair_Display({subsets:['latin'],variable:'--font-serif'});
 
 export const metadata: Metadata = {
+  ...(isV0Preview() ? { robots: { index: false, follow: false } } : {}),
   title: "MovieTable — Find your next great film",
   description: "Compare audience and critic scores, rate a few films to build your own ranking, and find your next great film.",
   authors: [{ name: "Scott Guthart", url: "https://guth.art" }],

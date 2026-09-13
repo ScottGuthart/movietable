@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabase } from "@/lib/supabase-browser";
+import { isV0Preview } from "@/lib/preview-mode";
 
 export type SessionState =
   | { status: "loading" }
@@ -15,8 +16,9 @@ function fromSession(session: Session | null): SessionState {
 
 /** The visitor's Supabase session, kept current as they sign in or out in this or another tab. */
 export function useSession(): SessionState {
-  const [state, setState] = useState<SessionState>({ status: "loading" });
+  const [state, setState] = useState<SessionState>({ status: isV0Preview() ? "signed-out" : "loading" });
   useEffect(() => {
+    if (isV0Preview()) return;
     const supabase = getSupabase();
     let cancelled = false;
     void supabase.auth.getSession().then(({ data }) => {

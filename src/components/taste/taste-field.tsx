@@ -15,14 +15,13 @@ interface TasteFieldProps {
   summary: string[];
   persistent: boolean;
   state: CatalogueState;
-  onClear: () => void;
 }
 
 function filmsWord(count: number): string {
   return `${count} ${count === 1 ? "film" : "films"}`;
 }
 
-function helperText({ rated, positive, active, summary, persistent, state }: Omit<TasteFieldProps, "open" | "onToggle" | "onClear">): string {
+function helperText({ rated, positive, active, summary, persistent, state }: Omit<TasteFieldProps, "open" | "onToggle">): string {
   if (!persistent) return "Ratings won't save in this browser.";
   if (state.status === "error") return "Film details didn't load. Open the panel to retry.";
   if (active) return summary.length > 0 ? `Built from ${filmsWord(rated)} · ${summary.join(" · ")}` : `Built from ${filmsWord(rated)}`;
@@ -32,7 +31,7 @@ function helperText({ rated, positive, active, summary, persistent, state }: Omi
 }
 
 export function TasteField(props: TasteFieldProps) {
-  const { open, onToggle, rated, onClear } = props;
+  const { open, onToggle, rated } = props;
   return (
     <Field className="md:max-w-sm">
       <div className="flex items-center justify-between gap-3">
@@ -46,9 +45,6 @@ export function TasteField(props: TasteFieldProps) {
           {rated === 0 ? "Rate films" : "Edit ratings"}
           <IconChevronDown data-icon="inline-end" aria-hidden="true" className={cn("transition-transform duration-150", open && "rotate-180")} />
         </Button>
-        {rated > 0 && (
-          <Button type="button" variant="ghost" onClick={onClear}>Clear ratings</Button>
-        )}
       </div>
       <p className="text-muted-foreground text-sm" data-testid="taste-summary">{helperText(props)}</p>
     </Field>

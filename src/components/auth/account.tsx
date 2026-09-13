@@ -9,6 +9,17 @@ import { useRatingsSync, type SyncState } from "@/components/auth/use-ratings-sy
 import { useSession } from "@/components/auth/use-session";
 import { clearVerdicts, useTasteVerdicts } from "@/components/taste/taste-store";
 import { AppearanceMenuGroup } from "@/components/theme/appearance-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,10 +60,38 @@ function profileOf(session: Session): { name: string; email: string | undefined;
   };
 }
 
-async function deleteSavedRatings(userId: string): Promise<void> {
+/** Removes the account's saved ratings, then this browser's, so a retry after a failure still has the local copy. */
+async function clearRatings(userId: string): Promise<void> {
   const { error } = await getSupabase().from("taste_ratings").delete().eq("user_id", userId);
-  if (error) throw new Error(`Deleting your saved ratings failed: ${error.message}`);
+  if (error) throw new Error(`Clearing your ratings failed: ${error.message}`);
   clearVerdicts();
+}
+
+function ratingsWord(count: number): string {
+  return `${count} ${count === 1 ? "rating" : "ratings"}`;
+}
+
+/** The only way to clear ratings: confirmed here, it empties the account and this browser and resets the taste ranking. */
+function ClearRatingsDialog({ open, onOpenChange, rated, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; rated: number; onConfirm: () => void }) {
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogMedia className="bg-destructive/10">
+            <IconTrash aria-hidden="true" className="text-destructive" />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Clear your ratings?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This removes the {ratingsWord(rated)} saved to your account and in this browser and resets your taste ranking. This cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Keep ratings</AlertDialogCancel>
+          <AlertDialogAction variant="destructive" onClick={onConfirm}>Clear ratings</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
 }
 
 /** Header control: a quiet sign-in link for guests, a compact avatar menu for the signed in. */
@@ -74,62 +113,60 @@ function AccountMenu({ session }: { session: Session }) {
   const sync = useRatingsSync(session);
   const verdicts = useTasteVerdicts();
   const [notice, setNotice] = useState<{ tone: "info" | "error"; text: string } | null>(null);
-  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const { name, email, avatarUrl } = profileOf(session);
   const rated = ratedCount(verdicts);
 
   const report = (error: unknown, fallback: string) =>
     setNotice({ tone: "error", text: error instanceof Error ? error.message : fallback });
   const handleSignOut = () => signOut().catch((error: unknown) => report(error, "Sign-out failed."));
-  const handleDelete = () => {
-    if (!confirmingDelete) {
-      setConfirmingDelete(true);
-      return;
-    }
-    setConfirmingDelete(false);
-    deleteSavedRatings(session.user.id)
-      .then(() => setNotice({ tone: "info", text: "Saved ratings deleted." }))
-      .catch((error: unknown) => report(error, "Deleting your saved ratings failed."));
+  const handleClear = () => {
+    clearRatings(session.user.id)
+      .then(() => setNotice({ tone: "info", text: "Ratings cleared." }))
+      .catch((error: unknown) => report(error, "Clearing your ratings failed."));
   };
   const status = notice ?? { tone: "info" as const, text: syncLabel(sync) };
 
   return (
-    <DropdownMenu onOpenChange={(open) => { if (!open) setConfirmingDelete(false); }}>
-      <DropdownMenuTrigger
-        render={<Button variant="outline" size="sm" className="h-8 gap-1.5 rounded-full pr-2.5 pl-1" aria-label={`Account, ${name}`} />}
-      >
-        <Avatar className="border-background size-6 border">
-          {avatarUrl && <AvatarImage src={avatarUrl} alt="" />}
-          <AvatarFallback className="text-[0.625rem]">{initialsOf(name)}</AvatarFallback>
-        </Avatar>
-        <span className="max-w-40 truncate text-xs font-medium">{name}</span>
-        <IconSelector className="size-3.5 opacity-60" aria-hidden="true" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64" align="end" sideOffset={8}>
-        <DropdownMenuGroup>
-          <DropdownMenuLabel className="flex flex-col gap-0.5">
-            <span className="truncate font-medium">{name}</span>
-            {email && email !== name && <span className="text-muted-foreground truncate text-xs font-normal">{email}</span>}
-            <span role="status" className={status.tone === "error" ? "text-destructive text-xs font-normal" : "text-muted-foreground text-xs font-normal"}>
-              {status.text}
-            </span>
-          </DropdownMenuLabel>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem closeOnClick={false} disabled={rated === 0 && !confirmingDelete} onClick={handleDelete}>
-            <IconTrash aria-hidden="true" />
-            <span>{confirmingDelete ? `Delete ${rated} saved ${rated === 1 ? "rating" : "ratings"}? Click again` : "Delete saved ratings"}</span>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={<Button variant="outline" size="sm" className="h-8 gap-1.5 rounded-full pr-2.5 pl-1" aria-label={`Account, ${name}`} />}
+        >
+          <Avatar className="border-background size-6 border">
+            {avatarUrl && <AvatarImage src={avatarUrl} alt="" />}
+            <AvatarFallback className="text-[0.625rem]">{initialsOf(name)}</AvatarFallback>
+          </Avatar>
+          <span className="max-w-40 truncate text-xs font-medium">{name}</span>
+          <IconSelector className="size-3.5 opacity-60" aria-hidden="true" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-64" align="end" sideOffset={8}>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="flex flex-col gap-0.5">
+              <span className="truncate font-medium">{name}</span>
+              {email && email !== name && <span className="text-muted-foreground truncate text-xs font-normal">{email}</span>}
+              <span role="status" className={status.tone === "error" ? "text-destructive text-xs font-normal" : "text-muted-foreground text-xs font-normal"}>
+                {status.text}
+              </span>
+            </DropdownMenuLabel>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem disabled={rated === 0} onClick={() => setConfirmOpen(true)}>
+              <IconTrash aria-hidden="true" />
+              <span>Clear ratings</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <AppearanceMenuGroup />
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleSignOut}>
+            <IconLogout aria-hidden="true" />
+            <span>Sign out</span>
           </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <AppearanceMenuGroup />
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>
-          <IconLogout aria-hidden="true" />
-          <span>Sign out</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <ClearRatingsDialog open={confirmOpen} onOpenChange={setConfirmOpen} rated={rated} onConfirm={handleClear} />
+    </>
   );
 }

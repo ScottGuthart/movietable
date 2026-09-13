@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { clearVerdicts, setVerdict, useTastePersistence, useTasteVerdicts } from "@/components/taste/taste-store";
+import { setVerdict, useTastePersistence, useTasteVerdicts } from "@/components/taste/taste-store";
 import { useTasteCatalogue, type CatalogueState } from "@/components/taste/use-taste-catalogue";
 import type { ScoredMovie } from "@/lib/movies";
 import {
@@ -50,7 +50,6 @@ export interface Taste {
   handTotal: number;
   dealAnother: () => void;
   rate: (slug: string, verdict: Verdict | null) => void;
-  clear: () => void;
   explain: (slug: string) => MatchReason[];
   unavailableReason: (movie: ScoredMovie) => string | undefined;
 }
@@ -123,6 +122,6 @@ export function useTaste(movies: ScoredMovie[]): Taste {
 
   return {
     verdicts, persistent, positive, rated, open, setOpen, active, state, retry, ranked, summary,
-    hand, handTotal: candidates.length, dealAnother, rate: setVerdict, clear: clearVerdicts, explain, unavailableReason,
+    hand, handTotal: candidates.length, dealAnother, rate: setVerdict, explain, unavailableReason,
   };
 }

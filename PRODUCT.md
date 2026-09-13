@@ -73,7 +73,7 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 
 **Built: account sync for ratings** (2026-09-12)
 
-- Sign-in page at `/sign-in` (adapted REUI `auth-16` block): Google, GitHub, or a one-time emailed link, all through Supabase Auth at `api.movietable.ai`. The header shows "Sign in" for guests and an account menu with sync status for signed-in visitors.
+- Sign-in page at `/sign-in` (adapted REUI `auth-16` block): Google, GitHub, or a one-time emailed link, all through Supabase Auth at `api.movietable.ai`. The header shows "Sign in" for guests and, for signed-in visitors, an account menu with sync status, "Clear ratings" (the only place ratings are cleared: an alert dialog confirms, then the account's saved ratings and this browser's go and the taste ranking resets), appearance, and sign out.
 - Storage: table `taste_ratings (user_id, slug, verdict, stars, updated_at)` under row-level security, `verdict` being `rated` with `stars` in half steps from 0.5 to 5, or `skip`; each visitor reads and writes only their own rows (`supabase/migrations/20260912020000_taste_ratings.sql`).
 - Merge on sign-in: union of local and account ratings, newer `updated_at` wins, ties go to the account. Thumbs saved before the star scale read as four stars (like) and two (pass). Afterwards every local change is pushed after a short pause; localStorage stays the offline mirror. Signing out clears local ratings so a shared device starts clean.
 - Browser needs `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`; the anon key only ever reaches rows the policies allow.

@@ -123,7 +123,7 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
             <div className="text-muted-foreground flex justify-between text-sm"><span>Users</span><span>Critics</span></div>
           </Field>
           <TasteField open={taste.open} onToggle={() => taste.setOpen(!taste.open)} rated={taste.rated} positive={taste.positive} active={taste.active}
-            summary={taste.summary} persistent={taste.persistent} state={taste.state} onClear={taste.clear} />
+            summary={taste.summary} persistent={taste.persistent} state={taste.state} />
         </FieldGroup>
         <p role="status" className="sr-only">{taste.active ? "Table ranked for your taste." : ""}</p>
       </section>

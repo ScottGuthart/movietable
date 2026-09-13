@@ -85,6 +85,10 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - Awards by category render in the band from `movie_awards`, another session's Wikidata scrape (4,459 records over 835 of 3,040 films: `movie_slug, award_name, result, year, person_name, person_slug`). Wins come first, then up to five nominations with a count of the rest: "Best Actor · Marlon Brando" / "Won, 1973". People who shared an award share a line, and a win drops that person's nomination record for the same category. The source only holds awards attributed to a person, so awards to the film itself, Best Picture among them, are absent; the note says so.
 - Subgenre labels are cleaned from Wikidata (trailing "film" removed, sentence case, Metacritic genres dropped).
 
+**Built: rating on phones** (2026-09-13)
+
+- Below 640px the Your rating column folds under the title as a touch-size control (24px stars in 32 by 36px buttons), Year narrows to 64px so all five stars stay clear of the pinned For you column, and the starter hand becomes a one-film carousel (REUI carousel on Embla) with Previous, "3 of 12", and Next in place of the snap strip and swipe hint. Title and stars are always in view together on a portrait phone.
+
 - Appearance: light and dark themes, following the system setting by default; signed-in visitors choose Match system, Light, or Dark from the account menu (stored in localStorage under `movietable.theme`). Guests get the system setting.
 
 ## Brand Commitments

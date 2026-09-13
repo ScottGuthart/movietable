@@ -45,3 +45,11 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 - Hydration: verdicts are read after mount through a subscribable store so the server render never disagrees with the client.
 - The For you chip's explanation opens on hover, tap, or Enter through the popover primitive (frosted floating surface), so touch has the same path as pointer and keyboard.
 - Band rows carry an average under both Final Score and For you when grouped by For you band, each under its own column header.
+
+## Amendment (2026-09-13): rating on phones
+
+User request: title and stars visible together in portrait, touch-friendly, "perhaps a carousel" (REUI `c-carousel-6` installed). Decisions:
+
+- Below 640px the Your rating column folds under the title inside the Title cell as a touch-size control (24px stars in 32 by 36px buttons, no gap); Year narrows to 64px so the fifth star clears the pinned For you column on a 390px phone. Rows grow to 77px compact / 89 comfortable (89 / 101 with the context line).
+- Below 640px the starter hand is a one-cell carousel (Embla through the REUI carousel primitive): 88% slides with the next peeking, hairline gaps kept, a Previous / "3 of 12" / Next row beneath in square outline buttons. The snap strip and "Swipe sideways" hint are retired. From 640px the ruled sheet is unchanged.
+- Carousel state (can scroll, current slide) is read from Embla through `useSyncExternalStore`, never copied into React state in an effect.

@@ -67,19 +67,18 @@ export async function collectCandidates(
 	for await (const line of lines) {
 		count += 1;
 		if (count === 1) continue; // header
+		// title.basics columns: 0 tconst, 1 titleType, 2 primaryTitle,
+		// 3 originalTitle, 4 isAdult, 5 startYear, 6 endYear, 7 runtimeMinutes,
+		// 8 genres. Indexed explicitly — counting elisions in a destructure got
+		// this wrong once, silently reading endYear (always \N for films) as the
+		// release year, which disabled year matching entirely.
 		const cols = line.split("\t");
-		const [
-			tconst,
-			titleType,
-			primaryTitle,
-			originalTitle,
-			,
-			,
-			startYear,
-			,
-			,
-			genres,
-		] = cols;
+		const tconst = cols[0];
+		const titleType = cols[1];
+		const primaryTitle = cols[2];
+		const originalTitle = cols[3];
+		const startYear = cols[5];
+		const genres = cols[8];
 		if (!tconst || !titleType || !primaryTitle) continue;
 		if (!TYPE_RANK.has(titleType)) continue;
 

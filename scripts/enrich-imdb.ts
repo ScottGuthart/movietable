@@ -67,6 +67,13 @@ async function creditedPeople(
 interface MovieImdbRow {
 	movie_slug: string;
 	imdb_id: string;
+	/**
+	 * Release year of the matched IMDb title.
+	 *
+	 * Kept so a match can be audited: the sources disagree on titles often
+	 * enough that a large gap against movies.year flags a likely wrong match.
+	 */
+	imdb_year: number | null;
 	language: string | null;
 	oscar_wins: number;
 	oscar_nominations: number;
@@ -133,6 +140,7 @@ async function main(): Promise<void> {
 		matched.push({
 			movie_slug: movie.slug,
 			imdb_id: best.tconst,
+			imdb_year: best.year,
 			language: null,
 			oscar_wins: 0,
 			oscar_nominations: 0,
@@ -188,17 +196,23 @@ async function main(): Promise<void> {
 
 	// Keep the counts consistent with the categories rather than with a second,
 	// separately-aggregated query.
-	const tally = new Map<string, { wins: number; noms: number }>();
+	// Count distinct categories, not rows. A category credited to several people
+	// produces a row each — Best Sound on Star Wars names four engineers — but
+	// the film won one Oscar for it.
+	const tally = new Map<string, { wins: Set<string>; noms: Set<string> }>();
 	for (const award of awards) {
-		const seen = tally.get(award.movie_slug) ?? { wins: 0, noms: 0 };
-		if (award.result === "win") seen.wins += 1;
-		else seen.noms += 1;
+		const seen = tally.get(award.movie_slug) ?? {
+			wins: new Set(),
+			noms: new Set(),
+		};
+		if (award.result === "win") seen.wins.add(award.award_name);
+		else seen.noms.add(award.award_name);
 		tally.set(award.movie_slug, seen);
 	}
 	for (const row of matched) {
 		const seen = tally.get(row.movie_slug);
-		row.oscar_wins = seen?.wins ?? 0;
-		row.oscar_nominations = seen?.noms ?? 0;
+		row.oscar_wins = seen?.wins.size ?? 0;
+		row.oscar_nominations = seen?.noms.size ?? 0;
 	}
 
 	awards.sort(

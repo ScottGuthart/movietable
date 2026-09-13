@@ -175,7 +175,7 @@ function csvField(value: unknown): string {
 	return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
-function toCsv(rows: Record<string, unknown>[]): string {
+export function toCsv(rows: Record<string, unknown>[]): string {
 	const first = rows[0];
 	if (!first) return "";
 	const columns = Object.keys(first);

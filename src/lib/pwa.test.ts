@@ -12,7 +12,7 @@ type WorkerEvent = { request?: object; waitUntil: (promise: Promise<unknown>) =>
 function worker() {
   const handlers: Record<string, (event: WorkerEvent) => void> = {};
   const stores = new Map<string, Map<string, Response>>();
-  const fetch = mock(async (_request: unknown, _options?: unknown): Promise<Response> => offline());
+  const fetch = mock<(request: unknown, options?: unknown) => Promise<Response>>(async () => offline());
   const claim = mock(async () => undefined);
   const skipWaiting = mock(() => undefined);
   runInNewContext(source, {

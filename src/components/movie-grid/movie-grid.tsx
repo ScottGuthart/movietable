@@ -26,10 +26,28 @@ import { useMediaQuery } from "@/lib/use-media-query";
 import { numberFormat, type ScoredMovie } from "@/lib/movies";
 import { cn } from "@/lib/utils";
 
-const FILM_ROW: Record<Density, { plain: { height: number; className: string }; withContext: { height: number; className: string } }> = {
-  compact: { plain: { height: 41, className: "[&>td]:h-9" }, withContext: { height: 49, className: "[&>td]:h-12" } },
-  comfortable: { plain: { height: 48, className: "[&>td]:h-12" }, withContext: { height: 60, className: "[&>td]:h-15" } },
+type FilmRowVariant = "plain" | "withContext" | "withRating" | "withBoth";
+
+/** Row heights per density; the rating variants add the 40px star line a phone shows under the title. */
+const FILM_ROW: Record<Density, Record<FilmRowVariant, { height: number; className: string }>> = {
+  compact: {
+    plain: { height: 41, className: "[&>td]:h-9" },
+    withContext: { height: 49, className: "[&>td]:h-12" },
+    withRating: { height: 77, className: "[&>td]:h-19" },
+    withBoth: { height: 89, className: "[&>td]:h-22" },
+  },
+  comfortable: {
+    plain: { height: 48, className: "[&>td]:h-12" },
+    withContext: { height: 60, className: "[&>td]:h-15" },
+    withRating: { height: 89, className: "[&>td]:h-22" },
+    withBoth: { height: 101, className: "[&>td]:h-25" },
+  },
 };
+
+function filmRowVariant(showContext: boolean, foldRating: boolean): FilmRowVariant {
+  if (foldRating) return showContext ? "withBoth" : "withRating";
+  return showContext ? "withContext" : "plain";
+}
 
 const ROW_CLASS =
   "cursor-default [&:has([data-band-row])]:cursor-pointer [&:has([data-film-slug])]:cursor-pointer " +
@@ -81,9 +99,14 @@ export function MovieGrid({
 }: MovieGridProps) {
   const bandRows = useMemo(() => buildGridRows(groupMovies(sortMovies(movies, sorting), groupKey)), [movies, sorting, groupKey]);
   const narrow = useMediaQuery("(max-width: 1023px)");
-  const columns = useMemo(() => createMovieColumns({ showContext, providers, taste, pinForYou: narrow }), [showContext, providers, taste, narrow]);
+  const phone = useMediaQuery("(max-width: 639px)");
+  const foldRating = phone && taste !== undefined;
+  const columns = useMemo(
+    () => createMovieColumns({ showContext, providers, taste, pinForYou: narrow, foldRating }),
+    [showContext, providers, taste, narrow, foldRating],
+  );
   const groupOptions = GROUP_KEY_OPTIONS.filter((option) => option.value !== "forYou" || taste?.active);
-  const filmRow = FILM_ROW[density][showContext ? "withContext" : "plain"];
+  const filmRow = FILM_ROW[density][filmRowVariant(showContext, foldRating)];
   const bandIds = useMemo(() => new Set(bandRows.map((band) => band.id)), [bandRows]);
 
   // Bands are open unless collapsed; films are closed unless opened. TanStack sees one map.

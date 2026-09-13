@@ -1,10 +1,13 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { IconArrowsShuffle } from "@tabler/icons-react";
+import { HandCarousel, type HandCarouselCell } from "@/components/taste/hand-carousel";
 import { HandCell, HandCellSkeleton } from "@/components/taste/hand-cell";
 import type { Taste } from "@/components/taste/use-taste";
 import { Button } from "@/components/ui/button";
 import { HAND_SIZE, SHARP_PROFILE_SIZE } from "@/lib/taste";
+import { useMediaQuery } from "@/lib/use-media-query";
 
 type TastePanelProps = Pick<Taste, "state" | "retry" | "hand" | "handTotal" | "verdicts" | "rate" | "dealAnother" | "rated" | "positive">;
 
@@ -15,18 +18,28 @@ function guidance({ rated, positive }: Pick<TastePanelProps, "rated" | "positive
   return "Keep going here, or rate straight from the table.";
 }
 
-function Sheet({ children }: { children: React.ReactNode }) {
+/** The hand as one ruled sheet: Paper cells divided by hairlines, two across from 640px and four from 1024px. */
+function Sheet({ cells }: { cells: HandCarouselCell[] }) {
   return (
-    <ul
-      className="bg-border border-border flex snap-x snap-mandatory gap-px overflow-x-auto border [scrollbar-color:var(--border)_transparent] [scrollbar-width:thin] sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4"
-      aria-label="Films to rate"
-    >
-      {children}
+    <ul className="bg-border border-border grid grid-cols-2 gap-px border lg:grid-cols-4" aria-label="Films to rate">
+      {cells.map((cell) => <li key={cell.key} className="flex">{cell.node}</li>)}
     </ul>
   );
 }
 
-function PanelBody({ state, retry, hand, verdicts, rate }: Pick<TastePanelProps, "state" | "retry" | "hand" | "verdicts" | "rate">) {
+function handCells({ state, hand, verdicts, rate, phone }: Pick<TastePanelProps, "state" | "hand" | "verdicts" | "rate"> & { phone: boolean }): HandCarouselCell[] {
+  if (state.status !== "ready") {
+    return Array.from({ length: HAND_SIZE }, (_, index) => ({ key: `skeleton-${index}`, node: <HandCellSkeleton /> }));
+  }
+  return hand.map((film) => ({
+    key: film.slug,
+    node: <HandCell film={film} verdict={verdicts[film.slug]} onRate={rate} size={phone ? "touch" : "sheet"} />,
+  }));
+}
+
+function PanelBody(props: Pick<TastePanelProps, "state" | "retry" | "hand" | "verdicts" | "rate">): ReactNode {
+  const { state, retry, hand } = props;
+  const phone = useMediaQuery("(max-width: 639px)");
   if (state.status === "error") {
     return (
       <div className="flex flex-wrap items-center gap-3" role="alert">
@@ -35,24 +48,11 @@ function PanelBody({ state, retry, hand, verdicts, rate }: Pick<TastePanelProps,
       </div>
     );
   }
-  if (state.status !== "ready") {
-    return (
-      <Sheet>
-        {Array.from({ length: HAND_SIZE }, (_, index) => <HandCellSkeleton key={index} />)}
-      </Sheet>
-    );
-  }
-  if (hand.length === 0) {
+  if (state.status === "ready" && hand.length === 0) {
     return <p className="text-muted-foreground text-sm">You’ve judged every film we can deal. Rate more straight from the table.</p>;
   }
-  return (
-    <>
-      <Sheet>
-        {hand.map((film) => <HandCell key={film.slug} film={film} verdict={verdicts[film.slug]} onRate={rate} />)}
-      </Sheet>
-      <p className="text-muted-foreground pt-2 text-xs sm:hidden">Swipe sideways for all {hand.length} films.</p>
-    </>
-  );
+  const cells = handCells({ ...props, phone });
+  return phone ? <HandCarousel cells={cells} /> : <Sheet cells={cells} />;
 }
 
 export function TastePanel(props: TastePanelProps) {

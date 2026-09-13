@@ -12,7 +12,20 @@ const ratingVariants = cva("inline-flex items-center", {
       xs: "gap-0.5",
       sm: "gap-1",
       default: "gap-1.5",
-      lg: "gap-2",
+      lg: "gap-0",
+    },
+  },
+  defaultVariants: { size: "default" },
+})
+
+/** `lg` pads each star to a 32 by 36px target so a fingertip lands on one star and not its neighbour. */
+const buttonVariants = cva("flex outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px", {
+  variants: {
+    size: {
+      xs: "",
+      sm: "",
+      default: "",
+      lg: "px-1 py-1.5",
     },
   },
   defaultVariants: { size: "default" },
@@ -115,7 +128,7 @@ function Rating({
             type="button"
             aria-label={valueLabel(star, maxRating)}
             aria-pressed={rating !== null && Math.ceil(rating) === star}
-            className="flex outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:translate-y-px"
+            className={buttonVariants({ size })}
             onPointerMove={(event) => setPreviewed(valueAt(star, event))}
             onPointerEnter={(event) => setPreviewed(valueAt(star, event))}
             onFocus={() => setPreviewed(star)}

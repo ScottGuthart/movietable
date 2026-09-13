@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { IconArrowUpRight, IconChevronDown, IconChevronRight } from "@tabler/icons-react";
 import { Badge } from "@/components/reui/badge";
@@ -13,6 +14,7 @@ import { numberFormat, type ScoredMovie } from "@/lib/movies";
 import { FilmDetailCell } from "@/components/movie-grid/detail-row";
 import { isDetailRow, isFilmRow, type GridRow } from "@/components/movie-grid/rows";
 import { watchColumn, type ProviderIndex } from "@/components/movie-grid/watch-column";
+import { RatingControl } from "@/components/taste/rating-control";
 import { forYouColumn, rateColumn, type TasteColumnOptions } from "@/components/taste/taste-columns";
 
 function formatScore(value: number | null): string {
@@ -75,9 +77,20 @@ function ContextLine({ movie }: { movie: ScoredMovie }) {
   );
 }
 
-function TitleCell({ movie, showContext, expanded, onToggle }: { movie: ScoredMovie; showContext: boolean; expanded: boolean; onToggle: () => void }) {
+interface TitleCellProps {
+  movie: ScoredMovie;
+  showContext: boolean;
+  expanded: boolean;
+  onToggle: () => void;
+  /** The visitor's stars, folded under the title on phones instead of sitting in their own column. */
+  rating?: ReactNode;
+  /** Caps the cell at the width a phone can see, so the title truncates with an ellipsis rather than running under the pinned column. */
+  visibleWidth?: string;
+}
+
+function TitleCell({ movie, showContext, expanded, onToggle, rating, visibleWidth }: TitleCellProps) {
   return (
-    <span className="flex min-w-0 items-center gap-1" data-film-slug={movie.slug}>
+    <span className={cn("flex min-w-0 items-center gap-1", visibleWidth)} data-film-slug={movie.slug}>
       <span className="flex min-w-0 flex-1 flex-col">
         <a className="group inline-flex max-w-full items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
           href={movie.link} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()}>
@@ -86,6 +99,7 @@ function TitleCell({ movie, showContext, expanded, onToggle }: { movie: ScoredMo
           <span className="sr-only"> (Metacritic, opens in a new tab)</span>
         </a>
         {showContext && <ContextLine movie={movie} />}
+        {rating && <span className="flex pt-1">{rating}</span>}
       </span>
       <Button
         type="button"
@@ -107,12 +121,19 @@ const numericMeta = { headerClassName: "text-right", cellClassName: "text-right"
 const DETAIL_CELL = "[tr:has([data-detail-row])>&]:overflow-visible [tr:has([data-detail-row])>&]:whitespace-normal [tr:has([data-detail-row])>&]:align-top";
 
 export const MOVIE_COLUMN_SIZES = { year: 88, title: 300, popularity: 104, users: 92, critics: 92, finalScore: 116 } as const;
+/** With the stars folded under the title, Year gives up 24px so all five stars clear the pinned For you column on a 390px phone. */
+const PHONE_YEAR_SIZE = 64;
+/** Viewport less the card's 16px margins, the 64px Year column, and the cell's 16px padding; the pinned For you column takes 116px more. */
+const PHONE_TITLE_WIDTH = { open: "max-w-[calc(100vw-112px)]", pinned: "max-w-[calc(100vw-228px)]" } as const;
 
 export interface MovieColumnOptions {
   showContext: boolean;
   providers: ProviderIndex;
   taste?: TasteColumnOptions;
+  /** Keeps For you in view on viewports that scroll the grid sideways. */
   pinForYou?: boolean;
+  /** Moves the stars under the title, where a phone can see both at once, and drops the Rate column. */
+  foldRating?: boolean;
 }
 
 /**
@@ -120,14 +141,16 @@ export interface MovieColumnOptions {
  * a Rate column follows Title and, once a profile is active, For you closes the row.
  * `pinForYou` keeps that column in view on viewports that scroll the grid sideways.
  */
-export function createMovieColumns({ showContext, providers, taste, pinForYou = false }: MovieColumnOptions): ColumnDef<DataGridFeatures, GridRow>[] {
+export function createMovieColumns({ showContext, providers, taste, pinForYou = false, foldRating = false }: MovieColumnOptions): ColumnDef<DataGridFeatures, GridRow>[] {
   const tasteActive = taste?.active ?? false;
+  const folded = foldRating ? taste : undefined;
+  const visibleWidth = folded ? PHONE_TITLE_WIDTH[tasteActive ? "pinned" : "open"] : undefined;
   const columns: ColumnDef<DataGridFeatures, GridRow>[] = [
     {
       id: "year",
       accessorFn: (row) => (isFilmRow(row) ? row.movie.year : isDetailRow(row) ? undefined : row.group.label),
       header: ({ column }) => <DataGridColumnHeader title="Year" column={column} />,
-      size: MOVIE_COLUMN_SIZES.year,
+      size: folded ? PHONE_YEAR_SIZE : MOVIE_COLUMN_SIZES.year,
       meta: { headerClassName: "ps-6", cellClassName: cn("ps-6 text-muted-foreground tabular-nums", DETAIL_CELL) },
       cell: ({ row }) => {
         if (isFilmRow(row.original)) return row.original.movie.year;
@@ -146,7 +169,14 @@ export function createMovieColumns({ showContext, providers, taste, pinForYou = 
       size: MOVIE_COLUMN_SIZES.title,
       cell: ({ row }) => {
         if (isFilmRow(row.original)) {
-          return <TitleCell movie={row.original.movie} showContext={showContext} expanded={row.getIsExpanded()} onToggle={row.getToggleExpandedHandler()} />;
+          const { movie } = row.original;
+          const rating = folded && (
+            <RatingControl size="touch" title={movie.title} verdict={folded.verdicts[movie.slug]} onChange={(verdict) => folded.rate(movie.slug, verdict)} />
+          );
+          return (
+            <TitleCell movie={movie} showContext={showContext} expanded={row.getIsExpanded()} onToggle={row.getToggleExpandedHandler()}
+              rating={rating} visibleWidth={visibleWidth} />
+          );
         }
         if (isDetailRow(row.original)) return null;
         return <BandLabel group={row.original.group} />;
@@ -187,7 +217,7 @@ export function createMovieColumns({ showContext, providers, taste, pinForYou = 
     },
   ];
   if (!taste) return columns;
-  columns.splice(2, 0, rateColumn(taste));
+  if (!folded) columns.splice(2, 0, rateColumn(taste));
   if (taste.active) columns.push(forYouColumn(taste, pinForYou));
   return columns;
 }

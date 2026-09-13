@@ -11,12 +11,15 @@ interface HandCellProps {
   film: HandFilm;
   verdict: Verdict | undefined;
   onRate: (slug: string, verdict: Verdict | null) => void;
+  /** `touch` is the phone carousel: padded stars and a full-height "Haven't seen" button. */
+  size?: "sheet" | "touch";
 }
 
-export function HandCell({ film, verdict, onRate }: HandCellProps) {
+/** One film on the starter hand; the sheet's list item or the carousel's slide wraps it. */
+export function HandCell({ film, verdict, onRate, size = "sheet" }: HandCellProps) {
   const credit = [film.year, film.directors.join(", "), film.language].filter(Boolean).join(" · ");
   return (
-    <li className="bg-background motion-safe:animate-in motion-safe:fade-in flex w-64 shrink-0 snap-start flex-col gap-3 p-4 duration-300 sm:w-auto sm:shrink">
+    <div className="bg-background motion-safe:animate-in motion-safe:fade-in flex min-w-0 flex-1 flex-col gap-3 p-4 duration-300">
       <div className="flex min-w-0 flex-col gap-1">
         <a
           className="group inline-flex max-w-full items-center gap-1.5 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
@@ -32,20 +35,26 @@ export function HandCell({ film, verdict, onRate }: HandCellProps) {
         {film.genres.length > 0 && <p className="text-muted-foreground text-xs">{film.genres.join(", ")}</p>}
         {film.summary && <p className="text-muted-foreground line-clamp-2 pt-1 text-sm leading-relaxed text-pretty">{film.summary}</p>}
       </div>
-      <div className="mt-auto flex items-center justify-between gap-2">
-        <RatingControl size="sheet" title={film.title} verdict={verdict} onChange={(next) => onRate(film.slug, next)} />
-        <Button type="button" variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => onRate(film.slug, "skip")}>
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+        <RatingControl size={size} title={film.title} verdict={verdict} onChange={(next) => onRate(film.slug, next)} />
+        <Button
+          type="button"
+          variant="ghost"
+          size={size === "touch" ? "default" : "sm"}
+          className="text-muted-foreground hover:text-foreground ms-auto"
+          onClick={() => onRate(film.slug, "skip")}
+        >
           <IconEyeOff data-icon="inline-start" aria-hidden="true" />
           Haven’t seen
         </Button>
       </div>
-    </li>
+    </div>
   );
 }
 
 export function HandCellSkeleton() {
   return (
-    <li className="bg-background flex w-64 shrink-0 flex-col gap-3 p-4 sm:w-auto sm:shrink" aria-hidden="true">
+    <div className="bg-background flex min-w-0 flex-1 flex-col gap-3 p-4" aria-hidden="true">
       <div className="flex flex-col gap-2">
         <Skeleton className="h-4 w-3/4" />
         <Skeleton className="h-3 w-1/2" />
@@ -57,6 +66,6 @@ export function HandCellSkeleton() {
         <Skeleton className="h-8 w-[124px]" />
         <Skeleton className="h-7 w-24" />
       </div>
-    </li>
+    </div>
   );
 }

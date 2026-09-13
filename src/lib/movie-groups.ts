@@ -1,7 +1,7 @@
 import type { SortingState } from "@tanstack/react-table";
 import type { ScoredMovie } from "@/lib/movies";
 
-export type GroupKey = "score" | "forYou" | "decade" | "popularity";
+export type GroupKey = "score" | "forYou" | "decade" | "popularity" | "language" | "oscars";
 
 export interface GroupKeyOption {
   value: GroupKey;
@@ -13,6 +13,8 @@ export const GROUP_KEY_OPTIONS: GroupKeyOption[] = [
   { value: "forYou", label: "For you band" },
   { value: "decade", label: "Decade" },
   { value: "popularity", label: "Popularity tier" },
+  { value: "language", label: "Language" },
+  { value: "oscars", label: "Oscars" },
 ];
 
 export const DEFAULT_GROUP_KEY: GroupKey = "score";
@@ -67,6 +69,18 @@ function bucketSlot(value: number | null, buckets: Bucket[], fallback: Omit<Buck
   return { id: bucket.id, label: bucket.label, order: index };
 }
 
+function languageSlot(language: string | null): GroupSlot {
+  if (!language) return { id: "language-unknown", label: "Unknown language", order: 1 };
+  return { id: `language-${language.toLocaleLowerCase("en-US").replace(/[^a-z0-9]+/g, "-")}`, label: language, order: 0 };
+}
+
+function oscarSlot(wins: number | null, nominations: number | null): GroupSlot {
+  if ((wins ?? 0) >= 3) return { id: "oscars-3", label: "3+ Oscar wins", order: 0 };
+  if ((wins ?? 0) >= 1) return { id: "oscars-1", label: "1–2 Oscar wins", order: 1 };
+  if ((nominations ?? 0) >= 1) return { id: "oscars-nominated", label: "Nominated only", order: 2 };
+  return { id: "oscars-none", label: "No Oscar record", order: 3 };
+}
+
 function decadeSlot(year: number): GroupSlot {
   const decade = Math.floor(year / 10) * 10;
   return { id: `decade-${decade}`, label: `${decade}s`, order: -decade };
@@ -82,6 +96,10 @@ export function groupSlotFor(movie: ScoredMovie, key: GroupKey): GroupSlot {
       return decadeSlot(movie.year);
     case "popularity":
       return bucketSlot(movie.popularity, POPULARITY_TIERS, NO_POPULARITY);
+    case "language":
+      return languageSlot(movie.language);
+    case "oscars":
+      return oscarSlot(movie.oscarWins, movie.oscarNominations);
   }
 }
 
@@ -109,7 +127,7 @@ export function groupMovies(movies: ScoredMovie[], key: GroupKey): MovieGroup[] 
     }
   }
   return [...slots.values()]
-    .sort((a, b) => a.order - b.order)
+    .sort((a, b) => a.order - b.order || a.label.localeCompare(b.label, "en-US"))
     .map(({ id, label, movies: members }) => ({
       id,
       label,

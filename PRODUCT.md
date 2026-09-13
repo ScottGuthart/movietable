@@ -77,6 +77,14 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - Storage: table `taste_ratings (user_id, slug, verdict, stars, updated_at)` under row-level security, `verdict` being `rated` with `stars` in half steps from 0.5 to 5, or `skip`; each visitor reads and writes only their own rows (`supabase/migrations/20260912020000_taste_ratings.sql`).
 - Merge on sign-in: union of local and account ratings, newer `updated_at` wins, ties go to the account. Thumbs saved before the star scale read as four stars (like) and two (pass). Afterwards every local change is pushed after a short pause; localStorage stays the offline mirror. Signing out clears local ratings so a shared device starts clean.
 - Browser needs `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`; the anon key only ever reaches rows the policies allow.
+**Built: language, subgenres, Oscars, and where to watch** (2026-09-13)
+
+- Source: another session's IMDb and Wikidata enrichment (`movie_imdb` with language and Oscar counts, `movie_subgenres`) and JustWatch offers (`streaming_offers`, `providers`). Coverage at build: 2,976 of 3,040 films matched to IMDb; 286 Wikidata subgenres; US offers only.
+- Page payload carries language, cleaned subgenres, and Oscar counts per film; they drive the context line ("English · Gangster, Epic · 2 Oscars, 9 nominations"), the Language and Subgenre pickers and Oscar numeric filters, the Language and Oscars groupings, and two new taste features (subgenre weight 1.5, language weight 1).
+- The info button beside each title opens a detail popover fetched for that film alone from the browser with the anon key: full summary, directors, subgenres, Oscar line with the Wikidata caveat, streaming services, cheapest rent and buy per provider, and links to Metacritic, IMDb, and JustWatch.
+- Awards by category ("Best Picture", "Best Actor · Marlon Brando") render when a `movie_awards` table with `award, category, outcome, year, person_slug` lands; until then the popover shows counts only.
+- Subgenre labels are cleaned from Wikidata (trailing "film" removed, sentence case, Metacritic genres dropped).
+
 - Appearance: light and dark themes, following the system setting by default; signed-in visitors choose Match system, Light, or Dark from the account menu (stored in localStorage under `movietable.theme`). Guests get the system setting.
 
 ## Brand Commitments

@@ -18,7 +18,7 @@ import {
 } from "@/lib/taste";
 
 const film = (overrides: Partial<TasteFilm> & Pick<TasteFilm, "slug">): TasteFilm => ({
-  year: null, summary: null, genres: [], directors: [], writers: [], cast: [], ...overrides,
+  year: null, summary: null, genres: [], subgenres: [], language: null, directors: [], writers: [], cast: [], ...overrides,
 });
 
 const people = [
@@ -44,6 +44,7 @@ const catalogue: TasteCatalogue = {
 
 const scored = (slug: string, finalScore: number | null = 90): ScoredMovie => ({
   slug, title: slug, year: 2000, popularity: 1000, users: finalScore, critics: finalScore, finalScore, forYou: null,
+  language: null, subgenres: [], oscarWins: null, oscarNominations: null,
   link: `https://www.metacritic.com/movie/${slug}/`,
 });
 
@@ -59,6 +60,20 @@ describe("film features", () => {
     expect(features).toContainEqual({ kind: "writer", key: "1" });
     expect(features).toContainEqual({ kind: "cast", key: "3" });
     expect(features).toHaveLength(1 + 2 + 1 + 2 + 3);
+  });
+  test("adds subgenres and the language as features of their own kinds", () => {
+    const features = filmFeatures(film({ slug: "x", subgenres: ["Gangster", "Epic"], language: "Italian" }));
+    expect(features).toContainEqual({ kind: "subgenre", key: "Gangster" });
+    expect(features).toContainEqual({ kind: "subgenre", key: "Epic" });
+    expect(features).toContainEqual({ kind: "language", key: "Italian" });
+    expect(features).toHaveLength(3);
+  });
+  test("weights a subgenre between a genre and a writer, and a language like a cast member", () => {
+    const solo: TasteCatalogue = { films: [film({ slug: "s", subgenres: ["Gangster"], language: "Italian" })], people: [] };
+    const profile = buildProfile(solo, { s: 5 });
+    expect(profile.get("subgenre:Gangster")).toBe(1.5);
+    expect(profile.get("language:Italian")).toBe(1);
+    expect(explainMatch(profile, solo.films[0]!, [])).toEqual([{ kind: "subgenre", label: "Gangster" }, { kind: "language", label: "Italian" }]);
   });
   test("skips the decade when the year is unknown", () => {
     expect(filmFeatures(film({ slug: "x", genres: ["Drama"] }))).toEqual([{ kind: "genre", key: "Drama" }]);
@@ -82,16 +97,16 @@ describe("profile", () => {
     expect(profile.get("director:11")).toBe(1.5);
     expect(profile.get("genre:Comedy")).toBe(1);
   });
-  test("a two-star rating subtracts half weight and skips carry nothing", () => {
+  test("a two-star rating counts against a film at two fifths weight and skips carry nothing", () => {
     const profile = buildProfile(catalogue, { "spirited-away": 2, amelie: "skip" });
-    expect(profile.get("genre:Animation")).toBe(-1);
-    expect(profile.get("director:9")).toBe(-1.5);
+    expect(profile.get("genre:Animation")).toBeCloseTo(-0.8);
+    expect(profile.get("director:9")).toBeCloseTo(-1.2);
     expect(profile.has("director:11")).toBe(false);
   });
   test("accumulates across films", () => {
     const profile = buildProfile(catalogue, { "the-godfather": 5, "the-godfather-part-ii": 5, heat: 2 });
     expect(profile.get("director:0")).toBe(6);
-    expect(profile.get("cast:3")).toBe(1.5);
+    expect(profile.get("cast:3")).toBeCloseTo(1.6);
   });
   test("only four or five stars make a profile", () => {
     expect(hasPositive({ a: 2, b: "skip" })).toBe(false);

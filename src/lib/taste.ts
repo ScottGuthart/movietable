@@ -12,6 +12,9 @@ export interface TasteFilm {
   year: number | null;
   summary: string | null;
   genres: string[];
+  /** Cleaned Wikidata subgenres, most common first. */
+  subgenres: string[];
+  language: string | null;
   /** Indexes into `TasteCatalogue.people`, in billing order. */
   directors: number[];
   writers: number[];
@@ -24,7 +27,7 @@ export interface TasteCatalogue {
   people: string[];
 }
 
-export type FeatureKind = "director" | "genre" | "writer" | "cast" | "decade";
+export type FeatureKind = "director" | "genre" | "subgenre" | "writer" | "cast" | "language" | "decade";
 
 export interface Feature {
   kind: FeatureKind;
@@ -46,7 +49,7 @@ export interface HandCandidate {
   popularity: number | null;
 }
 
-const KIND_WEIGHT: Record<FeatureKind, number> = { director: 3, genre: 2, writer: 1.5, cast: 1, decade: 1 };
+const KIND_WEIGHT: Record<FeatureKind, number> = { director: 3, genre: 2, subgenre: 1.5, writer: 1.5, cast: 1, language: 1, decade: 1 };
 const STARS: readonly number[] = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 const NEUTRAL_STARS = 3;
 const MAX_STARS = 5;
@@ -77,6 +80,8 @@ export function filmFeatures(film: TasteFilm): Feature[] {
   const features: Feature[] = [];
   if (film.year !== null) features.push({ kind: "decade", key: String(decadeOf(film.year)) });
   for (const key of film.genres) features.push({ kind: "genre", key });
+  for (const key of film.subgenres) features.push({ kind: "subgenre", key });
+  if (film.language) features.push({ kind: "language", key: film.language });
   for (const index of film.directors) features.push({ kind: "director", key: String(index) });
   for (const index of film.writers) features.push({ kind: "writer", key: String(index) });
   for (const index of film.cast) features.push({ kind: "cast", key: String(index) });
@@ -179,7 +184,7 @@ export const UNKNOWN_PERSON = "Unknown person";
 
 function featureLabel(feature: Feature, people: string[]): string {
   if (feature.kind === "decade") return `${feature.key}s`;
-  if (feature.kind === "genre") return feature.key;
+  if (feature.kind === "genre" || feature.kind === "subgenre" || feature.kind === "language") return feature.key;
   return people[Number(feature.key)] ?? UNKNOWN_PERSON;
 }
 

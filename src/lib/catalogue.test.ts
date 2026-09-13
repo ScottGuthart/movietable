@@ -1,15 +1,16 @@
 import { describe, expect, test } from "bun:test";
-import { fetchWithRetry, pageAll, toRawMovies, toTasteCatalogue, truncateSummary, type MovieRow, type TasteRow } from "@/lib/catalogue";
+import { cleanSubgenre, fetchWithRetry, pageAll, toRawMovies, toTasteCatalogue, truncateSummary, type MovieRow, type TasteRow } from "@/lib/catalogue";
 
 const row = (overrides: Partial<MovieRow> & Pick<MovieRow, "slug">): MovieRow => ({
-  title: overrides.slug, year: 2000, metascore: 80, userscore: 75, users_rated: 400,
-  link: `https://www.metacritic.com/movie/${overrides.slug}/`, ...overrides,
+  title: overrides.slug, year: 2000, metascore: 80, userscore: 75, users_rated: 400, justwatch_url: null,
+  link: `https://www.metacritic.com/movie/${overrides.slug}/`, movie_imdb: null, movie_genres: [], movie_subgenres: [], ...overrides,
 });
 
 describe("movie rows", () => {
   test("maps database rows onto the app's raw movie shape", () => {
     const { movies, dropped } = toRawMovies([row({ slug: "heat", title: "Heat", year: 1995, userscore: 88.5 })]);
-    expect(movies).toEqual([{ slug: "heat", title: "Heat", year: 1995, metascore: 80, userscore: 88.5, users_rated: 400, link: "https://www.metacritic.com/movie/heat/" }]);
+    expect(movies).toEqual([{ slug: "heat", title: "Heat", year: 1995, metascore: 80, userscore: 88.5, users_rated: 400, link: "https://www.metacritic.com/movie/heat/",
+      language: null, subgenres: [], oscar_wins: null, oscar_nominations: null }]);
     expect(dropped).toBe(0);
   });
   test("drops films without a release year and counts them", () => {
@@ -19,10 +20,33 @@ describe("movie rows", () => {
   });
 });
 
+describe("enrichment on movie rows", () => {
+  test("carries language and Oscar counts and cleans subgenres, most common first, dropping Metacritic genres", () => {
+    const rows = [
+      row({ slug: "a", movie_imdb: { language: "Italian", oscar_wins: 2, oscar_nominations: 9 }, movie_genres: [{ genre_name: "Crime" }, { genre_name: "Drama" }],
+        movie_subgenres: [{ subgenre_name: "epic film" }, { subgenre_name: "gangster film" }, { subgenre_name: "crime film" }, { subgenre_name: "drama film" }] }),
+      row({ slug: "b", movie_subgenres: [{ subgenre_name: "gangster film" }] }),
+      row({ slug: "c", movie_genres: [{ genre_name: "Animation" }], movie_subgenres: [{ subgenre_name: "drama film" }, { subgenre_name: "anime" }] }),
+    ];
+    const { movies } = toRawMovies(rows);
+    expect(movies[0]).toMatchObject({ language: "Italian", oscar_wins: 2, oscar_nominations: 9, subgenres: ["Gangster", "Epic"] });
+    expect(movies[1]).toMatchObject({ language: null, oscar_wins: null, oscar_nominations: null, subgenres: ["Gangster"] });
+    expect(movies[2]!.subgenres).toEqual(["Anime"]);
+  });
+  test("cleans Wikidata labels into sentence-case subgenres", () => {
+    expect(cleanSubgenre("crime drama film")).toBe("Crime drama");
+    expect(cleanSubgenre("Spaghetti Western")).toBe("Spaghetti Western");
+    expect(cleanSubgenre("LGBTQ-related film")).toBe("LGBTQ-related");
+    expect(cleanSubgenre("Western films")).toBe("Western");
+    expect(cleanSubgenre("film noir")).toBe("Film noir");
+  });
+});
+
 describe("taste rows", () => {
   const person = (slug: string, name = slug) => ({ person_slug: slug, people: { name } });
   const taste: TasteRow = {
     slug: "the-godfather", year: 1972, summary: "Aging patriarch.",
+    movie_imdb: { language: "English" }, movie_subgenres: [{ subgenre_name: "gangster film" }, { subgenre_name: "crime film" }],
     movie_genres: [{ genre_name: "Crime" }, { genre_name: "Drama" }],
     credits: [
       { role: "cast", billing: 2, ...person("al-pacino", "Al Pacino") },
@@ -38,7 +62,7 @@ describe("taste rows", () => {
     expect(films).toHaveLength(1);
     expect(people).toEqual(["Al Pacino", "extra-0", "extra-1", "extra-2", "extra-3", "extra-4", "extra-5", "Francis Ford Coppola", "Mario Puzo", "Marlon Brando"]);
     expect(films[0]).toMatchObject({ slug: "the-godfather", year: 1972, summary: "Aging patriarch.", genres: ["Crime", "Drama"],
-      directors: [7], writers: [8], cast: [9, 0, 1, 2, 3, 4, 5, 6] });
+      subgenres: ["Gangster"], language: "English", directors: [7], writers: [8], cast: [9, 0, 1, 2, 3, 4, 5, 6] });
   });
   test("shares one index for a person credited on several films", () => {
     const second: TasteRow = { ...taste, slug: "the-godfather-part-ii", credits: [{ role: "director", billing: 1, ...person("francis-ford-coppola", "Francis Ford Coppola") }] };
@@ -47,8 +71,8 @@ describe("taste rows", () => {
     expect(people.filter((name) => name === "Francis Ford Coppola")).toHaveLength(1);
   });
   test("tolerates films with no genres or credits", () => {
-    const { films } = toTasteCatalogue([{ ...taste, movie_genres: [], credits: [] }]);
-    expect(films[0]).toMatchObject({ genres: [], directors: [], writers: [], cast: [] });
+    const { films } = toTasteCatalogue([{ ...taste, movie_genres: [], credits: [], movie_imdb: null, movie_subgenres: [] }]);
+    expect(films[0]).toMatchObject({ genres: [], subgenres: [], language: null, directors: [], writers: [], cast: [] });
   });
 });
 

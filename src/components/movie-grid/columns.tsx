@@ -11,6 +11,8 @@ import type { MovieGroup } from "@/lib/movie-groups";
 import { numberFormat, type ScoredMovie } from "@/lib/movies";
 import { isFilmRow, type GridRow } from "@/components/movie-grid/rows";
 import { forYouColumn, rateColumn, type TasteColumnOptions } from "@/components/taste/taste-columns";
+import { FilmDetail } from "@/components/film-detail/film-detail";
+import { oscarSummary } from "@/lib/film-detail";
 
 function formatScore(value: number | null): string {
   return value === null ? "—" : String(value);
@@ -60,11 +62,12 @@ export function BandAverage({ group }: { group: MovieGroup }) {
   );
 }
 
+/** Language, up to three subgenres, and the Oscar record; the scores already have columns. */
 function ContextLine({ movie }: { movie: ScoredMovie }) {
-  const popularity = movie.popularity === null ? "Popularity —" : `${numberFormat.format(movie.popularity)} ratings`;
+  const parts = [movie.language ?? "—", movie.subgenres.slice(0, 3).join(", "), oscarSummary(movie.oscarWins, movie.oscarNominations)].filter(Boolean);
   return (
-    <span className="text-muted-foreground block truncate text-xs leading-4 tabular-nums">
-      Users {formatScore(movie.users)} · Critics {formatScore(movie.critics)} · {popularity}
+    <span className="text-muted-foreground block truncate text-xs leading-4">
+      {parts.join(" · ")}
     </span>
   );
 }
@@ -72,12 +75,15 @@ function ContextLine({ movie }: { movie: ScoredMovie }) {
 function TitleCell({ movie, showContext }: { movie: ScoredMovie; showContext: boolean }) {
   return (
     <span className="flex min-w-0 flex-col">
-      <a className="group inline-flex max-w-full items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
-        href={movie.link} target="_blank" rel="noopener noreferrer">
-        <span className="truncate">{movie.title}</span>
-        <IconArrowUpRight aria-hidden="true" className="text-muted-foreground size-4 shrink-0 opacity-40 group-hover:opacity-100" />
-        <span className="sr-only"> (Metacritic, opens in a new tab)</span>
-      </a>
+      <span className="flex min-w-0 items-center gap-1">
+        <a className="group inline-flex min-w-0 items-center gap-2 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+          href={movie.link} target="_blank" rel="noopener noreferrer">
+          <span className="truncate">{movie.title}</span>
+          <IconArrowUpRight aria-hidden="true" className="text-muted-foreground size-4 shrink-0 opacity-40 group-hover:opacity-100" />
+          <span className="sr-only"> (Metacritic, opens in a new tab)</span>
+        </a>
+        <FilmDetail movie={movie} />
+      </span>
       {showContext && <ContextLine movie={movie} />}
     </span>
   );

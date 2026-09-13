@@ -29,6 +29,7 @@ export interface HandFilm {
   genres: string[];
   /** Director display names. */
   directors: string[];
+  language: string | null;
   summary: string | null;
 }
 
@@ -63,6 +64,7 @@ function toHandFilm(movie: ScoredMovie, film: TasteFilm, people: string[]): Hand
     popularity: movie.popularity,
     genres: film.genres,
     directors: film.directors.map((index) => people[index] ?? UNKNOWN_PERSON),
+    language: film.language,
     summary: film.summary,
   };
 }

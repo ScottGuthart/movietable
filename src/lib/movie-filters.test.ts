@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import type { FilterQuery, FilterRule } from "@/components/reui/filters/filters-types";
-import { DEFAULT_QUERY, describeQuery, emptyQuery, isCompleteRule, matchesQuery, MOVIE_FIELDS, numericValue } from "@/lib/movie-filters";
+import { createMovieFields, filterVocabulary, DEFAULT_QUERY, describeQuery, emptyQuery, isCompleteRule, matchesQuery, MOVIE_FIELDS, numericValue } from "@/lib/movie-filters";
 import { normalizeMovie, scoreMovies, type ScoredMovie } from "@/lib/movies";
 
-const movie: ScoredMovie = { slug: "the-great-film", title: "The Great Film", year: 2020, popularity: 500, users: 80, critics: 90, finalScore: 85, forYou: null, link: "https://www.metacritic.com/movie/test" };
+const movie: ScoredMovie = { slug: "the-great-film", title: "The Great Film", year: 2020, popularity: 500, users: 80, critics: 90, finalScore: 85, forYou: null, language: "French", subgenres: ["Gangster", "Epic"], oscarWins: 2, oscarNominations: 9, link: "https://www.metacritic.com/movie/test" };
 const rule = (field: string, operator: string, value?: unknown): FilterRule => ({ id: `${field}-${operator}`, type: "rule", path: [field], operator, value });
 const group = (combinator: "and" | "or", ...rules: FilterQuery["rules"]): FilterQuery => ({ id: "group", type: "group", combinator, rules });
 const check = (field: string, operator: string, value?: unknown, row = movie) => matchesQuery(row, group("and", rule(field, operator, value)));
@@ -37,8 +37,8 @@ describe("movie query evaluation", () => {
     expect(check("users", operator, value)).toBe(expected);
   });
   test("all exposed fields and operators have evaluation coverage", () => {
-    const covered = ["contains", "not_contains", "starts_with", "ends_with", "is", "is_not", "eq", "neq", "gt", "gte", "lt", "lte", "between", "not_between", "empty", "not_empty"];
-    expect(MOVIE_FIELDS.map((field) => field.id)).toEqual(["title", "year", "popularity", "users", "critics", "finalScore"]);
+    const covered = ["contains", "not_contains", "starts_with", "ends_with", "is", "is_not", "is_any_of", "is_none_of", "has_any_of", "has_all_of", "has_none_of", "eq", "neq", "gt", "gte", "lt", "lte", "between", "not_between", "empty", "not_empty"];
+    expect(MOVIE_FIELDS.map((field) => field.id)).toEqual(["title", "year", "popularity", "users", "critics", "finalScore", "language", "subgenres", "oscarWins", "oscarNominations"]);
     for (const field of MOVIE_FIELDS) {
       if (!Array.isArray(field.operators)) throw new Error("Expected an explicit operator catalog");
       for (const operator of field.operators) expect(covered).toContain(operator.value);
@@ -96,5 +96,54 @@ describe("movie query evaluation", () => {
     expect(describeQuery(query)).toBe('Year at least 2000 AND (Title contains "great" OR NOT (Critics less than 50))');
     expect(describeQuery(emptyQuery())).toBe("All movies");
     expect(describeQuery(group("and", rule("users", "gte", "")))).toContain("incomplete — ignored");
+  });
+});
+
+describe("enrichment filters", () => {
+  test("language is a select field matched exactly or by membership", () => {
+    expect(check("language", "is", "French")).toBe(true);
+    expect(check("language", "is", "English")).toBe(false);
+    expect(check("language", "is_any_of", ["English", "French"])).toBe(true);
+    expect(check("language", "is_none_of", ["French"])).toBe(false);
+    expect(check("language", "empty", undefined)).toBe(false);
+    expect(check("language", "empty", undefined, { ...movie, language: null })).toBe(true);
+  });
+  test("subgenres is a multiselect field matched by any, all, or none", () => {
+    expect(check("subgenres", "has_any_of", ["Epic", "Western"])).toBe(true);
+    expect(check("subgenres", "has_all_of", ["Epic", "Gangster"])).toBe(true);
+    expect(check("subgenres", "has_all_of", ["Epic", "Western"])).toBe(false);
+    expect(check("subgenres", "has_none_of", ["Western"])).toBe(true);
+    expect(check("subgenres", "empty", undefined, { ...movie, subgenres: [] })).toBe(true);
+  });
+  test("Oscar wins and nominations are numeric fields and unknown counts read as empty", () => {
+    expect(check("oscarWins", "gte", 1)).toBe(true);
+    expect(check("oscarNominations", "gt", 9)).toBe(false);
+    expect(check("oscarWins", "empty", undefined, { ...movie, oscarWins: null })).toBe(true);
+  });
+  test("membership rules are incomplete until they carry at least one value", () => {
+    expect(isCompleteRule(rule("language", "is_any_of", []))).toBe(false);
+    expect(isCompleteRule(rule("language", "is_any_of", ["French"]))).toBe(true);
+    expect(isCompleteRule(rule("subgenres", "has_any_of", ["Epic"]))).toBe(true);
+    expect(isCompleteRule(rule("language", "is", ""))).toBe(false);
+  });
+  test("fields can carry the catalogue's vocabulary as options", () => {
+    const fields = createMovieFields({ languages: ["English", "French"], subgenres: ["Epic", "Gangster"] });
+    expect(fields.find((field) => field.id === "language")?.options?.map((option) => option.value)).toEqual(["English", "French"]);
+    expect(fields.find((field) => field.id === "subgenres")?.options?.map((option) => option.label)).toEqual(["Epic", "Gangster"]);
+    expect(MOVIE_FIELDS.map((field) => field.id)).toEqual(["title", "year", "popularity", "users", "critics", "finalScore", "language", "subgenres", "oscarWins", "oscarNominations"]);
+  });
+  test("describes membership rules with their values", () => {
+    expect(describeQuery(group("and", rule("subgenres", "has_any_of", ["Epic", "Gangster"])))).toBe("Subgenre has any of Epic and Gangster");
+  });
+});
+
+describe("filter vocabulary", () => {
+  test("collects distinct languages and subgenres in alphabetical order", () => {
+    const vocabulary = filterVocabulary([
+      { language: "Japanese", subgenres: ["Gangster", "Epic"] },
+      { language: null, subgenres: ["Epic", "Anime"] },
+      { language: "English", subgenres: [] },
+    ]);
+    expect(vocabulary).toEqual({ languages: ["English", "Japanese"], subgenres: ["Anime", "Epic", "Gangster"] });
   });
 });

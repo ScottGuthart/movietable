@@ -48,7 +48,7 @@ export function DisplayPopover({ density, onDensityChange, showContext, onShowCo
               </Select>
             </Field>
             <Field orientation="horizontal" className="min-h-9 items-center justify-between gap-3">
-              <FieldLabel htmlFor="movie-context-line" className="text-sm font-normal">Scores under the title</FieldLabel>
+              <FieldLabel htmlFor="movie-context-line" className="text-sm font-normal">Details under the title</FieldLabel>
               <Switch id="movie-context-line" size="sm" checked={showContext} onCheckedChange={onShowContextChange} />
             </Field>
           </div>

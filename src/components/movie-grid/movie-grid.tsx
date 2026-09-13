@@ -7,7 +7,7 @@ import { DataGrid, dataGridFeatures } from "@/components/reui/data-grid/data-gri
 import { DataGridScrollArea } from "@/components/reui/data-grid/data-grid-scroll-area";
 import { DataGridTableVirtual } from "@/components/reui/data-grid/data-grid-table-virtual";
 import { Filters } from "@/components/reui/filters/filters";
-import type { FilterQuery } from "@/components/reui/filters/filters-types";
+import type { FilterField, FilterQuery } from "@/components/reui/filters/filters-types";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -50,11 +50,13 @@ interface MovieGridProps {
   advancedEditor: ReactNode;
   /** Adds the Rate column and, while a profile is active, the For you column and band grouping. */
   taste?: TasteColumnOptions;
+  /** Filter fields with the catalogue's option lists; defaults to the static fields. */
+  fields?: FilterField[];
 }
 
 export function MovieGrid({
   movies, totalCount, query, onQueryChange, sorting, onSortingChange, expanded, onExpandedChange,
-  groupKey, onGroupKeyChange, density, onDensityChange, showContext, onShowContextChange, actions, advancedEditor, taste,
+  groupKey, onGroupKeyChange, density, onDensityChange, showContext, onShowContextChange, actions, advancedEditor, taste, fields = MOVIE_FIELDS,
 }: MovieGridProps) {
   const bandRows = useMemo(() => buildGridRows(groupMovies(sortMovies(movies, sorting), groupKey)), [movies, sorting, groupKey]);
   const narrow = useMediaQuery("(max-width: 1023px)");
@@ -139,7 +141,7 @@ export function MovieGrid({
               advancedMode="popover"
               advancedAlign="end"
               reorderable
-              fields={MOVIE_FIELDS}
+              fields={fields}
               operatorLabels={MOVIE_OPERATOR_LABELS}
               query={query}
               onQueryChange={onQueryChange}

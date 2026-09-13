@@ -1,16 +1,18 @@
 "use client";
 
 import { Filters } from "@/components/reui/filters/filters";
-import type { FilterQuery } from "@/components/reui/filters/filters-types";
+import type { FilterField, FilterQuery } from "@/components/reui/filters/filters-types";
 import { countFilterRules } from "@/components/reui/filters/filters-query";
 import { describeQuery, MOVIE_FIELDS, MOVIE_OPERATOR_LABELS } from "@/lib/movie-filters";
 
 interface AdvancedMovieFiltersProps {
   query: FilterQuery;
   onQueryChange: (query: FilterQuery) => void;
+  /** Filter fields with the catalogue's option lists; defaults to the static fields. */
+  fields?: FilterField[];
 }
 
-export function AdvancedMovieFilters({ query, onQueryChange }: AdvancedMovieFiltersProps) {
+export function AdvancedMovieFilters({ query, onQueryChange, fields = MOVIE_FIELDS }: AdvancedMovieFiltersProps) {
   return (
     <section aria-labelledby="advanced-filter-heading" className="bg-muted/40 text-foreground border-t">
       <div className="px-5 py-5 sm:px-6">
@@ -28,7 +30,7 @@ export function AdvancedMovieFilters({ query, onQueryChange }: AdvancedMovieFilt
             variant="advanced"
             advancedMode="inline"
             reorderable
-            fields={MOVIE_FIELDS}
+            fields={fields}
             operatorLabels={MOVIE_OPERATOR_LABELS}
             query={query}
             onQueryChange={onQueryChange}

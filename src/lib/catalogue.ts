@@ -1,7 +1,13 @@
 import type { RawMovie } from "@/lib/movies";
 import type { TasteCatalogue, TasteFilm } from "@/lib/taste";
 
-/** A row of the Supabase `movies` table as PostgREST returns it; the slug is the key. */
+export interface ImdbRow {
+  language: string | null;
+  oscar_wins: number | null;
+  oscar_nominations: number | null;
+}
+
+/** A row of the Supabase `movies` table with its enrichment embedded; the slug is the key. */
 export interface MovieRow {
   slug: string;
   title: string;
@@ -10,6 +16,10 @@ export interface MovieRow {
   userscore: number | null;
   users_rated: number | null;
   link: string;
+  justwatch_url: string | null;
+  movie_imdb: ImdbRow | null;
+  movie_genres: { genre_name: string }[];
+  movie_subgenres: { subgenre_name: string }[];
 }
 
 export interface CreditRow {
@@ -24,7 +34,9 @@ export interface TasteRow {
   slug: string;
   year: number | null;
   summary: string | null;
+  movie_imdb: { language: string | null } | null;
   movie_genres: { genre_name: string }[];
+  movie_subgenres: { subgenre_name: string }[];
   credits: CreditRow[];
 }
 
@@ -34,8 +46,12 @@ const TASTE_PAGE_SIZE = 300;
 const CAST_LIMIT = 8;
 const REVALIDATE_SECONDS = 86400;
 
-const MOVIE_SELECT = "slug,title,year,metascore,userscore,users_rated,link";
-const TASTE_SELECT = "slug,year,summary,movie_genres(genre_name),credits(role,billing,person_slug,people(name))";
+const MOVIE_SELECT =
+  "slug,title,year,metascore,userscore,users_rated,link,justwatch_url," +
+  "movie_imdb(language,oscar_wins,oscar_nominations),movie_genres(genre_name),movie_subgenres(subgenre_name)";
+const TASTE_SELECT =
+  "slug,year,summary,movie_imdb(language),movie_genres(genre_name),movie_subgenres(subgenre_name)," +
+  "credits(role,billing,person_slug,people(name))";
 
 export interface RetryOptions {
   attempts?: number;
@@ -120,7 +136,40 @@ async function fetchRows<T>(select: string, afterSlug: string, limit: number): P
   return (await response.json()) as T[];
 }
 
+/** Turns a Wikidata film-genre label into a sentence-case subgenre: "crime drama film" becomes "Crime drama". */
+export function cleanSubgenre(label: string): string {
+  const stripped = label.trim().replace(/\s+films?$/i, "").trim() || label.trim();
+  return stripped.charAt(0).toUpperCase() + stripped.slice(1);
+}
+
+interface SubgenreContext {
+  /** How many films carry each cleaned label. */
+  frequency: Map<string, number>;
+  /** Every Metacritic genre in the catalogue, lower-cased; a subgenre that repeats one adds nothing. */
+  genres: Set<string>;
+}
+
+/** Cleaned subgenres for one film, without Metacritic genres, ordered by how common each is across the catalogue. */
+function filmSubgenres(subgenres: { subgenre_name: string }[], context: SubgenreContext): string[] {
+  const labels = [...new Set(subgenres.map((entry) => cleanSubgenre(entry.subgenre_name)))]
+    .filter((label) => !context.genres.has(label.toLocaleLowerCase("en-US")));
+  return labels.sort((a, b) => (context.frequency.get(b) ?? 0) - (context.frequency.get(a) ?? 0) || a.localeCompare(b, "en-US"));
+}
+
+function subgenreContext(rows: { movie_subgenres: { subgenre_name: string }[]; movie_genres: { genre_name: string }[] }[]): SubgenreContext {
+  const frequency = new Map<string, number>();
+  const genres = new Set<string>();
+  for (const row of rows) {
+    for (const entry of row.movie_genres) genres.add(entry.genre_name.toLocaleLowerCase("en-US"));
+    for (const label of new Set(row.movie_subgenres.map((entry) => cleanSubgenre(entry.subgenre_name)))) {
+      frequency.set(label, (frequency.get(label) ?? 0) + 1);
+    }
+  }
+  return { frequency, genres };
+}
+
 export function toRawMovies(rows: MovieRow[]): { movies: RawMovie[]; dropped: number } {
+  const context = subgenreContext(rows);
   const movies: RawMovie[] = [];
   for (const row of rows) {
     if (row.year === null) continue;
@@ -132,6 +181,10 @@ export function toRawMovies(rows: MovieRow[]): { movies: RawMovie[]; dropped: nu
       userscore: row.userscore,
       users_rated: row.users_rated,
       link: row.link,
+      language: row.movie_imdb?.language ?? null,
+      subgenres: filmSubgenres(row.movie_subgenres, context),
+      oscar_wins: row.movie_imdb?.oscar_wins ?? null,
+      oscar_nominations: row.movie_imdb?.oscar_nominations ?? null,
     });
   }
   return { movies, dropped: rows.length - movies.length };
@@ -168,6 +221,7 @@ function retainCredits(row: TasteRow): RetainedCredits {
 
 /** Builds the browser payload: films reference people by index into one sorted name list. */
 export function toTasteCatalogue(rows: TasteRow[]): TasteCatalogue {
+  const context = subgenreContext(rows);
   const retained = rows.map(retainCredits);
   const names = new Map<string, string>();
   for (const { directors, writers, cast } of retained) {
@@ -181,6 +235,8 @@ export function toTasteCatalogue(rows: TasteRow[]): TasteCatalogue {
     year: row.year,
     summary: truncateSummary(row.summary),
     genres: row.movie_genres.map((entry) => entry.genre_name),
+    subgenres: filmSubgenres(row.movie_subgenres, context),
+    language: row.movie_imdb?.language ?? null,
     directors: indexes(directors),
     writers: indexes(writers),
     cast: indexes(cast),

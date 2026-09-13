@@ -7,6 +7,12 @@ export interface RawMovie {
   userscore?: number | null;
   metascore?: number | null;
   link: string;
+  /** Original language from IMDb/Wikidata, when matched. */
+  language?: string | null;
+  /** Cleaned Wikidata subgenres, most common first. */
+  subgenres?: string[];
+  oscar_wins?: number | null;
+  oscar_nominations?: number | null;
 }
 
 export interface Movie {
@@ -17,6 +23,11 @@ export interface Movie {
   users: number | null;
   critics: number | null;
   link: string;
+  language: string | null;
+  subgenres: string[];
+  /** Academy Award counts from Wikidata; null when the film has no IMDb match. Indicative, not complete. */
+  oscarWins: number | null;
+  oscarNominations: number | null;
 }
 
 export interface ScoredMovie extends Movie {
@@ -46,6 +57,10 @@ export function normalizeMovie(raw: RawMovie): Movie {
     users: finiteOrNull(raw.userscore),
     critics: finiteOrNull(raw.metascore),
     link: raw.link,
+    language: raw.language ?? null,
+    subgenres: raw.subgenres ?? [],
+    oscarWins: finiteOrNull(raw.oscar_wins),
+    oscarNominations: finiteOrNull(raw.oscar_nominations),
   };
 }
 

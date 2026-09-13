@@ -14,7 +14,7 @@ interface HandCellProps {
 }
 
 export function HandCell({ film, verdict, onRate }: HandCellProps) {
-  const credit = [film.year, film.directors.join(", ")].filter(Boolean).join(" · ");
+  const credit = [film.year, film.directors.join(", "), film.language].filter(Boolean).join(" · ");
   return (
     <li className="bg-background motion-safe:animate-in motion-safe:fade-in flex w-64 shrink-0 snap-start flex-col gap-3 p-4 duration-300 sm:w-auto sm:shrink">
       <div className="flex min-w-0 flex-col gap-1">

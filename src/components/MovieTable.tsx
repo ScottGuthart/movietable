@@ -17,7 +17,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group";
 import { Slider } from "@/components/ui/slider";
-import { DEFAULT_QUERY, emptyQuery, matchesQuery } from "@/lib/movie-filters";
+import { createMovieFields, DEFAULT_QUERY, emptyQuery, filterVocabulary, matchesQuery } from "@/lib/movie-filters";
 import { DEFAULT_GROUP_KEY, type GroupKey } from "@/lib/movie-groups";
 import { DEFAULT_CRITIC_WEIGHT, matchesSearch, scoreMovies, type Movie } from "@/lib/movies";
 
@@ -49,6 +49,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
   const [expanded, setExpanded] = useState<ExpandedState>(ALL_EXPANDED);
 
   const scored = useMemo(() => scoreMovies(movies, criticWeight), [movies, criticWeight]);
+  const filterFields = useMemo(() => createMovieFields(filterVocabulary(movies)), [movies]);
   const taste = useTaste(scored);
   const rows = useMemo(() => taste.ranked.filter((movie) => matchesQuery(movie, query) && matchesSearch(movie, search)), [taste.ranked, query, search]);
   const sorting = resolveSorting(sortingOverride, taste.active);
@@ -106,7 +107,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
           movies={rows} totalCount={movies.length} query={query} onQueryChange={setQuery}
           sorting={sorting} onSortingChange={applySorting} expanded={expanded} onExpandedChange={applyExpanded}
           groupKey={groupKey} onGroupKeyChange={changeGroupKey} density={density} onDensityChange={setDensity}
-          showContext={showContext} onShowContextChange={setShowContext} taste={tasteColumns}
+          showContext={showContext} onShowContextChange={setShowContext} taste={tasteColumns} fields={filterFields}
           actions={
             <CollapsibleTrigger render={<Button variant="outline" />}>
               Advanced editor
@@ -119,7 +120,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
                 <TastePanel state={taste.state} retry={taste.retry} hand={taste.hand} handTotal={taste.handTotal} verdicts={taste.verdicts}
                   rate={taste.rate} dealAnother={taste.dealAnother} rated={taste.rated} positive={taste.positive} />
               )}
-              <CollapsibleContent><AdvancedMovieFilters query={query} onQueryChange={setQuery} /></CollapsibleContent>
+              <CollapsibleContent><AdvancedMovieFilters query={query} onQueryChange={setQuery} fields={filterFields} /></CollapsibleContent>
             </>
           }
         />

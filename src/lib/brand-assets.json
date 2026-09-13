@@ -1,0 +1,17 @@
+{
+  "site": "https://movietable.ai",
+  "og": {
+    "url": "https://api.movietable.ai/storage/v1/object/public/brand/og-436f64118a.png",
+    "width": 1200,
+    "height": 630,
+    "type": "image/png",
+    "alt": "MovieTable. The all-time top films on Metacritic, ranked by how much you trust critics versus crowds. Find your next film."
+  },
+  "icons": {
+    "svg": "https://api.movietable.ai/storage/v1/object/public/brand/icon-a684244ff9.svg",
+    "png32": "https://api.movietable.ai/storage/v1/object/public/brand/icon-32-2498e728c9.png",
+    "apple180": "https://api.movietable.ai/storage/v1/object/public/brand/apple-touch-icon-43c707d39a.png",
+    "png192": "https://api.movietable.ai/storage/v1/object/public/brand/icon-192-de6b854987.png",
+    "png512": "https://api.movietable.ai/storage/v1/object/public/brand/icon-512-61e3c7c997.png"
+  }
+}

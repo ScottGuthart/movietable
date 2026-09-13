@@ -1,9 +1,8 @@
 import type { RawMovie } from "@/lib/movies";
 import type { TasteCatalogue, TasteFilm } from "@/lib/taste";
 
-/** A row of the Supabase `movies` table as PostgREST returns it. */
+/** A row of the Supabase `movies` table as PostgREST returns it; the slug is the key. */
 export interface MovieRow {
-  id: number;
   slug: string;
   title: string;
   year: number | null;
@@ -16,16 +15,16 @@ export interface MovieRow {
 export interface CreditRow {
   role: "director" | "writer" | "cast";
   billing: number;
-  people: { slug: string; name: string };
+  person_slug: string;
+  people: { name: string };
 }
 
 /** A `movies` row with its genres and credits embedded by PostgREST. */
 export interface TasteRow {
-  id: number;
   slug: string;
   year: number | null;
   summary: string | null;
-  movie_genres: { genres: { name: string } }[];
+  movie_genres: { genre_name: string }[];
   credits: CreditRow[];
 }
 
@@ -35,8 +34,8 @@ const TASTE_PAGE_SIZE = 300;
 const CAST_LIMIT = 8;
 const REVALIDATE_SECONDS = 86400;
 
-const MOVIE_SELECT = "id,slug,title,year,metascore,userscore,users_rated,link";
-const TASTE_SELECT = "id,slug,year,summary,movie_genres(genres(name)),credits(role,billing,people(slug,name))";
+const MOVIE_SELECT = "slug,title,year,metascore,userscore,users_rated,link";
+const TASTE_SELECT = "slug,year,summary,movie_genres(genre_name),credits(role,billing,person_slug,people(name))";
 
 export interface RetryOptions {
   attempts?: number;
@@ -83,28 +82,29 @@ function requireEnv(name: string): string {
   return value;
 }
 
-/** Walks a table by ascending id until a page comes back short. */
-export async function pageAll<T extends { id: number }>(
-  fetchPage: (afterId: number, limit: number) => Promise<T[]>,
+/** Walks a table in ascending key order until a page comes back short. */
+export async function pageAll<T>(
+  fetchPage: (afterKey: string, limit: number) => Promise<T[]>,
+  keyOf: (row: T) => string,
   limit = PAGE_SIZE,
 ): Promise<T[]> {
   const rows: T[] = [];
-  let afterId = 0;
+  let afterKey = "";
   for (;;) {
-    const page = await fetchPage(afterId, limit);
+    const page = await fetchPage(afterKey, limit);
     rows.push(...page);
     const last = page.at(-1);
     if (page.length < limit || !last) return rows;
-    afterId = last.id;
+    afterKey = keyOf(last);
   }
 }
 
-async function fetchRows<T>(select: string, afterId: number, limit: number): Promise<T[]> {
+async function fetchRows<T>(select: string, afterSlug: string, limit: number): Promise<T[]> {
   const key = requireEnv("SUPABASE_ANON_KEY");
   const url = new URL(`${requireEnv("SUPABASE_URL")}/rest/v1/movies`);
   url.searchParams.set("select", select);
-  url.searchParams.set("id", `gt.${afterId}`);
-  url.searchParams.set("order", "id");
+  url.searchParams.set("slug", `gt.${afterSlug}`);
+  url.searchParams.set("order", "slug");
   url.searchParams.set("limit", String(limit));
   const response = await fetchWithRetry(fetch, url, {
     headers: { apikey: key, Authorization: `Bearer ${key}` },
@@ -171,16 +171,16 @@ export function toTasteCatalogue(rows: TasteRow[]): TasteCatalogue {
   const retained = rows.map(retainCredits);
   const names = new Map<string, string>();
   for (const { directors, writers, cast } of retained) {
-    for (const credit of [...directors, ...writers, ...cast]) names.set(credit.people.slug, credit.people.name);
+    for (const credit of [...directors, ...writers, ...cast]) names.set(credit.person_slug, credit.people.name);
   }
   const slugs = [...names.keys()].sort();
   const indexOf = new Map(slugs.map((slug, index) => [slug, index]));
-  const indexes = (credits: CreditRow[]) => credits.map((credit) => indexOf.get(credit.people.slug)!);
+  const indexes = (credits: CreditRow[]) => credits.map((credit) => indexOf.get(credit.person_slug)!);
   const films = retained.map(({ row, directors, writers, cast }): TasteFilm => ({
     slug: row.slug,
     year: row.year,
     summary: truncateSummary(row.summary),
-    genres: row.movie_genres.map((entry) => entry.genres.name),
+    genres: row.movie_genres.map((entry) => entry.genre_name),
     directors: indexes(directors),
     writers: indexes(writers),
     cast: indexes(cast),
@@ -190,7 +190,7 @@ export function toTasteCatalogue(rows: TasteRow[]): TasteCatalogue {
 
 /** The full catalogue for the table, read from Supabase and cached for a day. */
 export async function fetchCatalogue(): Promise<RawMovie[]> {
-  const rows = await pageAll((afterId, limit) => fetchRows<MovieRow>(MOVIE_SELECT, afterId, limit));
+  const rows = await pageAll((afterSlug, limit) => fetchRows<MovieRow>(MOVIE_SELECT, afterSlug, limit), (row) => row.slug);
   const { movies, dropped } = toRawMovies(rows);
   if (dropped > 0) console.warn(`Dropped ${dropped} films without a release year from the Supabase catalogue.`);
   if (movies.length === 0) {
@@ -201,6 +201,6 @@ export async function fetchCatalogue(): Promise<RawMovie[]> {
 
 /** Genres, credits, and summaries for the taste profile, read from Supabase and cached for a day. */
 export async function fetchTasteData(): Promise<TasteCatalogue> {
-  const rows = await pageAll((afterId, limit) => fetchRows<TasteRow>(TASTE_SELECT, afterId, limit), TASTE_PAGE_SIZE);
+  const rows = await pageAll((afterSlug, limit) => fetchRows<TasteRow>(TASTE_SELECT, afterSlug, limit), (row) => row.slug, TASTE_PAGE_SIZE);
   return toTasteCatalogue(rows);
 }

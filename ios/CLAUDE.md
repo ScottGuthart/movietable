@@ -6,7 +6,12 @@ and `../DESIGN.md` before changing copy, scoring, or visual language.
 
 ## Toolchain
 
-- iOS 26 minimum, SwiftUI only, Swift 6 with strict concurrency, Swift Testing.
+- One multiplatform SwiftUI app target for iPhone, iPad, and Mac; minimums
+  iOS 26, iPadOS 26, macOS 26. Swift 6 with strict concurrency. No Mac
+  Catalyst, no UIKit. visionOS is deferred.
+- Unit and integration tests use Swift Testing. XCTest is allowed only for
+  XCUITest UI automation and `measure` performance tests. Never mix
+  `#expect` and `XCTAssert` in one test function.
 - Open `ios/` as the project root in Xcode. Never edit `project.pbxproj` by
   hand; add files through Xcode or keep them inside a Swift package.
 - Code lives in Swift packages so every agent edits plain folders:
@@ -14,8 +19,12 @@ and `../DESIGN.md` before changing copy, scoring, or visual language.
     profile, ratings merge. No UI, no networking.
   - `Packages/MovieTableData`: Supabase client, PostgREST queries, cache.
   - `Packages/MovieTableUI`: views and view models.
-- Build and test before claiming done:
+- Build and test before claiming done, on both destinations:
   `xcodebuild -scheme MovieTable -destination 'platform=iOS Simulator,name=iPhone 17' build test`
+  `xcodebuild -scheme MovieTable -destination 'platform=macOS' build test`
+- Persistence is Codable JSON in Application Support (catalogue snapshot,
+  guest ratings, film detail cache), written atomically. No SwiftData, no
+  Core Data. If a real query need appears, use GRDB, not SwiftData.
 - Secrets: `SUPABASE_URL` and the anon key go in `Config.xcconfig` (gitignored)
   and are read from `Info.plist`. Never paste keys into Swift source.
 
@@ -28,6 +37,8 @@ and `../DESIGN.md` before changing copy, scoring, or visual language.
   `streaming_offers`, `providers`, `taste_ratings`.
 - The catalogue is a snapshot, not live ratings. Cache it on disk and show a
   designed offline state, never a network error page.
+- Supabase is the only remote store. Never add CloudKit or iCloud sync;
+  ratings must round-trip with the website through `taste_ratings`.
 - `taste_ratings (user_id, slug, verdict, stars, updated_at)` is protected by
   row-level security; the anon key only reaches the signed-in user's rows.
 - Auth: Sign in with Apple and Google through `signInWithIdToken`; magic link
@@ -69,9 +80,16 @@ Port these from `../src/lib` and keep parity with its tests in
 - Follow `../DESIGN.md`: Marquee Crimson accent, serif ledger type, light and
   dark themes. Use system materials and iOS 26 idioms rather than copying web
   chrome.
+- Use `Table` with a `SortComparator` binding for the film list; it renders
+  sortable columns on iPad and Mac and collapses to one column on iPhone,
+  where each row is a designed cell. Branch on `horizontalSizeClass`, never
+  on device model.
+- Mac needs menu `Commands` for sort, filter, and reset view, keyboard
+  shortcuts, and a default window size. Sign in with Apple must work on
+  every platform.
 - The score bias slider is the hero control; re-score on release, not on
   every tick. Keep the scored list precomputed in an `@Observable` store with
-  stable row ids so `List` stays fast at 1,500 rows.
+  stable row ids so the table stays fast at 1,500 rows.
 - Star rating uses `sensoryFeedback` haptics; the left half of a star gives
   the half step.
 - Every film links out to its Metacritic page.

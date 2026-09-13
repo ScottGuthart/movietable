@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useSafeAreaPadding } from "@/hooks/use-safe-area-padding"
 import {
   useCascaderLoader,
   useCascaderLoadState,
@@ -2576,6 +2577,7 @@ function CascaderContent({
   ref,
   ...props
 }: CascaderContentProps) {
+  const safeAreaPadding = useSafeAreaPadding()
   const { labels } = useCascaderActions()
   const popupRef = React.useRef<HTMLDivElement | null>(null)
 
@@ -2624,7 +2626,7 @@ function CascaderContent({
         alignOffset={alignOffset}
         anchor={anchor}
         {...(collisionBoundary !== undefined ? { collisionBoundary } : null)}
-        {...(collisionPadding !== undefined ? { collisionPadding } : null)}
+        collisionPadding={collisionPadding ?? safeAreaPadding}
         {...(sticky !== undefined ? { sticky } : null)}
         {...(positionMethod !== undefined ? { positionMethod } : null)}
         className="isolate z-50"

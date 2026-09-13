@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import { IconArrowUpRight, IconMovie } from "@tabler/icons-react";
 import { Account } from "@/components/auth/account";
+import { InstallHelp } from "@/components/pwa/install-help";
 import MovieTable from "@/components/MovieTable";
 import { fetchCatalogue, fetchProviders, fetchSignals } from "@/lib/catalogue";
 import { getMovieBounds, normalizeMovie, numberFormat, type Movie } from "@/lib/movies";
@@ -40,7 +41,10 @@ export default async function Page() {
             <p className="text-muted-foreground max-w-lg leading-relaxed text-pretty">Find your next great film. Let the audience, the critics, or a little of both be your guide.</p>
           </div>
           <div className="flex flex-col items-start gap-2 sm:items-end">
-            <Account />
+            <div className="flex flex-wrap items-center gap-2">
+              <InstallHelp />
+              <Account />
+            </div>
             <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · Metacritic dataset</p>
           </div>
         </header>

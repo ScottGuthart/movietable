@@ -140,6 +140,11 @@
     "icon_url": "https://images.justwatch.com/icon/76972041/s100"
   },
   {
+    "id": 209,
+    "name": "PBS",
+    "icon_url": "https://images.justwatch.com/icon/78090545/s100"
+  },
+  {
     "id": 211,
     "name": "Freeform",
     "icon_url": "https://images.justwatch.com/icon/79299282/s100"
@@ -185,9 +190,19 @@
     "icon_url": "https://images.justwatch.com/icon/241732600/s100"
   },
   {
+    "id": 290,
+    "name": "Hallmark+ Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/326986513/s100"
+  },
+  {
     "id": 291,
     "name": "MZ Choice Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/241732594/s100"
+  },
+  {
+    "id": 295,
+    "name": "RetroCrush Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/322007825/s100"
   },
   {
     "id": 300,
@@ -198,6 +213,11 @@
     "id": 309,
     "name": "Sun Nxt",
     "icon_url": "https://images.justwatch.com/icon/138047862/s100"
+  },
+  {
+    "id": 322,
+    "name": "USA Network",
+    "icon_url": "https://images.justwatch.com/icon/141752011/s100"
   },
   {
     "id": 331,
@@ -255,6 +275,11 @@
     "icon_url": "https://images.justwatch.com/icon/198412956/s100"
   },
   {
+    "id": 417,
+    "name": "Here TV",
+    "icon_url": "https://images.justwatch.com/icon/199216642/s100"
+  },
+  {
     "id": 427,
     "name": "Mhz Choice",
     "icon_url": "https://images.justwatch.com/icon/200839772/s100"
@@ -273,6 +298,11 @@
     "id": 439,
     "name": "Shout! Factory TV",
     "icon_url": "https://images.justwatch.com/icon/201913784/s100"
+  },
+  {
+    "id": 444,
+    "name": "Dekkoo",
+    "icon_url": "https://images.justwatch.com/icon/202068207/s100"
   },
   {
     "id": 446,
@@ -385,6 +415,11 @@
     "icon_url": "https://images.justwatch.com/icon/248033724/s100"
   },
   {
+    "id": 603,
+    "name": "CuriosityStream Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/248040459/s100"
+  },
+  {
     "id": 613,
     "name": "Amazon Prime Video Free with Ads",
     "icon_url": "https://images.justwatch.com/icon/327791663/s100"
@@ -418,6 +453,16 @@
     "id": 692,
     "name": "Cultpix",
     "icon_url": "https://images.justwatch.com/icon/264459628/s100"
+  },
+  {
+    "id": 1715,
+    "name": "Shahid VIP",
+    "icon_url": "https://images.justwatch.com/icon/280600874/s100"
+  },
+  {
+    "id": 1746,
+    "name": "Hallmark TV Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/292999370/s100"
   },
   {
     "id": 1771,
@@ -495,6 +540,11 @@
     "icon_url": "https://images.justwatch.com/icon/308802886/s100"
   },
   {
+    "id": 1964,
+    "name": "National Geographic",
+    "icon_url": "https://images.justwatch.com/icon/308813669/s100"
+  },
+  {
     "id": 1971,
     "name": "DistroTV",
     "icon_url": "https://images.justwatch.com/icon/309114965/s100"
@@ -530,9 +580,29 @@
     "icon_url": "https://images.justwatch.com/icon/311511431/s100"
   },
   {
+    "id": 2050,
+    "name": "ScreenPix Apple TV channel",
+    "icon_url": "https://images.justwatch.com/icon/311511423/s100"
+  },
+  {
     "id": 2056,
     "name": "IFC Films Unlimited Apple TV channel",
     "icon_url": "https://images.justwatch.com/icon/311512270/s100"
+  },
+  {
+    "id": 2058,
+    "name": "Hallmark+ Apple TV channel",
+    "icon_url": "https://images.justwatch.com/icon/326986586/s100"
+  },
+  {
+    "id": 2059,
+    "name": "Eros Now Select Apple TV channel",
+    "icon_url": "https://images.justwatch.com/icon/311512065/s100"
+  },
+  {
+    "id": 2060,
+    "name": "CuriosityStream Apple TV channel",
+    "icon_url": "https://images.justwatch.com/icon/311512090/s100"
   },
   {
     "id": 2061,
@@ -543,6 +613,11 @@
     "id": 2064,
     "name": "ALLBLK Amazon channel ",
     "icon_url": "https://images.justwatch.com/icon/318726470/s100"
+  },
+  {
+    "id": 2069,
+    "name": "ScreenPix Amazon Channel ",
+    "icon_url": "https://images.justwatch.com/icon/311566899/s100"
   },
   {
     "id": 2077,
@@ -620,6 +695,16 @@
     "icon_url": "https://images.justwatch.com/icon/327292620/s100"
   },
   {
+    "id": 2370,
+    "name": "DC Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/327292755/s100"
+  },
+  {
+    "id": 2371,
+    "name": "Dekkoo Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/327292762/s100"
+  },
+  {
     "id": 2377,
     "name": "DocuramaFilms Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/327344916/s100"
@@ -640,6 +725,11 @@
     "icon_url": "https://images.justwatch.com/icon/327419079/s100"
   },
   {
+    "id": 2392,
+    "name": "Echoboom Amazon Channel ",
+    "icon_url": "https://images.justwatch.com/icon/328262805/s100"
+  },
+  {
     "id": 2395,
     "name": "Film Movement Plus Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/328265507/s100"
@@ -655,9 +745,24 @@
     "icon_url": "https://images.justwatch.com/icon/328346669/s100"
   },
   {
+    "id": 2404,
+    "name": "Indie Club Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/328346929/s100"
+  },
+  {
     "id": 2405,
     "name": "IndieFlix Shorts Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/328347483/s100"
+  },
+  {
+    "id": 2406,
+    "name": "Here TV  Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/328353906/s100"
+  },
+  {
+    "id": 2407,
+    "name": "IndiePix Unlimited Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/328580213/s100"
   },
   {
     "id": 2409,
@@ -685,6 +790,11 @@
     "icon_url": "https://images.justwatch.com/icon/329620432/s100"
   },
   {
+    "id": 2428,
+    "name": "Pinoy Box Office Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/329621480/s100"
+  },
+  {
     "id": 2430,
     "name": "PBS Documentaries Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/329621782/s100"
@@ -703,6 +813,11 @@
     "id": 2445,
     "name": "MovieSphere+ Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/329636625/s100"
+  },
+  {
+    "id": 2448,
+    "name": "FUEL TV+ Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/329637222/s100"
   },
   {
     "id": 2466,
@@ -738,6 +853,11 @@
     "id": 2616,
     "name": "Paramount Plus Essential",
     "icon_url": "https://images.justwatch.com/icon/339047242/s100"
+  },
+  {
+    "id": 2621,
+    "name": "KQED",
+    "icon_url": "https://images.justwatch.com/icon/339615241/s100"
   },
   {
     "id": 2623,
@@ -793,5 +913,10 @@
     "id": 2754,
     "name": "Howdy Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/348080027/s100"
+  },
+  {
+    "id": 2765,
+    "name": "Pijama Films",
+    "icon_url": "https://images.justwatch.com/icon/350637525/s100"
   }
 ]

@@ -31,13 +31,13 @@ type TableName = (typeof TABLES)[number];
 
 /** Conflict targets matching each table's primary key. */
 const CONFLICT_KEYS: Record<TableName, string> = {
-	movies: "id",
-	people: "id",
-	genres: "id",
+	movies: "slug",
+	people: "slug",
+	genres: "name",
 	providers: "id",
-	credits: "movie_id,person_id,role",
-	movie_genres: "movie_id,genre_id",
-	streaming_offers: "movie_id,provider_id,monetization,quality",
+	credits: "movie_slug,person_slug,role",
+	movie_genres: "movie_slug,genre_name",
+	streaming_offers: "movie_slug,provider_id,monetization,quality",
 };
 
 function requireEnv(name: string): string {

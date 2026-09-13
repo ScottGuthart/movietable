@@ -15,6 +15,9 @@
     "name": "Greatest Movie Hits"
   },
   {
+    "name": "Hopecore"
+  },
+  {
     "name": "Japanese mythology"
   },
   {
@@ -36,10 +39,16 @@
     "name": "Weird West"
   },
   {
+    "name": "Western"
+  },
+  {
     "name": "Western film"
   },
   {
     "name": "Z movie"
+  },
+  {
+    "name": "absurdist comedy film"
   },
   {
     "name": "absurdist fiction"
@@ -93,6 +102,9 @@
     "name": "alternate history film"
   },
   {
+    "name": "animated documentary"
+  },
+  {
     "name": "animated film"
   },
   {
@@ -111,6 +123,9 @@
     "name": "apocalyptic film"
   },
   {
+    "name": "aqua-musical"
+  },
+  {
     "name": "art film"
   },
   {
@@ -120,13 +135,13 @@
     "name": "association football film"
   },
   {
+    "name": "autobiographical film"
+  },
+  {
     "name": "autobiography"
   },
   {
-    "name": "ballet film"
-  },
-  {
-    "name": "beach party film"
+    "name": "biographical drama film"
   },
   {
     "name": "biographical film"
@@ -144,6 +159,9 @@
     "name": "blaxploitation film"
   },
   {
+    "name": "body horror"
+  },
+  {
     "name": "body horror film"
   },
   {
@@ -156,7 +174,13 @@
     "name": "buddy film"
   },
   {
+    "name": "bushranging film"
+  },
+  {
     "name": "chase film"
+  },
+  {
+    "name": "chick flick"
   },
   {
     "name": "children's film"
@@ -165,13 +189,10 @@
     "name": "cinematic fairy tale"
   },
   {
-    "name": "classical antiquity film"
-  },
-  {
     "name": "clay animation"
   },
   {
-    "name": "comedy anime and manga"
+    "name": "comedy"
   },
   {
     "name": "comedy drama"
@@ -201,6 +222,9 @@
     "name": "coming-of-age film"
   },
   {
+    "name": "computer-animated film"
+  },
+  {
     "name": "concert film"
   },
   {
@@ -211,6 +235,9 @@
   },
   {
     "name": "crime drama film"
+  },
+  {
+    "name": "crime fiction"
   },
   {
     "name": "crime film"
@@ -240,6 +267,9 @@
     "name": "detective film"
   },
   {
+    "name": "dieselpunk"
+  },
+  {
     "name": "disaster film"
   },
   {
@@ -249,7 +279,16 @@
     "name": "docufiction"
   },
   {
+    "name": "documentary"
+  },
+  {
     "name": "documentary film"
+  },
+  {
+    "name": "domestic thriller"
+  },
+  {
+    "name": "drama anime"
   },
   {
     "name": "drama anime and manga"
@@ -288,9 +327,6 @@
     "name": "essay film"
   },
   {
-    "name": "ethnographic film"
-  },
-  {
     "name": "experimental film"
   },
   {
@@ -327,7 +363,16 @@
     "name": "female buddy film"
   },
   {
+    "name": "fiction"
+  },
+  {
     "name": "fiction film"
+  },
+  {
+    "name": "film based on a literary work"
+  },
+  {
+    "name": "film based on a novel"
   },
   {
     "name": "film based on book"
@@ -336,16 +381,19 @@
     "name": "film noir"
   },
   {
-    "name": "film score"
+    "name": "flashback film"
   },
   {
-    "name": "flashback film"
+    "name": "folk horror film"
   },
   {
     "name": "found footage film"
   },
   {
     "name": "gangster film"
+  },
+  {
+    "name": "gay-related film"
   },
   {
     "name": "ghost film"
@@ -361,6 +409,9 @@
   },
   {
     "name": "gothic horror film"
+  },
+  {
+    "name": "hard science fiction"
   },
   {
     "name": "heist film"
@@ -414,7 +465,16 @@
     "name": "kung fu film"
   },
   {
+    "name": "legal drama"
+  },
+  {
     "name": "legal thriller"
+  },
+  {
+    "name": "lesbian-related film"
+  },
+  {
+    "name": "live action"
   },
   {
     "name": "live-action/animated film"
@@ -441,6 +501,12 @@
     "name": "melodrama"
   },
   {
+    "name": "mental health"
+  },
+  {
+    "name": "metacinema"
+  },
+  {
     "name": "military science fiction"
   },
   {
@@ -457,6 +523,9 @@
   },
   {
     "name": "musical comedy"
+  },
+  {
+    "name": "musical drama"
   },
   {
     "name": "musical film"
@@ -489,10 +558,10 @@
     "name": "nunsploitation"
   },
   {
-    "name": "parody film"
+    "name": "outlaw biker film"
   },
   {
-    "name": "partisan film"
+    "name": "parody film"
   },
   {
     "name": "performance art"
@@ -510,6 +579,9 @@
     "name": "police film"
   },
   {
+    "name": "police procedural"
+  },
+  {
     "name": "police procedural film"
   },
   {
@@ -522,10 +594,10 @@
     "name": "political satire"
   },
   {
-    "name": "political thriller film"
+    "name": "political thriller"
   },
   {
-    "name": "pornographic film"
+    "name": "political thriller film"
   },
   {
     "name": "post-apocalyptic anime"
@@ -621,6 +693,9 @@
     "name": "romantic drama film"
   },
   {
+    "name": "romantic fantasy"
+  },
+  {
     "name": "romantic horror film"
   },
   {
@@ -645,9 +720,6 @@
     "name": "science fiction anime"
   },
   {
-    "name": "science fiction anime and manga"
-  },
-  {
     "name": "science fiction comedy"
   },
   {
@@ -655,6 +727,9 @@
   },
   {
     "name": "science fiction horror film"
+  },
+  {
+    "name": "screenlife"
   },
   {
     "name": "screwball comedy film"
@@ -690,7 +765,13 @@
     "name": "social problem film"
   },
   {
+    "name": "soul"
+  },
+  {
     "name": "space Western"
+  },
+  {
+    "name": "space Western film"
   },
   {
     "name": "space adventure film"
@@ -723,6 +804,9 @@
     "name": "steampunk film"
   },
   {
+    "name": "stitchpunk"
+  },
+  {
     "name": "stoner film"
   },
   {
@@ -750,7 +834,16 @@
     "name": "supernatural horror film"
   },
   {
+    "name": "supernatural thriller"
+  },
+  {
     "name": "surf film"
+  },
+  {
+    "name": "surreal humour"
+  },
+  {
+    "name": "surrealist fiction"
   },
   {
     "name": "surrealist film"
@@ -777,7 +870,13 @@
     "name": "tech-noir film"
   },
   {
+    "name": "techno-horror film"
+  },
+  {
     "name": "techno-thriller"
+  },
+  {
+    "name": "technofantasy"
   },
   {
     "name": "teen drama television"
@@ -804,6 +903,12 @@
     "name": "tokusatsu"
   },
   {
+    "name": "traditionally animated film"
+  },
+  {
+    "name": "tragedy"
+  },
+  {
     "name": "tragicomedy"
   },
   {
@@ -814,6 +919,9 @@
   },
   {
     "name": "trial film"
+  },
+  {
+    "name": "triathlon films"
   },
   {
     "name": "true crime"

@@ -55,6 +55,11 @@
     "icon_url": "https://images.justwatch.com/icon/301254735/s100"
   },
   {
+    "id": 60,
+    "name": "Fandango",
+    "icon_url": "https://images.justwatch.com/icon/811323/s100"
+  },
+  {
     "id": 73,
     "name": "Tubi TV",
     "icon_url": "https://images.justwatch.com/icon/313528601/s100"
@@ -93,6 +98,21 @@
     "id": 143,
     "name": "Sundance Now",
     "icon_url": "https://images.justwatch.com/icon/5676163/s100"
+  },
+  {
+    "id": 151,
+    "name": "BritBox",
+    "icon_url": "https://images.justwatch.com/icon/340824362/s100"
+  },
+  {
+    "id": 188,
+    "name": "YouTube Premium",
+    "icon_url": "https://images.justwatch.com/icon/70189310/s100"
+  },
+  {
+    "id": 190,
+    "name": "Curiosity Stream",
+    "icon_url": "https://images.justwatch.com/icon/48600036/s100"
   },
   {
     "id": 191,
@@ -160,6 +180,11 @@
     "icon_url": "https://images.justwatch.com/icon/113378150/s100"
   },
   {
+    "id": 251,
+    "name": "ALLBLK",
+    "icon_url": "https://images.justwatch.com/icon/318685072/s100"
+  },
+  {
     "id": 257,
     "name": "fuboTV",
     "icon_url": "https://images.justwatch.com/icon/316727345/s100"
@@ -178,6 +203,11 @@
     "id": 278,
     "name": "Pure Flix",
     "icon_url": "https://images.justwatch.com/icon/127414508/s100"
+  },
+  {
+    "id": 283,
+    "name": "Crunchyroll",
+    "icon_url": "https://images.justwatch.com/icon/324213205/s100"
   },
   {
     "id": 287,
@@ -320,6 +350,11 @@
     "icon_url": "https://images.justwatch.com/icon/306191612/s100"
   },
   {
+    "id": 473,
+    "name": "Revry",
+    "icon_url": "https://images.justwatch.com/icon/208144706/s100"
+  },
+  {
     "id": 486,
     "name": "Spectrum On Demand",
     "icon_url": "https://images.justwatch.com/icon/305635208/s100"
@@ -345,6 +380,11 @@
     "icon_url": "https://images.justwatch.com/icon/209565865/s100"
   },
   {
+    "id": 520,
+    "name": "Discovery +",
+    "icon_url": "https://images.justwatch.com/icon/240558410/s100"
+  },
+  {
     "id": 526,
     "name": "AMC+",
     "icon_url": "https://images.justwatch.com/icon/277399832/s100"
@@ -363,6 +403,11 @@
     "id": 538,
     "name": "Plex",
     "icon_url": "https://images.justwatch.com/icon/301832745/s100"
+  },
+  {
+    "id": 551,
+    "name": "Magellan TV",
+    "icon_url": "https://images.justwatch.com/icon/243233518/s100"
   },
   {
     "id": 554,
@@ -450,6 +495,11 @@
     "icon_url": "https://images.justwatch.com/icon/254580265/s100"
   },
   {
+    "id": 677,
+    "name": "Eventive",
+    "icon_url": "https://images.justwatch.com/icon/258768419/s100"
+  },
+  {
     "id": 692,
     "name": "Cultpix",
     "icon_url": "https://images.justwatch.com/icon/264459628/s100"
@@ -515,6 +565,11 @@
     "icon_url": "https://images.justwatch.com/icon/305959617/s100"
   },
   {
+    "id": 1875,
+    "name": "Runtime",
+    "icon_url": "https://images.justwatch.com/icon/333103406/s100"
+  },
+  {
     "id": 1899,
     "name": "HBO Max",
     "icon_url": "https://images.justwatch.com/icon/332884837/s100"
@@ -545,6 +600,11 @@
     "icon_url": "https://images.justwatch.com/icon/308813669/s100"
   },
   {
+    "id": 1968,
+    "name": "Crunchyroll Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/324213165/s100"
+  },
+  {
     "id": 1971,
     "name": "DistroTV",
     "icon_url": "https://images.justwatch.com/icon/309114965/s100"
@@ -553,6 +613,11 @@
     "id": 1972,
     "name": "myfilmfriend",
     "icon_url": "https://images.justwatch.com/icon/309179435/s100"
+  },
+  {
+    "id": 1990,
+    "name": "GlewedTV",
+    "icon_url": "https://images.justwatch.com/icon/310345071/s100"
   },
   {
     "id": 2033,
@@ -575,6 +640,11 @@
     "icon_url": "https://images.justwatch.com/icon/311511401/s100"
   },
   {
+    "id": 2045,
+    "name": "UP Faith & Family Apple TV channel",
+    "icon_url": "https://images.justwatch.com/icon/311511403/s100"
+  },
+  {
     "id": 2049,
     "name": "Shudder Apple TV channel",
     "icon_url": "https://images.justwatch.com/icon/311511431/s100"
@@ -588,6 +658,11 @@
     "id": 2056,
     "name": "IFC Films Unlimited Apple TV channel",
     "icon_url": "https://images.justwatch.com/icon/311512270/s100"
+  },
+  {
+    "id": 2057,
+    "name": "HISTORY Vault Apple TV channel",
+    "icon_url": "https://images.justwatch.com/icon/311512285/s100"
   },
   {
     "id": 2058,
@@ -615,14 +690,29 @@
     "icon_url": "https://images.justwatch.com/icon/318726470/s100"
   },
   {
+    "id": 2066,
+    "name": "UP Faith & Family Amazon Channel ",
+    "icon_url": "https://images.justwatch.com/icon/311566914/s100"
+  },
+  {
     "id": 2069,
     "name": "ScreenPix Amazon Channel ",
     "icon_url": "https://images.justwatch.com/icon/311566899/s100"
   },
   {
+    "id": 2073,
+    "name": "HISTORY Vault Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/311578219/s100"
+  },
+  {
     "id": 2077,
     "name": "Plex Channel",
     "icon_url": "https://images.justwatch.com/icon/311774696/s100"
+  },
+  {
+    "id": 2078,
+    "name": "Troma NOW",
+    "icon_url": "https://images.justwatch.com/icon/311776387/s100"
   },
   {
     "id": 2100,
@@ -685,14 +775,29 @@
     "icon_url": "https://images.justwatch.com/icon/324772850/s100"
   },
   {
+    "id": 2330,
+    "name": "Jolt Film",
+    "icon_url": "https://images.justwatch.com/icon/324785388/s100"
+  },
+  {
     "id": 2358,
     "name": "Lionsgate+ Amazon Channels",
     "icon_url": "https://images.justwatch.com/icon/348547396/s100"
   },
   {
+    "id": 2366,
+    "name": "The Coda Collection Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/327288766/s100"
+  },
+  {
     "id": 2367,
     "name": "Midnight Pulp Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/327292620/s100"
+  },
+  {
+    "id": 2369,
+    "name": "Daring Docs Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/327292739/s100"
   },
   {
     "id": 2370,
@@ -730,6 +835,11 @@
     "icon_url": "https://images.justwatch.com/icon/328262805/s100"
   },
   {
+    "id": 2394,
+    "name": "Fear Factory Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/328264651/s100"
+  },
+  {
     "id": 2395,
     "name": "Film Movement Plus Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/328265507/s100"
@@ -738,6 +848,11 @@
     "id": 2400,
     "name": "France Channel Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/328345335/s100"
+  },
+  {
+    "id": 2401,
+    "name": "Fuse+ Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/328345617/s100"
   },
   {
     "id": 2403,
@@ -775,6 +890,11 @@
     "icon_url": "https://images.justwatch.com/icon/329592679/s100"
   },
   {
+    "id": 2414,
+    "name": "Kartoon Channel Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/329586092/s100"
+  },
+  {
     "id": 2418,
     "name": "Magnolia Selects Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/329619928/s100"
@@ -805,6 +925,11 @@
     "icon_url": "https://images.justwatch.com/icon/329622473/s100"
   },
   {
+    "id": 2435,
+    "name": "Revry Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/329623238/s100"
+  },
+  {
     "id": 2443,
     "name": "The Surf Network Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/329636121/s100"
@@ -823,6 +948,11 @@
     "id": 2466,
     "name": "Warriors and Gangsters Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/329670739/s100"
+  },
+  {
+    "id": 2467,
+    "name": "Xive TV Documentaries Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/329670763/s100"
   },
   {
     "id": 2528,
@@ -888,6 +1018,11 @@
     "id": 2684,
     "name": "TPT",
     "icon_url": "https://images.justwatch.com/icon/343198896/s100"
+  },
+  {
+    "id": 2685,
+    "name": "Artify",
+    "icon_url": "https://images.justwatch.com/icon/343216598/s100"
   },
   {
     "id": 2703,

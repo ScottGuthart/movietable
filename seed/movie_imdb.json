@@ -4,7 +4,7 @@
     "imdb_id": "tt0056801",
     "language": "Italian",
     "oscar_wins": 2,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "10-things-i-hate-about-you",
@@ -39,14 +39,14 @@
     "imdb_id": "tt2024544",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 7
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "127-hours",
     "imdb_id": "tt1542344",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "13-assassins",
@@ -67,7 +67,7 @@
     "imdb_id": "tt5895028",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "1408",
@@ -86,21 +86,21 @@
   {
     "movie_slug": "20-days-in-mariupol",
     "imdb_id": "tt24082438",
-    "language": "Russian",
-    "oscar_wins": 1,
-    "oscar_nominations": 0
+    "language": "Ukrainian",
+    "oscar_wins": 3,
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "20-feet-from-stardom",
     "imdb_id": "tt2396566",
     "language": "Japanese",
-    "oscar_wins": 1,
+    "oscar_wins": 3,
     "oscar_nominations": 0
   },
   {
     "movie_slug": "2000-meters-to-andriivka",
     "imdb_id": "tt34964205",
-    "language": "Russian",
+    "language": "Ukrainian",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -123,7 +123,7 @@
     "imdb_id": "tt0062622",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "20th-century-women",
@@ -221,7 +221,7 @@
     "imdb_id": "tt0118540",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "4-months-3-weeks-and-2-days",
@@ -312,7 +312,7 @@
     "imdb_id": "tt0268978",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "a-bronx-tale",
@@ -382,7 +382,7 @@
     "imdb_id": "tt0095159",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "a-fistful-of-dollars",
@@ -556,8 +556,8 @@
     "movie_slug": "a-real-pain",
     "imdb_id": "tt21823606",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 1,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "a-river-runs-through-it",
@@ -570,8 +570,8 @@
     "movie_slug": "a-room-with-a-view",
     "imdb_id": "tt0091867",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 5
+    "oscar_wins": 6,
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "a-self-made-hero",
@@ -592,7 +592,7 @@
     "imdb_id": "tt1019452",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "a-simple-plan",
@@ -613,21 +613,21 @@
     "imdb_id": "tt0029606",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "a-star-is-born-1954",
     "imdb_id": "tt0029606",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "a-streetcar-named-desire",
     "imdb_id": "tt0044081",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 10
+    "oscar_wins": 5,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "a-summers-tale",
@@ -872,7 +872,7 @@
     "imdb_id": "tt0212720",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "ai-weiwei-never-sorry",
@@ -898,7 +898,7 @@
   {
     "movie_slug": "ajami",
     "imdb_id": "tt1077262",
-    "language": "Hebrew",
+    "language": "Arabic",
     "oscar_wins": 0,
     "oscar_nominations": 1
   },
@@ -914,7 +914,7 @@
     "imdb_id": "tt1602098",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "alcarras",
@@ -948,8 +948,8 @@
     "movie_slug": "alien-1979",
     "imdb_id": "tt0078748",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_wins": 5,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "alien-3",
@@ -962,15 +962,15 @@
     "movie_slug": "aliens",
     "imdb_id": "tt0090605",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_wins": 4,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "all-about-eve",
     "imdb_id": "tt0042192",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 12
+    "oscar_wins": 5,
+    "oscar_nominations": 16
   },
   {
     "movie_slug": "all-about-my-mother",
@@ -1005,7 +1005,7 @@
     "imdb_id": "tt0020629",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "all-shall-be-well",
@@ -1019,21 +1019,21 @@
     "imdb_id": "tt16377862",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "all-the-beauty-and-the-bloodshed",
     "imdb_id": "tt21374850",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "all-the-presidents-men",
     "imdb_id": "tt0074119",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 6
+    "oscar_wins": 8,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "all-we-imagine-as-light",
@@ -1047,7 +1047,7 @@
     "imdb_id": "tt0181875",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "along-came-a-spider",
@@ -1074,8 +1074,8 @@
     "movie_slug": "amadeus",
     "imdb_id": "tt0086879",
     "language": "English",
-    "oscar_wins": 6,
-    "oscar_nominations": 9
+    "oscar_wins": 11,
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "amanda-2022",
@@ -1096,14 +1096,14 @@
     "imdb_id": "tt0211915",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "american-beauty",
     "imdb_id": "tt0169547",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "american-doctor",
@@ -1116,29 +1116,29 @@
     "movie_slug": "american-factory",
     "imdb_id": "tt9351980",
     "language": "Mandarin",
-    "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_wins": 3,
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "american-fiction",
     "imdb_id": "tt23561236",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 1,
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "american-gangster",
     "imdb_id": "tt0765429",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "american-graffiti",
     "imdb_id": "tt0069704",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "american-history-x",
@@ -1159,7 +1159,7 @@
     "imdb_id": "tt1800241",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 8
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "american-movie",
@@ -1194,7 +1194,7 @@
     "imdb_id": "tt0305206",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "american-wedding",
@@ -1235,8 +1235,8 @@
     "movie_slug": "an-american-in-paris",
     "imdb_id": "tt0043278",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 6
+    "oscar_wins": 12,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "an-autumn-afternoon",
@@ -1284,7 +1284,7 @@
     "movie_slug": "anatomy-of-a-fall",
     "imdb_id": "tt17009710",
     "language": "English",
-    "oscar_wins": 0,
+    "oscar_wins": 2,
     "oscar_nominations": 3
   },
   {
@@ -1319,7 +1319,7 @@
     "movie_slug": "annie-hall-1977",
     "imdb_id": "tt0075686",
     "language": "English",
-    "oscar_wins": 2,
+    "oscar_wins": 3,
     "oscar_nominations": 3
   },
   {
@@ -1327,7 +1327,7 @@
     "imdb_id": "tt2401878",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "anora",
@@ -1389,15 +1389,15 @@
     "movie_slug": "apocalypse-now",
     "imdb_id": "tt0078788",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "apocalypto",
     "imdb_id": "tt0472043",
     "language": "Yucatec Maya",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "apollo-11",
@@ -1410,8 +1410,8 @@
     "movie_slug": "apollo-13",
     "imdb_id": "tt0112384",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 8
+    "oscar_wins": 6,
+    "oscar_nominations": 17
   },
   {
     "movie_slug": "appaloosa",
@@ -1516,7 +1516,7 @@
     "imdb_id": "tt2543164",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "arthur-christmas",
@@ -1530,7 +1530,7 @@
     "imdb_id": "tt0119822",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "ascension",
@@ -1726,21 +1726,21 @@
     "imdb_id": "tt3890160",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "back-to-the-future",
     "imdb_id": "tt0088763",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "back-to-the-future-part-ii",
     "imdb_id": "tt0096874",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "back-to-the-future-part-iii",
@@ -1754,7 +1754,7 @@
     "imdb_id": "tt0101393",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "bacurau",
@@ -1831,7 +1831,7 @@
     "imdb_id": "tt0034492",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "band-of-outsiders-re-release",
@@ -1858,15 +1858,15 @@
     "movie_slug": "barry-lyndon",
     "imdb_id": "tt0072684",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 5
+    "oscar_wins": 7,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "barton-fink",
     "imdb_id": "tt0101410",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "basic-instinct",
@@ -1894,7 +1894,7 @@
     "imdb_id": "tt0103776",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "battle-royale-2000",
@@ -1929,7 +1929,7 @@
     "imdb_id": "tt2125435",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "beau-travail",
@@ -1977,8 +1977,8 @@
     "movie_slug": "beetlejuice",
     "imdb_id": "tt0094721",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 3,
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "before-midnight",
@@ -2048,7 +2048,7 @@
     "imdb_id": "tt0120601",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "being-there",
@@ -2068,8 +2068,8 @@
     "movie_slug": "ben-hur-1959",
     "imdb_id": "tt0052618",
     "language": "English",
-    "oscar_wins": 9,
-    "oscar_nominations": 10
+    "oscar_wins": 15,
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "bending-the-arc",
@@ -2104,7 +2104,7 @@
     "imdb_id": "tt0086960",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "beverly-hills-cop-ii",
@@ -2215,8 +2215,8 @@
     "movie_slug": "birdman-or-the-unexpected-virtue-of-ignorance",
     "imdb_id": "tt2562232",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "birds-of-passage",
@@ -2242,7 +2242,7 @@
   {
     "movie_slug": "biutiful",
     "imdb_id": "tt1164999",
-    "language": "Wolof",
+    "language": "Spanish",
     "oscar_wins": 0,
     "oscar_nominations": 2
   },
@@ -2258,14 +2258,14 @@
     "imdb_id": "tt30227076",
     "language": "Japanese",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "black-hawk-down",
     "imdb_id": "tt0265086",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 3
+    "oscar_wins": 4,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "black-is-king",
@@ -2334,8 +2334,8 @@
     "movie_slug": "blackkklansman",
     "imdb_id": "tt7349662",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 4,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "blade",
@@ -2356,14 +2356,14 @@
     "imdb_id": "tt0083658",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "blade-runner-2049",
     "imdb_id": "tt1856101",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 4
+    "oscar_wins": 4,
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "blades-of-glory",
@@ -2454,7 +2454,7 @@
     "imdb_id": "tt0060176",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "blue-film",
@@ -2531,7 +2531,7 @@
     "imdb_id": "tt0397892",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "bombshell-1933",
@@ -2545,7 +2545,7 @@
     "imdb_id": "tt0061418",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 8
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "boogie-nights",
@@ -2566,14 +2566,14 @@
     "imdb_id": "tt0443453",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "born-on-the-fourth-of-july",
     "imdb_id": "tt0096969",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_wins": 2,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "bottle-rocket",
@@ -2636,7 +2636,7 @@
     "imdb_id": "tt0054698",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "breaking-away",
@@ -2671,7 +2671,7 @@
     "imdb_id": "tt3682448",
     "language": "Russian",
     "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "bridge-to-terabithia",
@@ -2692,7 +2692,7 @@
     "imdb_id": "tt0037558",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "bright-star",
@@ -2740,8 +2740,8 @@
     "movie_slug": "brokeback-mountain",
     "imdb_id": "tt0388795",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_wins": 3,
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "broken-arrow",
@@ -2783,12 +2783,12 @@
     "imdb_id": "tt0328880",
     "language": "Inuktitut",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "brotherhood-of-the-wolf",
     "imdb_id": "tt0237534",
-    "language": "Spanish",
+    "language": "Italian",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -2831,8 +2831,8 @@
     "movie_slug": "bugsy",
     "imdb_id": "tt0101516",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 8
+    "oscar_wins": 3,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "bullitt",
@@ -2895,7 +2895,7 @@
     "imdb_id": "tt0064115",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "cabaret",
@@ -2942,7 +2942,7 @@
   {
     "movie_slug": "call-me-by-your-name",
     "imdb_id": "tt5726616",
-    "language": "Italian",
+    "language": "English",
     "oscar_wins": 1,
     "oscar_nominations": 3
   },
@@ -2965,7 +2965,7 @@
     "imdb_id": "tt4595882",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "candyman",
@@ -3000,21 +3000,21 @@
     "imdb_id": "tt1535109",
     "language": "Somali",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "captains-courageous",
     "imdb_id": "tt0028691",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "capturing-the-friedmans",
     "imdb_id": "tt0342172",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "carlos",
@@ -3035,7 +3035,7 @@
     "imdb_id": "tt0044486",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "cars-2",
@@ -3048,8 +3048,8 @@
     "movie_slug": "casablanca",
     "imdb_id": "tt0034583",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_wins": 3,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "cashback",
@@ -3084,7 +3084,7 @@
     "imdb_id": "tt0162222",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "castle-in-the-sky",
@@ -3098,7 +3098,7 @@
     "imdb_id": "tt0051459",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "cat-people-1942",
@@ -3196,7 +3196,7 @@
     "imdb_id": "tt0824747",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "changing-lanes",
@@ -3280,7 +3280,7 @@
     "imdb_id": "tt0206634",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "children-of-paradise-1945",
@@ -3322,7 +3322,7 @@
     "imdb_id": "tt0071315",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 9
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "chocolat",
@@ -3384,14 +3384,14 @@
     "movie_slug": "citizen-kane-1941",
     "imdb_id": "tt0033467",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 7
+    "oscar_wins": 2,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "citizenfour",
     "imdb_id": "tt4044364",
     "language": "Portuguese",
-    "oscar_wins": 1,
+    "oscar_wins": 3,
     "oscar_nominations": 0
   },
   {
@@ -3441,7 +3441,7 @@
     "imdb_id": "tt0109444",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "cleo-from-5-to-7",
@@ -3476,7 +3476,7 @@
     "imdb_id": "tt0075860",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 7
+    "oscar_nominations": 16
   },
   {
     "movie_slug": "close-up",
@@ -3546,7 +3546,7 @@
     "imdb_id": "tt0080549",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "cobra",
@@ -3588,14 +3588,14 @@
     "imdb_id": "tt0369339",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "collective",
     "imdb_id": "tt10706602",
     "language": "Romanian",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "columbus",
@@ -3616,14 +3616,14 @@
     "imdb_id": "tt34966013",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "coming-home",
     "imdb_id": "tt0077362",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "coming-to-america",
@@ -3635,7 +3635,7 @@
   {
     "movie_slug": "commando",
     "imdb_id": "tt0056221",
-    "language": "Spanish",
+    "language": "Italian",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -3644,7 +3644,7 @@
     "imdb_id": "tt0118880",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "conan-the-barbarian",
@@ -3721,7 +3721,7 @@
     "imdb_id": "tt0061512",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "copycat",
@@ -3742,7 +3742,7 @@
     "imdb_id": "tt0121164",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "costa-brava-lebanon",
@@ -3840,7 +3840,7 @@
     "imdb_id": "tt0112740",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "cronos",
@@ -3867,8 +3867,8 @@
     "movie_slug": "crouching-tiger-hidden-dragon",
     "imdb_id": "tt0190332",
     "language": "Standard Chinese",
-    "oscar_wins": 1,
-    "oscar_nominations": 7
+    "oscar_wins": 4,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "cruel-intentions",
@@ -3910,7 +3910,7 @@
     "imdb_id": "tt2355540",
     "language": "Japanese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "cyrus",
@@ -3951,8 +3951,8 @@
     "movie_slug": "dances-with-wolves",
     "imdb_id": "tt0099348",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 10
+    "oscar_wins": 8,
+    "oscar_nominations": 14
   },
   {
     "movie_slug": "dantes-peak",
@@ -3987,7 +3987,7 @@
     "imdb_id": "tt0082096",
     "language": "German",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "date-night",
@@ -4029,7 +4029,7 @@
     "imdb_id": "tt0026266",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "dawn-of-the-dead",
@@ -4078,21 +4078,21 @@
     "imdb_id": "tt0036748",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "days-of-heaven-re-release",
     "imdb_id": "tt0077405",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "days-of-thunder",
     "imdb_id": "tt0099371",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "dazed-and-confused",
@@ -4344,7 +4344,7 @@
     "imdb_id": "tt0095016",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "die-hard-2",
@@ -4428,7 +4428,7 @@
     "imdb_id": "tt1136608",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "district-b13",
@@ -4468,7 +4468,7 @@
   {
     "movie_slug": "do-the-right-thing",
     "imdb_id": "tt0097216",
-    "language": "Italian",
+    "language": "English",
     "oscar_wins": 0,
     "oscar_nominations": 2
   },
@@ -4531,7 +4531,7 @@
   {
     "movie_slug": "dont-look-now",
     "imdb_id": "tt0069995",
-    "language": "Italian",
+    "language": "English",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -4554,7 +4554,7 @@
     "imdb_id": "tt0036775",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "double-jeopardy",
@@ -4603,7 +4603,7 @@
     "imdb_id": "tt0057012",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "dracula-1931",
@@ -4637,8 +4637,8 @@
     "movie_slug": "dreamgirls",
     "imdb_id": "tt0443489",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 5
+    "oscar_wins": 4,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "dreams-drommer",
@@ -4666,7 +4666,7 @@
     "imdb_id": "tt14039582",
     "language": "Japanese",
     "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "driveways",
@@ -4679,8 +4679,8 @@
     "movie_slug": "driving-miss-daisy",
     "imdb_id": "tt0097239",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 8
+    "oscar_wins": 5,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "drug-war",
@@ -4735,8 +4735,8 @@
     "movie_slug": "dumbo-1941",
     "imdb_id": "tt0033563",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 2,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "dunkirk",
@@ -4778,14 +4778,14 @@
     "imdb_id": "tt0064276",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "ed-wood",
     "imdb_id": "tt0109707",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 2
+    "oscar_wins": 4,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "eden-2014",
@@ -4841,7 +4841,7 @@
     "imdb_id": "tt0126886",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "elena",
@@ -4876,7 +4876,7 @@
     "imdb_id": "tt0127536",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "elizabeth-the-golden-age",
@@ -4911,7 +4911,7 @@
     "imdb_id": "tt0092965",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 6
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "enchanted",
@@ -5023,7 +5023,7 @@
     "imdb_id": "tt1816518",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "ernest-cole-lost-and-found",
@@ -5050,20 +5050,20 @@
     "movie_slug": "et-the-extra-terrestrial",
     "imdb_id": "tt0083866",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_wins": 8,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "eternal-sunshine-of-the-spotless-mind",
     "imdb_id": "tt0338013",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_wins": 3,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "eurotrip",
     "imdb_id": "tt0356150",
-    "language": "Italian",
+    "language": "English",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -5105,9 +5105,9 @@
   {
     "movie_slug": "everything-everywhere-all-at-once",
     "imdb_id": "tt6710474",
-    "language": "Mandarin",
-    "oscar_wins": 1,
-    "oscar_nominations": 0
+    "language": "Cantonese",
+    "oscar_wins": 7,
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "everything-must-go",
@@ -5135,7 +5135,7 @@
     "imdb_id": "tt0116250",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "exhibiting-forgiveness",
@@ -5182,7 +5182,7 @@
   {
     "movie_slug": "f-for-fake",
     "imdb_id": "tt0072962",
-    "language": "English",
+    "language": "Spanish",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -5205,7 +5205,7 @@
     "imdb_id": "tt5598102",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "fahrenheit-911",
@@ -5260,14 +5260,14 @@
     "movie_slug": "fanny-and-alexander-re-release",
     "imdb_id": "tt0083922",
     "language": "Swedish",
-    "oscar_wins": 4,
+    "oscar_wins": 5,
     "oscar_nominations": 5
   },
   {
     "movie_slug": "fantasia",
     "imdb_id": "tt0032455",
     "language": "English",
-    "oscar_wins": 0,
+    "oscar_wins": 1,
     "oscar_nominations": 0
   },
   {
@@ -5394,19 +5394,19 @@
     "imdb_id": "tt0266543",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "finding-neverland",
     "imdb_id": "tt0308644",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "fire-at-sea",
     "imdb_id": "tt3652526",
-    "language": "Italian",
+    "language": "English",
     "oscar_wins": 0,
     "oscar_nominations": 1
   },
@@ -5415,7 +5415,7 @@
     "imdb_id": "tt16227014",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "fireworks-1998",
@@ -5457,7 +5457,7 @@
     "imdb_id": "tt6053438",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "fish-tank",
@@ -5478,14 +5478,14 @@
     "imdb_id": "tt0065724",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "flags-of-our-fathers",
     "imdb_id": "tt0418689",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "flash-gordon",
@@ -5499,7 +5499,7 @@
     "imdb_id": "tt0085549",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "flatliners",
@@ -5562,7 +5562,7 @@
     "imdb_id": "tt1286537",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "footlight-parade",
@@ -5590,7 +5590,7 @@
     "imdb_id": "tt9617456",
     "language": "Arabic",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "for-your-eyes-only",
@@ -5611,7 +5611,7 @@
     "imdb_id": "tt0049223",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "force-majeure",
@@ -5631,15 +5631,15 @@
     "movie_slug": "ford-v-ferrari",
     "imdb_id": "tt1950186",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_wins": 2,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "foreign-correspondent",
     "imdb_id": "tt0032484",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "forgetting-sarah-marshall",
@@ -5652,15 +5652,15 @@
     "movie_slug": "forrest-gump",
     "imdb_id": "tt0109830",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 10
+    "oscar_wins": 7,
+    "oscar_nominations": 19
   },
   {
     "movie_slug": "four-daughters",
     "imdb_id": "tt0030149",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "four-weddings-and-a-funeral",
@@ -5674,7 +5674,7 @@
     "imdb_id": "tt1100089",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "foxtrot",
@@ -5715,7 +5715,7 @@
     "movie_slug": "free-solo",
     "imdb_id": "tt7775622",
     "language": "English",
-    "oscar_wins": 1,
+    "oscar_wins": 4,
     "oscar_nominations": 1
   },
   {
@@ -5849,7 +5849,7 @@
     "imdb_id": "tt0045793",
     "language": "English",
     "oscar_wins": 6,
-    "oscar_nominations": 11
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "from-russia-with-love",
@@ -5877,7 +5877,7 @@
     "imdb_id": "tt0093058",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "full-time",
@@ -5905,7 +5905,7 @@
     "imdb_id": "tt0062994",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "galaxy-quest",
@@ -5918,8 +5918,8 @@
     "movie_slug": "gandhi",
     "imdb_id": "tt0083987",
     "language": "English",
-    "oscar_wins": 6,
-    "oscar_nominations": 9
+    "oscar_wins": 10,
+    "oscar_nominations": 17
   },
   {
     "movie_slug": "gangs-of-new-york",
@@ -5947,7 +5947,7 @@
     "imdb_id": "tt0119177",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "gavagai",
@@ -6045,14 +6045,14 @@
     "imdb_id": "tt0162346",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "ghostbusters",
     "imdb_id": "tt0087332",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "ghostbusters-ii",
@@ -6073,7 +6073,7 @@
     "imdb_id": "tt0049261",
     "language": "Spanish",
     "oscar_wins": 0,
-    "oscar_nominations": 8
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "gideons-army",
@@ -6122,7 +6122,7 @@
     "imdb_id": "tt0335119",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "girlhood-2014",
@@ -6219,7 +6219,7 @@
     "movie_slug": "godzilla-minus-one",
     "imdb_id": "tt23289160",
     "language": "Japanese",
-    "oscar_wins": 1,
+    "oscar_wins": 4,
     "oscar_nominations": 0
   },
   {
@@ -6254,8 +6254,8 @@
     "movie_slug": "gone-with-the-wind",
     "imdb_id": "tt0031381",
     "language": "English",
-    "oscar_wins": 6,
-    "oscar_nominations": 11
+    "oscar_wins": 12,
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "good-morning",
@@ -6276,7 +6276,7 @@
     "imdb_id": "tt0433383",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "good-one",
@@ -6296,8 +6296,8 @@
     "movie_slug": "good-will-hunting",
     "imdb_id": "tt0119217",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_wins": 3,
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "goodbye-dragon-inn",
@@ -6318,7 +6318,7 @@
     "imdb_id": "tt0099685",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "goodnight-mommy",
@@ -6351,7 +6351,7 @@
   {
     "movie_slug": "grand-tour",
     "imdb_id": "tt27180099",
-    "language": "Vietnamese",
+    "language": "English",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -6388,7 +6388,7 @@
     "imdb_id": "tt0077631",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "great-absence",
@@ -6507,7 +6507,7 @@
     "imdb_id": "tt6634646",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "half-baked",
@@ -6576,8 +6576,8 @@
     "movie_slug": "hamnet",
     "imdb_id": "tt14905854",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 1,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "hancock",
@@ -6598,7 +6598,7 @@
     "imdb_id": "tt0091167",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "hannah-montana-the-movie",
@@ -6731,14 +6731,14 @@
     "imdb_id": "tt1201607",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "harry-potter-and-the-goblet-of-fire",
     "imdb_id": "tt0330373",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "harry-potter-and-the-order-of-the-phoenix",
@@ -6752,14 +6752,14 @@
     "imdb_id": "tt0304141",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "harry-potter-and-the-sorcerers-stone",
     "imdb_id": "tt0241527",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "hatchet",
@@ -6808,7 +6808,7 @@
     "imdb_id": "tt0110005",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "hedwig-and-the-angry-inch",
@@ -6822,7 +6822,7 @@
     "imdb_id": "tt1748043",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "hell-or-high-water",
@@ -6864,7 +6864,7 @@
     "imdb_id": "tt0036910",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "her",
@@ -6892,7 +6892,7 @@
     "imdb_id": "tt1212419",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "hereditary",
@@ -6940,8 +6940,8 @@
     "movie_slug": "high-noon-re-release",
     "imdb_id": "tt0044706",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 4
+    "oscar_wins": 5,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "high-tension",
@@ -7060,7 +7060,7 @@
     "imdb_id": "tt0110057",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "hoosiers",
@@ -7081,7 +7081,7 @@
     "imdb_id": "tt0093209",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "horse-feathers",
@@ -7137,7 +7137,7 @@
     "imdb_id": "tt0395169",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "house-of-flying-daggers",
@@ -7185,15 +7185,15 @@
     "movie_slug": "how-green-was-my-valley",
     "imdb_id": "tt0033729",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 8
+    "oscar_wins": 5,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "how-the-grinch-stole-christmas",
     "imdb_id": "tt0170016",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 2,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "how-to-lose-a-guy-in-10-days",
@@ -7214,14 +7214,14 @@
     "imdb_id": "tt0892769",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "howards-end",
     "imdb_id": "tt0104454",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 7
+    "oscar_wins": 4,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "howls-moving-castle",
@@ -7312,7 +7312,7 @@
     "imdb_id": "tt5804038",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "i-am-sam",
@@ -7368,7 +7368,7 @@
     "imdb_id": "tt9806192",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "i-love-you-man",
@@ -7382,7 +7382,7 @@
     "imdb_id": "tt0343818",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "i-saw-the-devil",
@@ -7459,7 +7459,7 @@
     "imdb_id": "tt2718492",
     "language": "Polish",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "identifying-features",
@@ -7480,7 +7480,7 @@
     "imdb_id": "tt7125860",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "ikiru",
@@ -7494,7 +7494,7 @@
     "imdb_id": "tt1023490",
     "language": "Italian",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "ilo-ilo",
@@ -7536,7 +7536,7 @@
     "imdb_id": "tt0025301",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "in-a-better-world",
@@ -7578,7 +7578,7 @@
     "imdb_id": "tt0247425",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "in-the-company-of-men",
@@ -7620,7 +7620,7 @@
     "imdb_id": "tt1226774",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "in-the-mood-for-love",
@@ -7681,30 +7681,30 @@
   {
     "movie_slug": "inception",
     "imdb_id": "tt1375666",
-    "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "language": "Japanese",
+    "oscar_wins": 8,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "incredibles-2",
     "imdb_id": "tt3606756",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "indiana-jones-and-the-last-crusade",
     "imdb_id": "tt0097576",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "indiana-jones-and-the-temple-of-doom",
     "imdb_id": "tt0087469",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_wins": 4,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "infernal-affairs",
@@ -7739,7 +7739,7 @@
     "imdb_id": "tt2042568",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "inside-man",
@@ -7774,7 +7774,7 @@
     "imdb_id": "tt0110148",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "intolerance",
@@ -7830,7 +7830,7 @@
     "imdb_id": "tt1228705",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "ironclad",
@@ -7886,7 +7886,7 @@
     "imdb_id": "tt36491653",
     "language": "Persian",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "its-a-wonderful-life",
@@ -8018,8 +8018,8 @@
     "movie_slug": "jaws",
     "imdb_id": "tt0073195",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 3
+    "oscar_wins": 6,
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "jaws-2",
@@ -8061,7 +8061,7 @@
     "imdb_id": "tt0268397",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "jingle-all-the-way",
@@ -8117,7 +8117,7 @@
     "imdb_id": "tt9784798",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "jules-and-jim",
@@ -8165,8 +8165,8 @@
     "movie_slug": "jurassic-park",
     "imdb_id": "tt0107290",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 2
+    "oscar_wins": 8,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "jurassic-park-iii",
@@ -8292,7 +8292,7 @@
     "imdb_id": "tt5537002",
     "language": "Osage",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "king-arthur",
@@ -8346,7 +8346,7 @@
   {
     "movie_slug": "kiss-of-the-spider-woman",
     "imdb_id": "tt0089424",
-    "language": "English",
+    "language": "Portuguese",
     "oscar_wins": 1,
     "oscar_nominations": 2
   },
@@ -8362,7 +8362,7 @@
     "imdb_id": "tt0067309",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "knife-in-the-water",
@@ -8404,14 +8404,14 @@
     "imdb_id": "tt35231039",
     "language": "Japanese",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "kramer-vs-kramer",
     "imdb_id": "tt0079417",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 7
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "krisha",
@@ -8425,14 +8425,14 @@
     "imdb_id": "tt4302938",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "kung-fu-panda",
     "imdb_id": "tt0441773",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "kung-pow-enter-the-fist",
@@ -8452,15 +8452,15 @@
     "movie_slug": "la-confidential",
     "imdb_id": "tt0119488",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 7
+    "oscar_wins": 3,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "la-dolce-vita-re-release",
     "imdb_id": "tt0053779",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "la-femme-nikita",
@@ -8474,14 +8474,14 @@
     "imdb_id": "tt3783958",
     "language": "English",
     "oscar_wins": 5,
-    "oscar_nominations": 11
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "la-ronde",
     "imdb_id": "tt0042906",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "la-vie-en-rose",
@@ -8507,7 +8507,7 @@
   {
     "movie_slug": "lagaan-once-upon-a-time-in-india",
     "imdb_id": "tt0169102",
-    "language": "English",
+    "language": "Hindi",
     "oscar_wins": 0,
     "oscar_nominations": 1
   },
@@ -8558,14 +8558,14 @@
     "imdb_id": "tt3279124",
     "language": "Vietnamese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "last-men-in-aleppo",
     "imdb_id": "tt6333074",
     "language": "Arabic",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "last-tango-in-paris",
@@ -8584,7 +8584,7 @@
   {
     "movie_slug": "late-marriage",
     "imdb_id": "tt0287471",
-    "language": "Georgian",
+    "language": "Hebrew",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -8606,8 +8606,8 @@
     "movie_slug": "lawrence-of-arabia-re-release",
     "imdb_id": "tt0056172",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 8
+    "oscar_wins": 7,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "layer-cake",
@@ -8677,7 +8677,7 @@
     "imdb_id": "tt0089469",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "legend-of-the-guardians-the-owls-of-gahoole",
@@ -8691,7 +8691,7 @@
     "imdb_id": "tt0110322",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "let-me-in",
@@ -8719,7 +8719,7 @@
     "imdb_id": "tt0093409",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "lethal-weapon-2",
@@ -8740,7 +8740,7 @@
     "imdb_id": "tt0498380",
     "language": "Japanese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "leviathan",
@@ -8782,7 +8782,7 @@
     "imdb_id": "tt11271038",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "life-and-nothing-more",
@@ -8858,8 +8858,8 @@
     "movie_slug": "lincoln",
     "imdb_id": "tt0443272",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 10
+    "oscar_wins": 3,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "listen-to-me-marlon",
@@ -8873,14 +8873,14 @@
     "imdb_id": "tt29313285",
     "language": "Japanese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "little-children",
     "imdb_id": "tt0404203",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "little-girl",
@@ -8908,7 +8908,7 @@
     "imdb_id": "tt0091419",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "little-trouble-girls",
@@ -8992,7 +8992,7 @@
     "imdb_id": "tt0056193",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "lolita-1969",
@@ -9123,7 +9123,7 @@
   {
     "movie_slug": "lust-caution",
     "imdb_id": "tt0808357",
-    "language": "English",
+    "language": "Standard Chinese",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -9138,8 +9138,8 @@
     "movie_slug": "ma-raineys-black-bottom",
     "imdb_id": "tt10514222",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 2,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "maborosi",
@@ -9180,8 +9180,8 @@
     "movie_slug": "mad-max-fury-road",
     "imdb_id": "tt1392190",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 7
+    "oscar_wins": 10,
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "madagascar",
@@ -9277,7 +9277,7 @@
   {
     "movie_slug": "mami-wata",
     "imdb_id": "tt6315898",
-    "language": "West African Pidgin English",
+    "language": "Fon",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -9356,7 +9356,7 @@
     "imdb_id": "tt15339456",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "march-of-the-penguins",
@@ -9375,7 +9375,7 @@
   {
     "movie_slug": "maria-full-of-grace",
     "imdb_id": "tt0390221",
-    "language": "English",
+    "language": "Spanish",
     "oscar_wins": 0,
     "oscar_nominations": 1
   },
@@ -9440,14 +9440,14 @@
     "imdb_id": "tt0048356",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "marty-supreme",
     "imdb_id": "tt32916440",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "marwencol",
@@ -9460,8 +9460,8 @@
     "movie_slug": "mary-poppins",
     "imdb_id": "tt0058331",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 10
+    "oscar_wins": 8,
+    "oscar_nominations": 17
   },
   {
     "movie_slug": "masculine-feminine",
@@ -9489,7 +9489,7 @@
     "imdb_id": "tt0311113",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 7
+    "oscar_nominations": 14
   },
   {
     "movie_slug": "match-point",
@@ -9503,7 +9503,7 @@
     "imdb_id": "tt13651794",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "mccabe-mrs-miller",
@@ -9566,7 +9566,7 @@
     "imdb_id": "tt0037059",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "meet-the-parents",
@@ -9621,8 +9621,8 @@
     "movie_slug": "memoirs-of-a-geisha",
     "imdb_id": "tt0397535",
     "language": "Japanese",
-    "oscar_wins": 3,
-    "oscar_nominations": 5
+    "oscar_wins": 4,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "memoria-2020",
@@ -9642,8 +9642,8 @@
     "movie_slug": "men-in-black",
     "imdb_id": "tt0119654",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 2,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "men-of-honor",
@@ -9706,7 +9706,7 @@
     "imdb_id": "tt0064665",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "midnight-family",
@@ -9760,7 +9760,7 @@
   {
     "movie_slug": "millers-crossing",
     "imdb_id": "tt0100150",
-    "language": "Irish",
+    "language": "Yiddish",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -9775,8 +9775,8 @@
     "movie_slug": "minari",
     "imdb_id": "tt10633456",
     "language": "Korean",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 1,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "mindhunters",
@@ -9790,7 +9790,7 @@
     "imdb_id": "tt7476236",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "minority-report",
@@ -9872,7 +9872,7 @@
   {
     "movie_slug": "mission-impossible-iii",
     "imdb_id": "tt0317919",
-    "language": "Yue Chinese",
+    "language": "Standard Chinese",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -9888,7 +9888,7 @@
     "imdb_id": "tt0095647",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "mlkfbi",
@@ -9923,7 +9923,7 @@
     "imdb_id": "tt1210166",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "monrovia-indiana",
@@ -9937,7 +9937,7 @@
     "imdb_id": "tt0046487",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "monsieur-lazhar",
@@ -9979,14 +9979,14 @@
     "imdb_id": "tt0285742",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "monsters-inc",
     "imdb_id": "tt0198781",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "monte-carlo",
@@ -10035,7 +10035,7 @@
     "imdb_id": "tt1748122",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "moonstruck",
@@ -10112,21 +10112,21 @@
     "imdb_id": "tt0031679",
     "language": "American English",
     "oscar_wins": 0,
-    "oscar_nominations": 8
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "mr-turner",
     "imdb_id": "tt2473794",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "mrs-doubtfire",
     "imdb_id": "tt0107614",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 3,
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "much-ado-about-nothing-1993",
@@ -10140,14 +10140,14 @@
     "imdb_id": "tt2396589",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "mulan",
     "imdb_id": "tt0120762",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "mulholland-dr",
@@ -10159,9 +10159,9 @@
   {
     "movie_slug": "munich",
     "imdb_id": "tt0408306",
-    "language": "Arabic",
+    "language": "Hebrew",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "murder-on-the-orient-express-1974",
@@ -10175,7 +10175,7 @@
     "imdb_id": "tt0436613",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "museo",
@@ -10203,7 +10203,7 @@
     "imdb_id": "tt0026752",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 6
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "my-architect",
@@ -10244,8 +10244,8 @@
     "movie_slug": "my-fair-lady",
     "imdb_id": "tt0058385",
     "language": "English",
-    "oscar_wins": 6,
-    "oscar_nominations": 10
+    "oscar_wins": 8,
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "my-fathers-shadow",
@@ -10287,28 +10287,28 @@
     "imdb_id": "tt0097937",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "my-life-as-a-dog",
     "imdb_id": "tt0089606",
     "language": "Swedish",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "my-life-as-a-zucchini",
     "imdb_id": "tt2321405",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "my-man-godfrey",
     "imdb_id": "tt0028010",
     "language": "Russian",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "my-name-is-khan",
@@ -10503,8 +10503,8 @@
     "movie_slug": "navalny",
     "imdb_id": "tt17041964",
     "language": "Russian",
-    "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_wins": 5,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "nebraska",
@@ -10581,7 +10581,7 @@
     "imdb_id": "tt23055660",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "night-at-the-museum",
@@ -10651,7 +10651,7 @@
     "imdb_id": "tt0113987",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "no",
@@ -10671,15 +10671,15 @@
     "movie_slug": "no-country-for-old-men",
     "imdb_id": "tt0477348",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 5
+    "oscar_wins": 3,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "no-end-in-sight",
     "imdb_id": "tt0912593",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "no-home-movie",
@@ -10707,7 +10707,7 @@
     "imdb_id": "tt30953759",
     "language": "Hebrew",
     "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "nobody-knows",
@@ -10742,7 +10742,7 @@
     "imdb_id": "tt0053125",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "nosferatu-the-vampyre",
@@ -10812,7 +10812,7 @@
     "imdb_id": "tt0190590",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "oasis-knebworth-1996",
@@ -10889,7 +10889,7 @@
     "imdb_id": "tt0031742",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "of-time-and-the-city",
@@ -11015,7 +11015,7 @@
     "imdb_id": "tt7131622",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 0
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "once-upon-a-time-in-the-west",
@@ -11029,7 +11029,7 @@
     "imdb_id": "tt30144839",
     "language": "English",
     "oscar_wins": 4,
-    "oscar_nominations": 7
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "one-child-nation",
@@ -11077,8 +11077,8 @@
     "movie_slug": "one-flew-over-the-cuckoos-nest",
     "imdb_id": "tt0073486",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 7
+    "oscar_wins": 4,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "one-hour-photo",
@@ -11099,7 +11099,7 @@
     "imdb_id": "tt10612922",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "ong-bak",
@@ -11113,7 +11113,7 @@
     "imdb_id": "tt0031762",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "only-yesterday-1991",
@@ -11133,8 +11133,8 @@
     "movie_slug": "oppenheimer",
     "imdb_id": "tt15398776",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 0
+    "oscar_wins": 5,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "ordinary-people",
@@ -11246,7 +11246,7 @@
     "imdb_id": "tt8291806",
     "language": "Spanish",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "palm-springs",
@@ -11259,8 +11259,8 @@
     "movie_slug": "pans-labyrinth",
     "imdb_id": "tt0457430",
     "language": "Spanish",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "paprika",
@@ -11281,7 +11281,7 @@
     "imdb_id": "tt12618926",
     "language": "Spanish",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "paranoid-park",
@@ -11342,7 +11342,7 @@
   {
     "movie_slug": "particle-fever",
     "imdb_id": "tt1385956",
-    "language": "English",
+    "language": "Italian",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -11406,8 +11406,8 @@
     "movie_slug": "patton",
     "imdb_id": "tt0066206",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 8
+    "oscar_wins": 10,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "paul",
@@ -11449,7 +11449,7 @@
     "imdb_id": "tt0808417",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "persona",
@@ -11559,7 +11559,7 @@
   {
     "movie_slug": "pina",
     "imdb_id": "tt1440266",
-    "language": "Croatian",
+    "language": "Korean",
     "oscar_wins": 0,
     "oscar_nominations": 1
   },
@@ -11581,8 +11581,8 @@
     "movie_slug": "pinocchio-1940",
     "imdb_id": "tt0032910",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 5,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "pirate-radio",
@@ -11596,14 +11596,14 @@
     "imdb_id": "tt0449088",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "pirates-of-the-caribbean-dead-mans-chest",
     "imdb_id": "tt0383574",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 4,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "pirates-of-the-caribbean-on-stranger-tides",
@@ -11617,7 +11617,7 @@
     "imdb_id": "tt0325980",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "pitch-black",
@@ -11637,15 +11637,15 @@
     "movie_slug": "planet-of-the-apes-1968",
     "imdb_id": "tt0063442",
     "language": "English",
-    "oscar_wins": 0,
+    "oscar_wins": 1,
     "oscar_nominations": 2
   },
   {
     "movie_slug": "platoon",
     "imdb_id": "tt0091763",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "play",
@@ -11673,14 +11673,14 @@
     "imdb_id": "tt0120789",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "pocahontas",
     "imdb_id": "tt0114148",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 2,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "poetry",
@@ -11743,7 +11743,7 @@
     "imdb_id": "tt0084516",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "pom-poko",
@@ -11770,8 +11770,8 @@
     "movie_slug": "poor-things",
     "imdb_id": "tt14230458",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_wins": 7,
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "porco-rosso",
@@ -11820,7 +11820,7 @@
     "imdb_id": "tt0093773",
     "language": "Russian",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "predator-2",
@@ -11868,15 +11868,15 @@
     "movie_slug": "pride-and-prejudice-1940",
     "imdb_id": "tt0032943",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 2,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "pride-prejudice",
     "imdb_id": "tt0414387",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "primal-fear",
@@ -11904,7 +11904,7 @@
     "imdb_id": "tt0082945",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "princess-mononoke",
@@ -11925,7 +11925,7 @@
     "imdb_id": "tt0089841",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "procession",
@@ -11946,7 +11946,7 @@
     "imdb_id": "tt0054215",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "public-enemies",
@@ -11959,8 +11959,8 @@
     "movie_slug": "pulp-fiction",
     "imdb_id": "tt0110912",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_wins": 2,
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "pulse-2005",
@@ -12044,21 +12044,21 @@
     "imdb_id": "tt0081398",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "raiders-of-the-lost-ark",
     "imdb_id": "tt0082971",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 6
+    "oscar_wins": 12,
+    "oscar_nominations": 14
   },
   {
     "movie_slug": "rain-man",
     "imdb_id": "tt0095953",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_wins": 3,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "raise-the-red-lantern",
@@ -12100,7 +12100,7 @@
     "imdb_id": "tt0089881",
     "language": "Japanese",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "rango",
@@ -12114,7 +12114,7 @@
     "imdb_id": "tt0042876",
     "language": "Japanese",
     "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "rat-film",
@@ -12128,7 +12128,7 @@
     "imdb_id": "tt0382932",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "raw",
@@ -12170,7 +12170,7 @@
     "imdb_id": "tt0433035",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "reality-2023",
@@ -12191,7 +12191,7 @@
     "imdb_id": "tt0032976",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 9
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "rebel-without-a-cause",
@@ -12203,7 +12203,7 @@
   {
     "movie_slug": "rebels-of-the-neon-god",
     "imdb_id": "tt0103935",
-    "language": "Standard Taiwanese Mandarin",
+    "language": "Taiwanese Hokkien",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -12450,7 +12450,7 @@
     "imdb_id": "tt0959337",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "revolver",
@@ -12541,7 +12541,7 @@
     "imdb_id": "tt1318514",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "risky-business",
@@ -12597,7 +12597,7 @@
     "imdb_id": "tt0093870",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "robocop-2",
@@ -12611,7 +12611,7 @@
     "imdb_id": "tt13429870",
     "language": null,
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "robots",
@@ -12702,14 +12702,14 @@
     "imdb_id": "tt0046250",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 7
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "romancing-the-stone",
     "imdb_id": "tt0088011",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "romeo-and-juliet",
@@ -12856,7 +12856,7 @@
     "imdb_id": "tt0047437",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "safe-conduct",
@@ -12933,7 +12933,7 @@
     "imdb_id": "tt0040758",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "sator",
@@ -12953,8 +12953,8 @@
     "movie_slug": "saving-private-ryan",
     "imdb_id": "tt0120815",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 8
+    "oscar_wins": 6,
+    "oscar_nominations": 14
   },
   {
     "movie_slug": "saw",
@@ -13031,14 +13031,14 @@
     "imdb_id": "tt0072037",
     "language": "Italian",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "schindlers-list",
     "imdb_id": "tt0108052",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 10
+    "oscar_wins": 6,
+    "oscar_nominations": 16
   },
   {
     "movie_slug": "school-of-rock",
@@ -13087,14 +13087,14 @@
     "imdb_id": "tt0096061",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "seabiscuit",
     "imdb_id": "tt0329575",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 6
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "searching-for-bobby-fischer",
@@ -13141,7 +13141,7 @@
   {
     "movie_slug": "selena",
     "imdb_id": "tt0120094",
-    "language": "Spanish",
+    "language": "English",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -13157,14 +13157,14 @@
     "imdb_id": "tt0114388",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "sentimental-value",
     "imdb_id": "tt27714581",
     "language": "Norwegian",
     "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "seraphine",
@@ -13185,7 +13185,7 @@
     "imdb_id": "tt0070666",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "seven-pounds",
@@ -13261,8 +13261,8 @@
     "movie_slug": "shakespeare-in-love",
     "imdb_id": "tt0138097",
     "language": "English",
-    "oscar_wins": 6,
-    "oscar_nominations": 11
+    "oscar_wins": 7,
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "shallow-grave",
@@ -13325,7 +13325,7 @@
     "imdb_id": "tt2872750",
     "language": null,
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "she-dies-tomorrow",
@@ -13381,7 +13381,7 @@
     "imdb_id": "tt0117631",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "shirkers",
@@ -13444,7 +13444,7 @@
     "imdb_id": "tt0126029",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "shrek-2",
@@ -13479,7 +13479,7 @@
     "imdb_id": "tt0386032",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "side-by-side",
@@ -13492,8 +13492,8 @@
     "movie_slug": "sideways",
     "imdb_id": "tt0375063",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 2,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "sieranevada",
@@ -13514,7 +13514,7 @@
     "imdb_id": "tt1045658",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "sin-city",
@@ -13556,7 +13556,7 @@
     "imdb_id": "tt32298285",
     "language": "Arabic",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "sister",
@@ -13605,7 +13605,7 @@
     "imdb_id": "tt1074638",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "sleepaway-camp",
@@ -13633,14 +13633,14 @@
     "imdb_id": "tt0108160",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "sleepy-hollow",
     "imdb_id": "tt0162661",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 2,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "sling-blade",
@@ -13660,8 +13660,8 @@
     "movie_slug": "slumdog-millionaire",
     "imdb_id": "tt1010048",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 5
+    "oscar_wins": 7,
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "small-things-like-these",
@@ -13688,8 +13688,8 @@
     "movie_slug": "snow-white-and-the-seven-dwarfs",
     "imdb_id": "tt0029583",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_wins": 1,
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "snowpiercer",
@@ -13750,7 +13750,7 @@
   {
     "movie_slug": "son-of-saul",
     "imdb_id": "tt3808342",
-    "language": "Hungarian",
+    "language": "Yiddish",
     "oscar_wins": 1,
     "oscar_nominations": 1
   },
@@ -13821,15 +13821,15 @@
     "movie_slug": "sound-of-metal",
     "imdb_id": "tt5363618",
     "language": "American Sign Language",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 6,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "soundtrack-to-a-coup-detat",
     "imdb_id": "tt14452174",
     "language": null,
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "source-code",
@@ -13863,8 +13863,8 @@
     "movie_slug": "spartacus",
     "imdb_id": "tt0054331",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 8
+    "oscar_wins": 8,
+    "oscar_nominations": 12
   },
   {
     "movie_slug": "species",
@@ -13906,14 +13906,14 @@
     "imdb_id": "tt0145487",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "spider-man-2",
     "imdb_id": "tt0316654",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_wins": 3,
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "spider-man-3",
@@ -13927,13 +13927,13 @@
     "imdb_id": "tt9362722",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "spider-man-into-the-spider-verse",
     "imdb_id": "tt4633694",
     "language": "English",
-    "oscar_wins": 1,
+    "oscar_wins": 5,
     "oscar_nominations": 1
   },
   {
@@ -13954,8 +13954,8 @@
     "movie_slug": "spotlight",
     "imdb_id": "tt1895587",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_wins": 2,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "spring-summer-fall-winter-and-spring",
@@ -13967,7 +13967,7 @@
   {
     "movie_slug": "spy-game",
     "imdb_id": "tt0266987",
-    "language": "Yue Chinese",
+    "language": "Arabic",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -13989,8 +13989,8 @@
     "movie_slug": "stagecoach",
     "imdb_id": "tt0031971",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 5
+    "oscar_wins": 5,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "stake-land",
@@ -14024,15 +14024,15 @@
     "movie_slug": "star-trek",
     "imdb_id": "tt0796366",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 3,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "star-trek-first-contact",
     "imdb_id": "tt0117731",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "star-trek-generations",
@@ -14053,56 +14053,56 @@
     "imdb_id": "tt0102975",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "star-wars-episode-i---the-phantom-menace",
     "imdb_id": "tt0120915",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "star-wars-episode-ii---attack-of-the-clones",
     "imdb_id": "tt0121765",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "star-wars-episode-iv---a-new-hope",
     "imdb_id": "tt0076759",
     "language": "English",
-    "oscar_wins": 7,
-    "oscar_nominations": 8
+    "oscar_wins": 18,
+    "oscar_nominations": 19
   },
   {
     "movie_slug": "star-wars-episode-v---the-empire-strikes-back",
     "imdb_id": "tt0080684",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 6,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "star-wars-episode-vi---return-of-the-jedi",
     "imdb_id": "tt0086190",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_wins": 2,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "star-wars-episode-vii---the-force-awakens",
     "imdb_id": "tt2488496",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "star-wars-episode-viii---the-last-jedi",
     "imdb_id": "tt2527336",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "stargate",
@@ -14123,7 +14123,7 @@
     "imdb_id": "tt0120201",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "state-of-play",
@@ -14263,14 +14263,14 @@
     "imdb_id": "tt5873150",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "stuart-little",
     "imdb_id": "tt0164912",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "stuart-little-2",
@@ -14298,7 +14298,7 @@
     "imdb_id": "tt30319854",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "sullivans-travels",
@@ -14325,8 +14325,8 @@
     "movie_slug": "summer-of-soul-or-when-the-revolution-could-not-be-televised",
     "imdb_id": "tt7378922",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 4,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "summer-wars",
@@ -14339,15 +14339,15 @@
     "movie_slug": "sunrise-1927",
     "imdb_id": "tt0018455",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 3
+    "oscar_wins": 3,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "sunset-boulevard",
     "imdb_id": "tt0043014",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 9
+    "oscar_wins": 8,
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "super-size-me",
@@ -14430,8 +14430,8 @@
     "movie_slug": "swing-time",
     "imdb_id": "tt0028333",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 1,
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "swingers",
@@ -14584,7 +14584,7 @@
     "movie_slug": "taxi-to-the-dark-side",
     "imdb_id": "tt0854678",
     "language": "English",
-    "oscar_wins": 1,
+    "oscar_wins": 2,
     "oscar_nominations": 0
   },
   {
@@ -14660,7 +14660,7 @@
   {
     "movie_slug": "tenebrae",
     "imdb_id": "tt0084777",
-    "language": "English",
+    "language": "Italian",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -14668,8 +14668,8 @@
     "movie_slug": "terminator-2-judgment-day",
     "imdb_id": "tt0103064",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 5
+    "oscar_wins": 10,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "terminator-3-rise-of-the-machines",
@@ -14690,7 +14690,7 @@
     "imdb_id": "tt0086425",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 9
+    "oscar_nominations": 15
   },
   {
     "movie_slug": "terrestrial-verses",
@@ -14703,8 +14703,8 @@
     "movie_slug": "tess",
     "imdb_id": "tt0080009",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 4
+    "oscar_wins": 5,
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "test-pattern",
@@ -14745,8 +14745,8 @@
     "movie_slug": "the-abyss",
     "imdb_id": "tt0096754",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_wins": 4,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "the-act-of-killing",
@@ -14795,7 +14795,7 @@
     "imdb_id": "tt0043265",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-age-of-innocence",
@@ -14809,14 +14809,14 @@
     "imdb_id": "tt35307139",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-apartment",
     "imdb_id": "tt0053604",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 8
+    "oscar_wins": 5,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "the-apostle",
@@ -14851,7 +14851,7 @@
     "imdb_id": "tt0042208",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-assassin",
@@ -14892,8 +14892,8 @@
     "movie_slug": "the-bad-and-the-beautiful",
     "imdb_id": "tt0044391",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 6
+    "oscar_wins": 8,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "the-bad-lieutenant-port-of-call---new-orleans",
@@ -14914,7 +14914,7 @@
     "imdb_id": "tt0045537",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-bank-job",
@@ -14928,14 +14928,14 @@
     "imdb_id": "tt11813216",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "the-battle-of-algiers",
     "imdb_id": "tt0058946",
     "language": "Arabic",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-beach",
@@ -14983,7 +14983,7 @@
     "movie_slug": "the-best-years-of-our-lives",
     "imdb_id": "tt0036868",
     "language": "English",
-    "oscar_wins": 5,
+    "oscar_wins": 6,
     "oscar_nominations": 6
   },
   {
@@ -14997,15 +14997,15 @@
     "movie_slug": "the-big-short",
     "imdb_id": "tt1596363",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 2,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-big-sick",
     "imdb_id": "tt5462602",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-big-sleep",
@@ -15026,7 +15026,7 @@
     "imdb_id": "tt0115685",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-birds",
@@ -15108,7 +15108,7 @@
   {
     "movie_slug": "the-boondock-saints",
     "imdb_id": "tt0144117",
-    "language": "Spanish",
+    "language": "English",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -15130,15 +15130,15 @@
     "movie_slug": "the-bourne-ultimatum",
     "imdb_id": "tt0440963",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 2
+    "oscar_wins": 4,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-boy-and-the-heron",
     "imdb_id": "tt6587046",
     "language": "Japanese",
-    "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_wins": 2,
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "the-boy-in-the-striped-pajamas",
@@ -15165,8 +15165,8 @@
     "movie_slug": "the-bridge-on-the-river-kwai",
     "imdb_id": "tt0050212",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 6
+    "oscar_wins": 7,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "the-bridges-of-madison-county",
@@ -15187,7 +15187,7 @@
     "imdb_id": "tt8999762",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 0
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "the-bucket-list",
@@ -15250,14 +15250,14 @@
     "imdb_id": "tt0078966",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "the-chronicles-of-narnia-the-lion-the-witch-and-the-wardrobe",
     "imdb_id": "tt0363771",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 2,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "the-chronicles-of-narnia-the-voyage-of-the-dawn-treader",
@@ -15271,7 +15271,7 @@
     "imdb_id": "tt0124315",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-circle",
@@ -15284,7 +15284,7 @@
     "movie_slug": "the-circus",
     "imdb_id": "tt0018773",
     "language": "English",
-    "oscar_wins": 0,
+    "oscar_wins": 1,
     "oscar_nominations": 0
   },
   {
@@ -15313,7 +15313,7 @@
     "imdb_id": "tt0059043",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-color-of-paradise",
@@ -15327,7 +15327,7 @@
     "imdb_id": "tt0088939",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 10
+    "oscar_nominations": 23
   },
   {
     "movie_slug": "the-company-men",
@@ -15362,7 +15362,7 @@
     "imdb_id": "tt0071360",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-count-of-monte-cristo",
@@ -15403,8 +15403,8 @@
     "movie_slug": "the-curious-case-of-benjamin-button",
     "imdb_id": "tt0421715",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 11
+    "oscar_wins": 7,
+    "oscar_nominations": 20
   },
   {
     "movie_slug": "the-da-vinci-code",
@@ -15439,7 +15439,7 @@
     "imdb_id": "tt0468569",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 7
+    "oscar_nominations": 14
   },
   {
     "movie_slug": "the-day-after-tomorrow",
@@ -15514,9 +15514,9 @@
   {
     "movie_slug": "the-deer-hunter",
     "imdb_id": "tt0077416",
-    "language": "French",
-    "oscar_wins": 3,
-    "oscar_nominations": 7
+    "language": "Russian",
+    "oscar_wins": 6,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "the-delinquents",
@@ -15543,8 +15543,8 @@
     "movie_slug": "the-descendants",
     "imdb_id": "tt1033575",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_wins": 3,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "the-descent",
@@ -15600,7 +15600,7 @@
     "imdb_id": "tt0068361",
     "language": "Spanish",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-dissident",
@@ -15655,8 +15655,8 @@
     "movie_slug": "the-edge-of-democracy",
     "imdb_id": "tt6016744",
     "language": "Portuguese",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 1,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-edge-of-heaven",
@@ -15670,7 +15670,7 @@
     "imdb_id": "tt0080678",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 6
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "the-empty-hours",
@@ -15703,9 +15703,9 @@
   {
     "movie_slug": "the-english-patient",
     "imdb_id": "tt0116209",
-    "language": "Italian",
-    "oscar_wins": 7,
-    "oscar_nominations": 10
+    "language": "Arabic",
+    "oscar_wins": 0,
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-eternal-memory",
@@ -15732,22 +15732,22 @@
     "movie_slug": "the-exorcist-1973",
     "imdb_id": "tt0070047",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 8
+    "oscar_wins": 0,
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-fabelmans",
     "imdb_id": "tt14208870",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-fabulous-baker-boys",
     "imdb_id": "tt0097322",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-faculty",
@@ -15817,7 +15817,7 @@
     "imdb_id": "tt5083738",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "the-fifth-element",
@@ -15852,7 +15852,7 @@
     "imdb_id": "tt0101889",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-fits",
@@ -15922,7 +15922,7 @@
     "imdb_id": "tt0067116",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "the-friends-of-eddie-coyle",
@@ -15957,14 +15957,14 @@
     "imdb_id": "tt2309788",
     "language": "Hebrew",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-gay-divorcee",
     "imdb_id": "tt0025164",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_wins": 1,
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-general-1998",
@@ -16047,22 +16047,22 @@
     "movie_slug": "the-godfather",
     "imdb_id": "tt0068646",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 9
+    "oscar_wins": 3,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "the-godfather-part-ii",
     "imdb_id": "tt0071562",
-    "language": "Sicilian",
-    "oscar_wins": 4,
-    "oscar_nominations": 9
+    "language": "English",
+    "oscar_wins": 8,
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "the-godfather-part-iii",
     "imdb_id": "tt0099674",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "the-gold-rush-1925",
@@ -16076,7 +16076,7 @@
     "imdb_id": "tt0343737",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-good-the-bad-and-the-ugly",
@@ -16104,14 +16104,14 @@
     "imdb_id": "tt0061722",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-grand-budapest-hotel",
     "imdb_id": "tt2278388",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 7
+    "oscar_wins": 6,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "the-grapes-of-wrath",
@@ -16153,7 +16153,7 @@
     "imdb_id": "tt0120689",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-grifters",
@@ -16285,8 +16285,8 @@
     "movie_slug": "the-holdovers",
     "imdb_id": "tt14849194",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_wins": 1,
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-holiday",
@@ -16349,21 +16349,21 @@
     "imdb_id": "tt0099810",
     "language": "Russian",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-hurt-locker",
     "imdb_id": "tt0887912",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "the-hustler",
     "imdb_id": "tt0054997",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 7
+    "oscar_wins": 3,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "the-ice-storm",
@@ -16377,7 +16377,7 @@
     "imdb_id": "tt1124035",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-illusionist-1969",
@@ -16398,7 +16398,7 @@
     "imdb_id": "tt0317705",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "the-informant!",
@@ -16426,7 +16426,7 @@
     "imdb_id": "tt0140352",
     "language": "Arabic",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "the-interrupters",
@@ -16481,8 +16481,8 @@
     "movie_slug": "the-iron-lady",
     "imdb_id": "tt1007029",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 2
+    "oscar_wins": 3,
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-italian-job",
@@ -16524,14 +16524,14 @@
     "imdb_id": "tt0034928",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-karate-kid",
     "imdb_id": "tt0087538",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-karate-kid-1984",
@@ -16559,7 +16559,7 @@
     "imdb_id": "tt0842926",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-killer",
@@ -16622,7 +16622,7 @@
     "imdb_id": "tt1504320",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 10
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "the-kite-runner",
@@ -16641,7 +16641,7 @@
   {
     "movie_slug": "the-lady-vanishes-1938",
     "imdb_id": "tt0030341",
-    "language": "English",
+    "language": "French",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -16699,7 +16699,7 @@
     "imdb_id": "tt0067328",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 6
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "the-last-samurai",
@@ -16753,7 +16753,7 @@
   {
     "movie_slug": "the-leopard-re-release",
     "imdb_id": "tt0057091",
-    "language": "Latin",
+    "language": "Italian",
     "oscar_wins": 0,
     "oscar_nominations": 1
   },
@@ -16867,35 +16867,35 @@
     "imdb_id": "tt0071771",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-look-of-silence",
     "imdb_id": "tt3521134",
     "language": "Javanese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-lord-of-the-rings-the-fellowship-of-the-ring",
     "imdb_id": "tt0120737",
     "language": "English",
-    "oscar_wins": 4,
-    "oscar_nominations": 11
+    "oscar_wins": 0,
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-lord-of-the-rings-the-return-of-the-king",
     "imdb_id": "tt0167260",
     "language": "English",
-    "oscar_wins": 9,
-    "oscar_nominations": 8
+    "oscar_wins": 0,
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-lord-of-the-rings-the-two-towers",
     "imdb_id": "tt0167261",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_wins": 0,
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-lost-boys",
@@ -16916,7 +16916,7 @@
     "imdb_id": "tt0119567",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-love-witch",
@@ -16943,8 +16943,8 @@
     "movie_slug": "the-madness-of-king-george",
     "imdb_id": "tt0110428",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_wins": 2,
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "the-magdalene-sisters",
@@ -16965,7 +16965,7 @@
     "imdb_id": "tt0035015",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "the-maid",
@@ -16993,7 +16993,7 @@
     "imdb_id": "tt0031619",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-man-who-fell-to-earth",
@@ -17021,7 +17021,7 @@
     "imdb_id": "tt0073341",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "the-man-without-a-past",
@@ -17035,7 +17035,7 @@
     "imdb_id": "tt0056218",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "the-manchurian-candidate-1962",
@@ -17049,7 +17049,7 @@
     "imdb_id": "tt3659388",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "the-mask",
@@ -17063,7 +17063,7 @@
     "imdb_id": "tt0120746",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-master",
@@ -17083,8 +17083,8 @@
     "movie_slug": "the-matrix",
     "imdb_id": "tt0133093",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 3
+    "oscar_wins": 9,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "the-matrix-reloaded",
@@ -17147,7 +17147,7 @@
     "imdb_id": "tt7979580",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-mother-and-the-whore",
@@ -17196,7 +17196,7 @@
     "imdb_id": "tt0079588",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-naked-gun-212-the-smell-of-fear",
@@ -17273,7 +17273,7 @@
     "imdb_id": "tt0107688",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-ninth-gate",
@@ -17418,9 +17418,9 @@
   {
     "movie_slug": "the-passion-of-the-christ",
     "imdb_id": "tt0335345",
-    "language": "Hebrew",
+    "language": "Aramaic",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-past",
@@ -17455,14 +17455,14 @@
     "imdb_id": "tt34962891",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-perfect-storm",
     "imdb_id": "tt0177971",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "the-phantom-of-the-opera",
@@ -17532,7 +17532,7 @@
     "imdb_id": "tt10293406",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "the-powerpuff-girls",
@@ -17560,14 +17560,14 @@
     "imdb_id": "tt0120794",
     "language": "Hebrew",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-princess-and-the-frog",
     "imdb_id": "tt0780521",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-princess-bride",
@@ -17671,8 +17671,8 @@
     "movie_slug": "the-quiet-man",
     "imdb_id": "tt0045061",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_wins": 2,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "the-rainmaker",
@@ -17700,14 +17700,14 @@
     "imdb_id": "tt3666024",
     "language": null,
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-remains-of-the-day",
     "imdb_id": "tt0107943",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 6
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "the-rescue-2021",
@@ -17741,8 +17741,8 @@
     "movie_slug": "the-right-stuff",
     "imdb_id": "tt0086197",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_wins": 10,
+    "oscar_nominations": 18
   },
   {
     "movie_slug": "the-road-to-el-dorado",
@@ -17770,7 +17770,7 @@
     "imdb_id": "tt0117500",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-rocky-horror-picture-show",
@@ -17826,7 +17826,7 @@
     "imdb_id": "tt3674140",
     "language": "Portuguese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-samurai-and-the-prisoner",
@@ -17882,7 +17882,7 @@
     "imdb_id": "tt0117582",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-secret-in-their-eyes",
@@ -17952,7 +17952,7 @@
     "imdb_id": "tt0111161",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 6
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "the-shop-around-the-corner",
@@ -17966,7 +17966,7 @@
     "imdb_id": "tt0102926",
     "language": "English",
     "oscar_wins": 3,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-simpsons-movie",
@@ -18000,8 +18000,8 @@
     "movie_slug": "the-social-network",
     "imdb_id": "tt1285016",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "the-son",
@@ -18091,8 +18091,8 @@
     "movie_slug": "the-sting",
     "imdb_id": "tt0070735",
     "language": "English",
-    "oscar_wins": 5,
-    "oscar_nominations": 8
+    "oscar_wins": 6,
+    "oscar_nominations": 10
   },
   {
     "movie_slug": "the-story-of-the-weeping-camel",
@@ -18176,14 +18176,14 @@
     "imdb_id": "tt2576852",
     "language": "Japanese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-talented-mr-ripley",
     "imdb_id": "tt0134119",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 5
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "the-taste-of-things",
@@ -18253,7 +18253,7 @@
     "imdb_id": "tt0025878",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "the-thin-red-line",
@@ -18315,8 +18315,8 @@
     "movie_slug": "the-time-machine",
     "imdb_id": "tt0054387",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 2,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-time-travelers-wife",
@@ -18344,7 +18344,7 @@
     "imdb_id": "tt0059825",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-transporter",
@@ -18428,7 +18428,7 @@
     "imdb_id": "tt0094226",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-usual-suspects",
@@ -18568,7 +18568,7 @@
     "imdb_id": "tt0065214",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "the-wild-child",
@@ -18596,14 +18596,14 @@
     "imdb_id": "tt29623480",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "the-wind-rises",
     "imdb_id": "tt2013293",
     "language": "Japanese",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-wind-that-shakes-the-barley",
@@ -18631,7 +18631,7 @@
     "imdb_id": "tt0094332",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "the-wizard-of-oz-re-release",
@@ -18701,7 +18701,7 @@
     "imdb_id": "tt10370710",
     "language": "Norwegian",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "the-wound",
@@ -18743,14 +18743,14 @@
     "imdb_id": "tt0962736",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 3
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "the-zone-of-interest",
     "imdb_id": "tt7160372",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 3,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "theater-of-blood",
@@ -18785,7 +18785,7 @@
     "imdb_id": "tt0469494",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 5
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "theres-something-about-mary",
@@ -18918,7 +18918,7 @@
     "imdb_id": "tt0111495",
     "language": "French",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "three-colors-white",
@@ -19023,7 +19023,7 @@
     "imdb_id": "tt1340800",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "titanic",
@@ -19078,15 +19078,15 @@
     "movie_slug": "to-kill-a-mockingbird",
     "imdb_id": "tt0056592",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 6
+    "oscar_wins": 5,
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "to-leslie",
     "imdb_id": "tt8129806",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 1
   },
   {
     "movie_slug": "to-live-and-die-in-la",
@@ -19156,7 +19156,7 @@
     "imdb_id": "tt0084805",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 7
+    "oscar_nominations": 13
   },
   {
     "movie_slug": "top-five",
@@ -19177,7 +19177,7 @@
     "imdb_id": "tt0027125",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "top-secret!",
@@ -19198,7 +19198,7 @@
     "imdb_id": "tt0100802",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "totally-under-control",
@@ -19247,7 +19247,7 @@
     "imdb_id": "tt0114709",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "toy-story-2",
@@ -19261,14 +19261,14 @@
     "imdb_id": "tt0435761",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 2
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "toy-story-4",
     "imdb_id": "tt1979376",
     "language": "American English",
     "oscar_wins": 1,
-    "oscar_nominations": 0
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "trading-places",
@@ -19289,7 +19289,7 @@
     "imdb_id": "tt29768334",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 5
   },
   {
     "movie_slug": "training-day",
@@ -19310,7 +19310,7 @@
     "imdb_id": "tt0418279",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "transit",
@@ -19345,7 +19345,7 @@
     "imdb_id": "tt0084827",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "tron-legacy",
@@ -19373,14 +19373,14 @@
     "imdb_id": "tt1149405",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "true-grit",
     "imdb_id": "tt0065126",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 0,
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "true-grit-1969",
@@ -19394,7 +19394,7 @@
     "imdb_id": "tt0111503",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "true-romance",
@@ -19436,7 +19436,7 @@
     "imdb_id": "tt8097030",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "turtles-can-fly",
@@ -19653,7 +19653,7 @@
     "imdb_id": "tt0105695",
     "language": "English",
     "oscar_wins": 2,
-    "oscar_nominations": 7
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "union-2024",
@@ -19667,7 +19667,7 @@
     "imdb_id": "tt0475276",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "universal-language",
@@ -19862,8 +19862,8 @@
     "movie_slug": "victor-victoria",
     "imdb_id": "tt0084865",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 7
+    "oscar_wins": 2,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "videodrome",
@@ -19875,7 +19875,7 @@
   {
     "movie_slug": "viet-and-nam",
     "imdb_id": "tt32086052",
-    "language": "Jarai",
+    "language": "Vietnamese",
     "oscar_wins": 0,
     "oscar_nominations": 0
   },
@@ -19919,7 +19919,7 @@
     "imdb_id": "tt0120885",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "wait-until-dark",
@@ -19968,7 +19968,7 @@
     "imdb_id": "tt0358273",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 5
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "walk-up",
@@ -19989,7 +19989,7 @@
     "imdb_id": "tt0910970",
     "language": "English",
     "oscar_wins": 1,
-    "oscar_nominations": 4
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "wall-street",
@@ -20002,15 +20002,15 @@
     "movie_slug": "wallace-gromit-the-curse-of-the-were-rabbit",
     "imdb_id": "tt0312004",
     "language": "English",
-    "oscar_wins": 1,
-    "oscar_nominations": 1
+    "oscar_wins": 2,
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "wallace-gromit-vengeance-most-fowl",
     "imdb_id": "tt17163970",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "waltz-with-bashir",
@@ -20031,21 +20031,21 @@
     "imdb_id": "tt3450958",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "war-horse",
     "imdb_id": "tt1568911",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 4
+    "oscar_nominations": 8
   },
   {
     "movie_slug": "war-of-the-worlds",
     "imdb_id": "tt0407304",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "war-witch",
@@ -20059,7 +20059,7 @@
     "imdb_id": "tt0086567",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 7
   },
   {
     "movie_slug": "warrior",
@@ -20184,7 +20184,7 @@
     "movie_slug": "welcome-to-chechnya",
     "imdb_id": "tt11394200",
     "language": "Chechen",
-    "oscar_wins": 0,
+    "oscar_wins": 1,
     "oscar_nominations": 0
   },
   {
@@ -20226,15 +20226,15 @@
     "movie_slug": "west-side-story",
     "imdb_id": "tt0055614",
     "language": "English",
-    "oscar_wins": 8,
-    "oscar_nominations": 9
+    "oscar_wins": 0,
+    "oscar_nominations": 0
   },
   {
     "movie_slug": "west-side-story-2020",
     "imdb_id": "tt0055614",
     "language": "English",
-    "oscar_wins": 8,
-    "oscar_nominations": 9
+    "oscar_wins": 13,
+    "oscar_nominations": 14
   },
   {
     "movie_slug": "western",
@@ -20338,7 +20338,7 @@
     "movie_slug": "when-we-were-kings",
     "imdb_id": "tt0118147",
     "language": "English",
-    "oscar_wins": 1,
+    "oscar_wins": 2,
     "oscar_nominations": 0
   },
   {
@@ -20401,8 +20401,8 @@
     "movie_slug": "who-framed-roger-rabbit",
     "imdb_id": "tt0096438",
     "language": "English",
-    "oscar_wins": 2,
-    "oscar_nominations": 5
+    "oscar_wins": 5,
+    "oscar_nominations": 11
   },
   {
     "movie_slug": "who-we-are-now",
@@ -20451,14 +20451,14 @@
     "imdb_id": "tt0096446",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "willy-wonka-the-chocolate-factory",
     "imdb_id": "tt0067992",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "winchester-73",
@@ -20500,7 +20500,7 @@
     "imdb_id": "tt1399683",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "wise-blood",
@@ -20519,9 +20519,9 @@
   {
     "movie_slug": "witness",
     "imdb_id": "tt0090329",
-    "language": "German",
-    "oscar_wins": 2,
-    "oscar_nominations": 6
+    "language": "English",
+    "oscar_wins": 4,
+    "oscar_nominations": 9
   },
   {
     "movie_slug": "wojnarowicz",
@@ -20542,7 +20542,7 @@
     "imdb_id": "tt5198068",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "woman-at-war",
@@ -20569,8 +20569,8 @@
     "movie_slug": "woodstock-1970",
     "imdb_id": "tt0066580",
     "language": "English",
-    "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_wins": 1,
+    "oscar_nominations": 3
   },
   {
     "movie_slug": "working-girl",
@@ -20605,7 +20605,7 @@
     "imdb_id": "tt13630174",
     "language": "Hindi",
     "oscar_wins": 0,
-    "oscar_nominations": 0
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "written-on-the-wind",
@@ -20654,14 +20654,14 @@
     "imdb_id": "tt0245574",
     "language": "Spanish",
     "oscar_wins": 0,
-    "oscar_nominations": 1
+    "oscar_nominations": 2
   },
   {
     "movie_slug": "yankee-doodle-dandy",
     "imdb_id": "tt0035575",
     "language": "English",
-    "oscar_wins": 3,
-    "oscar_nominations": 5
+    "oscar_wins": 4,
+    "oscar_nominations": 6
   },
   {
     "movie_slug": "yes-2025",
@@ -20738,7 +20738,7 @@
     "imdb_id": "tt0072431",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 2
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "young-mothers",
@@ -20787,7 +20787,7 @@
     "imdb_id": "tt0065234",
     "language": "French",
     "oscar_wins": 2,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "zama",
@@ -20808,7 +20808,7 @@
     "imdb_id": "tt1790885",
     "language": "English",
     "oscar_wins": 0,
-    "oscar_nominations": 3
+    "oscar_nominations": 4
   },
   {
     "movie_slug": "zodiac",

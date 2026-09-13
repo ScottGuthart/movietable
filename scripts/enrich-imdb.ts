@@ -14,7 +14,7 @@
  *   bun run scripts/enrich-imdb.ts --dir seed
  */
 import { parseArgs } from "node:util";
-
+import { collectAwards } from "./imdb/awards";
 import {
 	collectCandidates,
 	type MovieKey,
@@ -23,6 +23,46 @@ import {
 } from "./imdb/match";
 import { enrich } from "./imdb/wikidata";
 import { toCsv } from "./metacritic/seed";
+
+interface MovieAwardRow {
+	movie_slug: string;
+	award_name: string;
+	result: string;
+	year: number | null;
+	person_name: string;
+	person_slug: string | null;
+}
+
+/**
+ * Indexes each film's credited people by lowercased name.
+ *
+ * Wikidata names an honoree but identifies them by its own id, which does not
+ * match Metacritic's person slug. Restricting the name match to people already
+ * credited on that same film keeps it precise.
+ */
+async function creditedPeople(
+	dir: string,
+): Promise<Map<string, Map<string, string>>> {
+	const credits: { movie_slug: string; person_slug: string }[] = await Bun.file(
+		`${dir}/credits.json`,
+	).json();
+	const people: { slug: string; name: string }[] = await Bun.file(
+		`${dir}/people.json`,
+	).json();
+	const nameBySlug = new Map(
+		people.map((person) => [person.slug, person.name.toLowerCase()]),
+	);
+	const byMovie = new Map<string, Map<string, string>>();
+	for (const credit of credits) {
+		const name = nameBySlug.get(credit.person_slug);
+		if (!name) continue;
+		const forMovie =
+			byMovie.get(credit.movie_slug) ?? new Map<string, string>();
+		forMovie.set(name, credit.person_slug);
+		byMovie.set(credit.movie_slug, forMovie);
+	}
+	return byMovie;
+}
 
 interface MovieImdbRow {
 	movie_slug: string;
@@ -117,13 +157,57 @@ async function main(): Promise<void> {
 		// "Accept the first match" for language: Wikidata lists the original
 		// language first for multilingual films.
 		row.language = found.languages[0] ?? null;
-		row.oscar_wins = found.oscar_wins;
-		row.oscar_nominations = found.oscar_nominations;
 		for (const name of found.subgenres) {
 			subgenres.add(name);
 			movieSubgenres.push({ movie_slug: row.movie_slug, subgenre_name: name });
 		}
 	}
+
+	console.error(`collecting Oscar categories for ${ids.length} ids...`);
+	const rawAwards = await collectAwards(ids, 40, (done, total) => {
+		if (done % 400 === 0 || done === total) console.error(`  ${done}/${total}`);
+	});
+
+	const credited = await creditedPeople(values.dir);
+	const awards: MovieAwardRow[] = [];
+	for (const award of rawAwards) {
+		const slug = byId.get(award.imdb_id);
+		if (!slug) continue;
+		const person = award.person_name
+			? (credited.get(slug)?.get(award.person_name.toLowerCase()) ?? null)
+			: null;
+		awards.push({
+			movie_slug: slug,
+			award_name: award.award_name,
+			result: award.result,
+			year: award.year,
+			person_name: award.person_name,
+			person_slug: person,
+		});
+	}
+
+	// Keep the counts consistent with the categories rather than with a second,
+	// separately-aggregated query.
+	const tally = new Map<string, { wins: number; noms: number }>();
+	for (const award of awards) {
+		const seen = tally.get(award.movie_slug) ?? { wins: 0, noms: 0 };
+		if (award.result === "win") seen.wins += 1;
+		else seen.noms += 1;
+		tally.set(award.movie_slug, seen);
+	}
+	for (const row of matched) {
+		const seen = tally.get(row.movie_slug);
+		row.oscar_wins = seen?.wins ?? 0;
+		row.oscar_nominations = seen?.noms ?? 0;
+	}
+
+	awards.sort(
+		(a, b) =>
+			a.movie_slug.localeCompare(b.movie_slug) ||
+			a.result.localeCompare(b.result) ||
+			a.award_name.localeCompare(b.award_name) ||
+			a.person_name.localeCompare(b.person_name),
+	);
 
 	matched.sort((a, b) => a.movie_slug.localeCompare(b.movie_slug));
 	movieSubgenres.sort(
@@ -147,14 +231,24 @@ async function main(): Promise<void> {
 		"movie_subgenres",
 		movieSubgenres as unknown as Record<string, unknown>[],
 	);
+	await writeTable(
+		values.dir,
+		"movie_awards",
+		awards as unknown as Record<string, unknown>[],
+	);
 
 	const withLanguage = matched.filter((row) => row.language).length;
 	const withOscars = matched.filter(
 		(row) => row.oscar_wins + row.oscar_nominations > 0,
 	).length;
+	const named = awards.filter((row) => row.person_name).length;
+	const linked = awards.filter((row) => row.person_slug).length;
 	console.error(
 		`\nlanguage on ${withLanguage}, sub-genres on ${new Set(movieSubgenres.map((r) => r.movie_slug)).size}, ` +
 			`Oscar activity on ${withOscars} of ${matched.length}`,
+	);
+	console.error(
+		`${awards.length} award rows; ${named} name a person, ${linked} link to a credited person`,
 	);
 }
 

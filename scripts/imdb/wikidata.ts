@@ -33,7 +33,7 @@ GROUP BY ?imdb`;
 }
 
 /** Parses an RFC 4180 CSV body into rows of fields. */
-function parseCsv(body: string): string[][] {
+export function parseCsv(body: string): string[][] {
 	const rows: string[][] = [];
 	let row: string[] = [];
 	let field = "";

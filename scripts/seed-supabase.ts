@@ -28,6 +28,7 @@ const TABLES = [
 	"subgenres",
 	"movie_imdb",
 	"movie_subgenres",
+	"movie_awards",
 ] as const;
 
 type TableName = (typeof TABLES)[number];
@@ -44,6 +45,7 @@ const CONFLICT_KEYS: Record<TableName, string> = {
 	subgenres: "name",
 	movie_imdb: "movie_slug",
 	movie_subgenres: "movie_slug,subgenre_name",
+	movie_awards: "movie_slug,award_name,result,person_name",
 };
 
 function requireEnv(name: string): string {

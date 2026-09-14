@@ -10,7 +10,7 @@ web
 
 Regular people deciding what movie to watch next. They arrive at the public site with no account and no onboarding, and they want a ranked, filterable list they can bend toward their own taste: more weight on critics, more weight on audiences, only popular films, only a certain era. Some know exactly what they are looking for and search by title; most are browsing for a pick tonight.
 
-A second audience is confirmed: people evaluating Scott Guthart's work. MovieTable is the premier app demonstrating his skill set, so the site must credit him and link to his resume. The site owner is Scott Guthart; the project is public at movietable.scottguthart.com.
+A second audience is confirmed: people evaluating Scott Guthart's work. MovieTable is the premier app demonstrating his skill set, so the site must credit him and link to his resume. The site owner is Scott Guthart; the project is public at movietable.ai.
 
 ## Product Purpose
 
@@ -32,7 +32,7 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - Dev command: `bun run dev`. Tests: `bun test src/lib`. Lint: `bun run lint`. Typecheck: `bun run typecheck`.
 - Data lives in the Supabase project (tables `movies`, `people`, `genres`, `credits`, `movie_genres`; schema in `supabase/migrations`), read over PostgREST by `src/lib/catalogue.ts` using `SUPABASE_URL` and `SUPABASE_ANON_KEY` from `.env`. Rows are normalized in `src/lib/movies.ts`; scoring, taste, and filter logic are unit-tested in `src/lib` with inline fixtures.
 - Default view on load: release year 2000–2024, popularity 300–100,000, sorted by Final Score descending, 25 rows per page, score bias at equal weight (0.5).
-- Deployed at movietable.scottguthart.com.
+- Deployed at movietable.ai.
 
 ## Capabilities and Constraints
 
@@ -93,7 +93,7 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 
 ## Brand Commitments
 
-- The name **MovieTable** and the domain movietable.scottguthart.com are binding.
+- The name **MovieTable** and the domain movietable.ai are binding.
 - **Metacritic attribution and per-film outbound links are binding.** Every film keeps its link to Metacritic and the dataset credit stays visible.
 - **Maker credit is binding.** The site says it was made by Scott Guthart and links to his resume at https://guth.art. Confirmed 2026-09-12; it lives in the page footer and in site authorship metadata.
 - The current tagline and header copy are not binding and may be rewritten.

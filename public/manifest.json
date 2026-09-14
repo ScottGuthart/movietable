@@ -2,7 +2,7 @@
   "id": "/",
   "name": "MovieTable",
   "short_name": "MovieTable",
-  "description": "Find your next great film. Compare audience and critic scores and discover your personal ranking.",
+  "description": "The all-time top films on Metacritic, ranked by how much you trust critics versus crowds.",
   "lang": "en",
   "start_url": "/",
   "scope": "/",
@@ -10,8 +10,23 @@
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "icons": [
-    { "src": "/logo192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
-    { "src": "/logo512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
-    { "src": "/icon-maskable-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
   ]
 }

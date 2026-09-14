@@ -1,0 +1,96 @@
+name: Apple app
+
+on:
+  push:
+    branches: [master]
+    paths: ["apple/**", ".github/workflows/apple.yml"]
+  pull_request:
+    paths: ["apple/**", ".github/workflows/apple.yml"]
+
+concurrency:
+  group: apple-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build and test (${{ matrix.name }})
+    runs-on: macos-26
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: iOS
+            destination: generic/platform=iOS Simulator
+            simulator: true
+          - name: macOS
+            destination: platform=macOS
+            simulator: false
+    defaults:
+      run:
+        working-directory: apple
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip until the Xcode project exists
+        id: project
+        run: |
+          if ls *.xcodeproj >/dev/null 2>&1; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No .xcodeproj under apple/ yet; nothing to build."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Select Xcode
+        if: steps.project.outputs.present == 'true'
+        run: sudo xcode-select -s /Applications/Xcode_26.3.app || sudo xcode-select -s "$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)"
+
+      - name: Write Config.xcconfig
+        if: steps.project.outputs.present == 'true'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          {
+            echo "SUPABASE_URL = ${SUPABASE_URL:-https://api.movietable.ai}"
+            echo "SUPABASE_ANON_KEY = ${SUPABASE_ANON_KEY:-ci-placeholder}"
+            echo "CODE_SIGNING_ALLOWED = NO"
+            echo "CODE_SIGN_IDENTITY ="
+            echo "DEVELOPMENT_TEAM ="
+          } > Config.xcconfig
+
+      - name: Pick a simulator
+        if: steps.project.outputs.present == 'true' && matrix.simulator
+        id: sim
+        run: |
+          name=$(xcrun simctl list devices available | grep -oE 'iPhone [0-9]+( Pro)?' | sort -V | tail -1)
+          echo "Using simulator: $name"
+          echo "destination=platform=iOS Simulator,name=$name" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve packages
+        if: steps.project.outputs.present == 'true'
+        run: xcodebuild -resolvePackageDependencies -scheme MovieTable -project MovieTable.xcodeproj
+
+      - name: Build and test
+        if: steps.project.outputs.present == 'true'
+        env:
+          DESTINATION: ${{ matrix.simulator && steps.sim.outputs.destination || matrix.destination }}
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project MovieTable.xcodeproj \
+            -scheme MovieTable \
+            -destination "$DESTINATION" \
+            -xcconfig Config.xcconfig \
+            -skip-testing:MovieTableUITests \
+            -resultBundlePath "TestResults-${{ matrix.name }}.xcresult" \
+            | xcbeautify --renderer github-actions
+
+      - name: Upload result bundle
+        if: always() && steps.project.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcresult-${{ matrix.name }}
+          path: apple/TestResults-${{ matrix.name }}.xcresult
+          if-no-files-found: ignore

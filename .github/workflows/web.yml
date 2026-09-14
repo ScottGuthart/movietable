@@ -1,0 +1,27 @@
+name: Web app
+
+on:
+  push:
+    branches: [master]
+    paths-ignore: ["apple/**", ".github/workflows/apple.yml"]
+  pull_request:
+    paths-ignore: ["apple/**", ".github/workflows/apple.yml"]
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, typecheck, test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.0"
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run typecheck
+      - run: bun test src/lib

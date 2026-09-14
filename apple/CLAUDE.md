@@ -25,8 +25,22 @@ and `../DESIGN.md` before changing copy, scoring, or visual language.
 - Persistence is Codable JSON in Application Support (catalogue snapshot,
   guest ratings, film detail cache), written atomically. No SwiftData, no
   Core Data. If a real query need appears, use GRDB, not SwiftData.
-- Secrets: `SUPABASE_URL` and the anon key go in `Config.xcconfig` (gitignored)
-  and are read from `Info.plist`. Never paste keys into Swift source.
+- Secrets and signing: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and
+  `DEVELOPMENT_TEAM` go in `apple/Config.xcconfig` (gitignored) and are read
+  from `Info.plist` and the build settings. Never paste keys into Swift
+  source and never hand-edit signing into `project.pbxproj`. To create the
+  file, copy the values from `../.env` or `../.env.local` with a shell
+  command; do not print them.
+- CI: `.github/workflows/apple.yml` builds and tests on `macos-26` for an
+  iPhone simulator and for macOS on every push or PR touching `apple/`. It
+  writes its own `Config.xcconfig` and skips `MovieTableUITests`, so keep
+  UI tests in a target of that name and keep unit tests network-free.
+- Tools: `../.mcp.json` registers XcodeBuildMCP for Claude Code, and
+  `../.claude/settings.json` pre-approves xcodebuild, xcrun, swift, bun,
+  git, and gh while denying secret reads and force pushes. If either file
+  is missing, create it first from the scaffold prompt and commit it. If
+  the iPhone 17 simulator is missing, pick the newest
+  iPhone from `xcrun simctl list devices available` and carry on.
 
 ## Data
 
@@ -44,6 +58,39 @@ and `../DESIGN.md` before changing copy, scoring, or visual language.
 - Auth: Sign in with Apple and Google through `signInWithIdToken`; magic link
   through a universal link callback. Sign in with Apple is required by App
   Store guideline 4.8 because Google and GitHub are offered.
+
+## Working autonomously
+
+The goal is to finish without handing work back to a person. Decide and act
+on anything reversible; a wrong choice on a feature branch costs a commit,
+a question costs a day.
+
+- Never stop to ask whether to proceed, which option to take, or for
+  confirmation of a reversible change. Pick the option most consistent with
+  CLAUDE.md, PRODUCT.md, DESIGN.md, and the TypeScript reference, note the
+  choice in the commit message, and continue.
+- Work on a branch named `apple/<topic>`, commit each phase with a clear
+  message, push with `git push -u origin <branch>`, and open a pull request
+  against `master` with `gh pr create`. Then watch CI: read the failing job
+  log, fix, and push again until every check is green. A failing test is a
+  bug to fix, never something to skip, disable, or mark flaky.
+- Before each push run the fast checks yourself: build and test on both
+  destinations, and `swift build` in each package.
+- Do not merge. A green PR with a clear description is the finish line.
+- Only these need a person, because they need the Apple Developer account
+  or a dashboard login. When you hit one, do everything around it (code,
+  entitlements, placeholder values, the AASA file in `../public/.well-known/`),
+  then append the exact remaining step to `apple/HANDOFF.md` and move on:
+  - Apple Developer Program team ID and signing certificates
+    (`DEVELOPMENT_TEAM` in `Config.xcconfig`).
+  - App Store Connect app record, the App ID's capabilities (Sign in with
+    Apple, Associated Domains), and TestFlight upload.
+  - Supabase Auth dashboard: enabling the Apple provider with its Services
+    ID and secret key, and adding the iOS Google OAuth client ID.
+  - Repository secrets `SUPABASE_URL` and `SUPABASE_ANON_KEY` for CI.
+  - Coolify Watch Paths so `apple/`-only commits do not redeploy the site.
+  `apple/HANDOFF.md` holds only open items with the exact click path or
+  command; delete an item once it is done. Nothing else is deferred.
 
 ## Shared assets and context
 

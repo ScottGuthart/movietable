@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun *)",
+      "Bash(bunx *)",
+      "Bash(xcodebuild *)",
+      "Bash(xcrun *)",
+      "Bash(xcode-select *)",
+      "Bash(swift *)",
+      "Bash(xcbeautify *)",
+      "Bash(plutil *)",
+      "Bash(git *)",
+      "Bash(gh *)",
+      "mcp__XcodeBuildMCP"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(apple/Config.xcconfig)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git push --force-with-lease *)"
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}

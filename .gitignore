@@ -43,3 +43,12 @@ yarn-error.log*
 .impeccable/live/sessions/
 .impeccable/live/roots.json
 .brand/
+
+# Xcode (apple/)
+apple/**/xcuserdata/
+apple/**/*.xcuserstate
+apple/**/DerivedData/
+apple/**/.build/
+apple/**/.swiftpm/xcode/
+apple/**/*.xcscmblueprint
+apple/**/Config.xcconfig

@@ -8,8 +8,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# iOS app
+# Apple app
 
-The native SwiftUI port lives in `ios/` with its own `ios/CLAUDE.md`. Open
-`ios/` as the project root in Xcode; the web app in this directory stays the
-reference for product rules and scoring.
+The native SwiftUI app for iPhone, iPad, and Mac lives in `apple/` with its
+own `apple/CLAUDE.md`. Open `apple/` as the project root in Xcode; the web app in this directory stays the
+reference for product rules and scoring. Brand marks in `public/`, colour
+and type tokens in `DESIGN.md` and `.impeccable/design.json`, and the seed
+catalogue in `seed/` are shared with the iOS app; change them here, never
+in a copy under `apple/`.

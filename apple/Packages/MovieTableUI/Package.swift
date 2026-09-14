@@ -21,6 +21,9 @@ let package = Package(
                 .product(name: "MovieTableCore", package: "MovieTableCore"),
                 .product(name: "MovieTableData", package: "MovieTableData"),
             ],
+            resources: [
+                .process("Assets.xcassets"),
+            ],
         ),
         .testTarget(
             name: "MovieTableViewTests",

@@ -36,6 +36,7 @@ const FILES: { name: string; type: string }[] = [
 	{ name: "apple-touch-icon.png", type: "image/png" },
 	{ name: "icon-192.png", type: "image/png" },
 	{ name: "icon-512.png", type: "image/png" },
+	{ name: "icon-1024.png", type: "image/png" },
 ];
 
 async function loadFonts(): Promise<Font[]> {
@@ -96,6 +97,7 @@ async function render() {
 		"apple-touch-icon.png": await renderMarkPng(180, { weight: "regular", glyph: 0.78, dot: 0.16, dotInset: 0.08 }),
 		"icon-192.png": await renderMarkPng(192, { weight: "regular", glyph: 0.76, dot: 0.16, dotInset: 0.09 }),
 		"icon-512.png": await renderMarkPng(512, { weight: "regular", glyph: 0.78, dot: 0.15, dotInset: 0.09 }),
+		"icon-1024.png": await renderMarkPng(1024, { weight: "regular", glyph: 0.78, dot: 0.15, dotInset: 0.09 }),
 		"icon-maskable-512.png": await renderMarkPng(512, { weight: "regular", glyph: 0.67, dot: 0.14, dotInset: 0.2 }),
 	};
 	await mkdir(OUT_DIR, { recursive: true });

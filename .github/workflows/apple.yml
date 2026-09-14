@@ -52,8 +52,10 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
+          # xcconfig treats // as a comment; the $() trick keeps the scheme slashes.
+          url="${SUPABASE_URL:-https://api.movietable.ai}"
           {
-            echo "SUPABASE_URL = ${SUPABASE_URL:-https://api.movietable.ai}"
+            echo "SUPABASE_URL = $(printf '%s' "$url" | sed 's|://|:/$()/|')"
             echo "SUPABASE_ANON_KEY = ${SUPABASE_ANON_KEY:-ci-placeholder}"
             echo "CODE_SIGNING_ALLOWED = NO"
             echo "CODE_SIGN_IDENTITY ="
@@ -71,6 +73,16 @@ jobs:
       - name: Resolve packages
         if: steps.project.outputs.present == 'true'
         run: xcodebuild -resolvePackageDependencies -scheme MovieTable -project MovieTable.xcodeproj
+
+      - name: Test packages
+        if: steps.project.outputs.present == 'true'
+        run: |
+          set -o pipefail
+          for package in Packages/MovieTableCore Packages/MovieTableData Packages/MovieTableUI; do
+            echo "::group::swift test $package"
+            swift test --package-path "$package"
+            echo "::endgroup::"
+          done
 
       - name: Build and test
         if: steps.project.outputs.present == 'true'

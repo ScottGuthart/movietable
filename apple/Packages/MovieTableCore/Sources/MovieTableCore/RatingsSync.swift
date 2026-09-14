@@ -89,11 +89,11 @@ enum ISO8601 {
         let withFraction = ISO8601DateFormatter()
         withFraction.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         if let date = withFraction.date(from: string) {
-            return Int(date.timeIntervalSince1970 * 1000)
+            return Int((date.timeIntervalSince1970 * 1000).rounded())
         }
         let plain = ISO8601DateFormatter()
         if let date = plain.date(from: string) {
-            return Int(date.timeIntervalSince1970 * 1000)
+            return Int((date.timeIntervalSince1970 * 1000).rounded())
         }
         return nil
     }

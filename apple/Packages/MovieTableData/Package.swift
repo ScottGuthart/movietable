@@ -21,6 +21,9 @@ let package = Package(
                 .product(name: "MovieTableCore", package: "MovieTableCore"),
                 .product(name: "Supabase", package: "supabase-swift"),
             ],
+            resources: [
+                .process("Resources"),
+            ],
         ),
         .testTarget(
             name: "MovieTableDataTests",

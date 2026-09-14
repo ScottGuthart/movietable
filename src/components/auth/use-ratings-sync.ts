@@ -5,6 +5,7 @@ import type { Session, SupabaseClient } from "@supabase/supabase-js";
 import { getStampedVerdicts, replaceVerdicts, subscribeToVerdicts } from "@/components/taste/taste-store";
 import { diffVerdicts, mergeVerdicts, rowsToStamped, type RatingRow, type StampedVerdicts } from "@/lib/ratings-sync";
 import { getSupabase } from "@/lib/supabase-browser";
+import { isV0Preview } from "@/lib/preview-mode";
 
 export type SyncState = { status: "idle" } | { status: "syncing" } | { status: "synced" } | { status: "error"; message: string };
 
@@ -35,7 +36,7 @@ async function remove(supabase: SupabaseClient, userId: string, slugs: string[])
  */
 export function useRatingsSync(session: Session | null): SyncState {
   const [settled, setSettled] = useState<Exclude<SyncState, { status: "syncing" }>>({ status: "idle" });
-  const userId = session?.user.id ?? null;
+  const userId = isV0Preview() ? null : session?.user.id ?? null;
 
   useEffect(() => {
     if (!userId) return;

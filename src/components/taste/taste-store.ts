@@ -3,8 +3,9 @@
 import { useSyncExternalStore } from "react";
 import type { StampedVerdicts } from "@/lib/ratings-sync";
 import { parseVerdict, type Verdict, type Verdicts } from "@/lib/taste";
+import { tasteStorageKey } from "@/lib/preview-mode";
 
-const STORAGE_KEY = "movietable.taste.v1";
+const STORAGE_KEY = tasteStorageKey();
 const EMPTY: Verdicts = {};
 
 interface Stored {

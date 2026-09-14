@@ -4,6 +4,7 @@ import { Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import brand from "@/lib/brand-assets.json";
 import { cn } from "@/lib/utils";
+import { isV0Preview } from "@/lib/preview-mode";
 
 const playfairDisplay = Playfair_Display({
 	subsets: ["latin"],
@@ -15,6 +16,7 @@ const description =
 	"Compare audience and critic scores, rate a few films to build your own ranking, and find your next great film.";
 
 export const metadata: Metadata = {
+	...(isV0Preview() ? { robots: { index: false, follow: false } } : {}),
 	metadataBase: new URL(brand.site),
 	title,
 	description,

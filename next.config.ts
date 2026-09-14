@@ -1,6 +1,13 @@
 import type { NextConfig } from "next";
+import { isV0Sandbox } from "./src/lib/preview-environment";
 
 const nextConfig: NextConfig = {
+  env: {
+    MOVIETABLE_V0_PREVIEW: String(isV0Sandbox(process.cwd(), {
+      VERCEL: process.env.VERCEL,
+      VERCEL_ENV: process.env.VERCEL_ENV,
+    })),
+  },
   async headers() {
     return [{
       source: "/(.*)",

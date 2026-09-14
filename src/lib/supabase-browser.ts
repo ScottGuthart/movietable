@@ -1,6 +1,7 @@
 "use client";
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { isV0Preview } from "@/lib/preview-mode";
 
 let client: SupabaseClient | null = null;
 
@@ -12,6 +13,7 @@ const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
  * instead of breaking the table, and says so once in the console.
  */
 export function isSupabaseConfigured(): boolean {
+  if (isV0Preview()) return false;
   const configured = Boolean(url && anonKey);
   if (!configured && typeof window !== "undefined" && !warned) {
     warned = true;
@@ -24,6 +26,7 @@ let warned = false;
 
 /** One browser client per page; PKCE codes and magic-link tokens on the return URL are exchanged automatically. */
 export function getSupabase(): SupabaseClient {
+  if (isV0Preview()) throw new Error("Accounts and cloud sync are disabled in v0 preview. Ratings stay in this browser.");
   if (!url || !anonKey) {
     throw new Error("NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY must be set before the Supabase client is used.");
   }

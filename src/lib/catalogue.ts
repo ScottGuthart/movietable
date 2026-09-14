@@ -1,6 +1,7 @@
 import { awardLines, imdbUrl, type AwardRow, type AwardSummary } from "@/lib/film-detail";
 import type { FilmSignals, Person, RawMovie } from "@/lib/movies";
 import type { TasteCatalogue, TasteFilm } from "@/lib/taste";
+import { isV0Preview } from "@/lib/preview-mode";
 
 export interface ImdbRow {
   language: string | null;
@@ -249,6 +250,10 @@ export function toTasteCatalogue(rows: TasteRow[]): TasteCatalogue {
 
 /** The full catalogue for the table, read from Supabase and cached for a day. */
 export async function fetchCatalogue(): Promise<RawMovie[]> {
+  if (isV0Preview()) {
+    const { previewData } = await import("@/lib/preview-data");
+    return toRawMovies(previewData.movies).movies;
+  }
   const rows = await pageAll((afterSlug, limit) => fetchRows<MovieRow>(MOVIE_SELECT, afterSlug, limit), (row) => row.slug);
   const { movies, dropped } = toRawMovies(rows);
   if (dropped > 0) console.warn(`Dropped ${dropped} films without a release year from the Supabase catalogue.`);
@@ -260,6 +265,10 @@ export async function fetchCatalogue(): Promise<RawMovie[]> {
 
 /** Genres, credits, and summaries for the taste profile, read from Supabase and cached for a day. */
 export async function fetchTasteData(): Promise<TasteCatalogue> {
+  if (isV0Preview()) {
+    const { previewData } = await import("@/lib/preview-data");
+    return toTasteCatalogue(previewData.taste);
+  }
   const rows = await pageAll((afterSlug, limit) => fetchRows<TasteRow>(TASTE_SELECT, afterSlug, limit), (row) => row.slug, TASTE_PAGE_SIZE);
   return toTasteCatalogue(rows);
 }
@@ -315,6 +324,10 @@ export function toSignals(rows: SignalRow[]): Record<string, FilmSignals> {
 
 /** Directors, writers, genres, and subscription availability for every film, cached for a day. */
 export async function fetchSignals(): Promise<Record<string, FilmSignals>> {
+  if (isV0Preview()) {
+    const { previewData } = await import("@/lib/preview-data");
+    return toSignals(previewData.signals);
+  }
   const rows = await pageAll(
     (afterSlug, limit) => fetchRows<SignalRow>(SIGNAL_SELECT, afterSlug, limit, SIGNAL_PARAMS),
     (row) => row.slug,
@@ -325,6 +338,10 @@ export async function fetchSignals(): Promise<Record<string, FilmSignals>> {
 
 /** Every provider the offers table refers to, cached for a day. */
 export async function fetchProviders(): Promise<Provider[]> {
+  if (isV0Preview()) {
+    const { previewProviders } = await import("@/lib/preview-data");
+    return previewProviders.map((provider) => ({ ...provider }));
+  }
   return fetchTable<Provider>("providers", { select: "id,name,icon_url", order: "id" });
 }
 
@@ -426,6 +443,11 @@ export function toFilmDetail(row: DetailRow, awards: AwardRow[] = []): FilmDetai
 
 /** Synopsis, credits, awards, and every US offer for one film, or null when the slug is unknown. */
 export async function fetchFilmDetail(slug: string): Promise<FilmDetail | null> {
+  if (isV0Preview()) {
+    const { previewData } = await import("@/lib/preview-data");
+    const detail = previewData.details.get(slug);
+    return detail ? toFilmDetail(detail.row, detail.awards) : null;
+  }
   const [rows, awards] = await Promise.all([
     fetchTable<DetailRow>("movies", { select: DETAIL_SELECT, slug: `eq.${slug}`, "credits.order": "billing", limit: "1" }),
     fetchTable<AwardRow>("movie_awards", { select: AWARDS_SELECT, movie_slug: `eq.${slug}`, order: "award_name" }),

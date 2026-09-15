@@ -67,7 +67,7 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
   const [sortingOverride, setSortingOverride] = useState<SortingState | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [density, setDensity] = useState<Density>(DEFAULT_DENSITY);
-  const [showContext, setShowContext] = useState(false);
+  const [showContext, setShowContext] = useState(true);
   const [collapsedBands, setCollapsedBands] = useState<ReadonlySet<string>>(NONE);
   const [openFilms, setOpenFilms] = useState<ReadonlySet<string>>(NONE);
   const [services, setServices] = useMyServices();
@@ -96,7 +96,7 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
     void setView({ q: null, search: null, bias: null, pop: null, group: null });
     setSortingOverride(null);
     setDensity(DEFAULT_DENSITY);
-    setShowContext(false);
+    setShowContext(true);
     setCollapsedBands(NONE);
     setOpenFilms(NONE);
     taste.setOpen(false);

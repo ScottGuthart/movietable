@@ -44,7 +44,6 @@ export default async function Page() {
           </div>
           <div className="flex flex-col items-start gap-2 sm:items-end">
             <div className="flex flex-wrap items-center gap-2">
-              <InstallHelp />
               <Account />
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed sm:text-right">{numberFormat.format(movies.length)} films to explore<br />{bounds.earliestYear}–{bounds.latestYear} · {isV0Preview() ? "Sample catalogue" : "Metacritic dataset"}</p>
@@ -65,6 +64,7 @@ export default async function Page() {
           </p>
         </footer>
       </div>
+      <InstallHelp />
     </main>
   );
 }

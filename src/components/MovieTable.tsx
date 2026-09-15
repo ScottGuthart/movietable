@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import type { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { IconChevronDown, IconRefresh, IconSearch, IconX } from "@tabler/icons-react";
 import { AdvancedMovieFilters } from "@/components/examples/c-filters-11";
@@ -67,7 +68,7 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
   const [sortingOverride, setSortingOverride] = useState<SortingState | null>(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [density, setDensity] = useState<Density>(DEFAULT_DENSITY);
-  const [showContext, setShowContext] = useState(false);
+  const [showContext, setShowContext] = useState(true);
   const [collapsedBands, setCollapsedBands] = useState<ReadonlySet<string>>(NONE);
   const [openFilms, setOpenFilms] = useState<ReadonlySet<string>>(NONE);
   const [services, setServices] = useMyServices();
@@ -96,7 +97,7 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
     void setView({ q: null, search: null, bias: null, pop: null, group: null });
     setSortingOverride(null);
     setDensity(DEFAULT_DENSITY);
-    setShowContext(false);
+    setShowContext(true);
     setCollapsedBands(NONE);
     setOpenFilms(NONE);
     taste.setOpen(false);
@@ -104,6 +105,18 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
 
   return (
     <div className="flex flex-col gap-6">
+      <OnboardingWizard
+        providers={providerUsage}
+        services={services}
+        onServicesChange={setServices}
+        density={density}
+        onDensityChange={setDensity}
+        showContext={showContext}
+        onShowContextChange={setShowContext}
+        taste={taste}
+        movies={scored}
+        onClose={() => undefined}
+      />
       <section aria-label="Movie search and ranking preferences">
         <FieldGroup className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
           <Field className="md:max-w-md">

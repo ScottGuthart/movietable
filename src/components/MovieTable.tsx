@@ -29,7 +29,7 @@ import { matchesSearch, scoreMovies, type Movie } from "@/lib/movies";
 
 const DEFAULT_SORT: SortingState = [{ id: "finalScore", desc: true }];
 const FOR_YOU_SORT: SortingState = [{ id: "forYou", desc: true }];
-const DEFAULT_DENSITY: Density = "compact";
+const DEFAULT_DENSITY: Density = "comfortable";
 const NONE: ReadonlySet<string> = new Set();
 
 /** An explicit choice wins unless it points at For you while no profile is active; otherwise the profile sets the default. */

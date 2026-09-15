@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Playfair_Display } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import brand from "@/lib/brand-assets.json";
 import { cn } from "@/lib/utils";
@@ -72,7 +73,9 @@ export default function RootLayout({
 			className={cn("bg-background", "font-serif", playfairDisplay.variable)}
 		>
 			<body className="font-serif text-foreground antialiased">
-				<ThemeProvider>{children}</ThemeProvider>
+				<ThemeProvider>
+					<NuqsAdapter>{children}</NuqsAdapter>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

@@ -66,9 +66,18 @@ public final class CatalogueViewModel {
     public var searchText = ""
     public var era: CatalogueEra = .modern
     public var popularOnly = false
+    public var sortOrder: [KeyPathComparator<CatalogueRow>] = [
+        KeyPathComparator(\CatalogueRow.finalScore, order: .reverse)
+    ]
+
+    /// The table presents a detail sheet for this slug when set.
+    public var selectedSlug: String?
+    public private(set) var ratings: StampedVerdicts = [:]
+    public private(set) var hand: [HandCandidate] = []
+    public private(set) var handOffset = 0
+    private var detailCache: [String: FilmDetail] = [:]
 
     private var snapshot: CatalogueSnapshot?
-    private var verdicts: Verdicts = [:]
     private var sort = CatalogueSort.column(.finalScore, desc: true)
     private let store: CatalogueStore?
     private let config: SupabaseConfig?
@@ -84,6 +93,11 @@ public final class CatalogueViewModel {
         self.loadRemote = loadRemote
     }
 
+    /// Tests install a snapshot directly, as a preview would.
+    public func installForTesting(_ newSnapshot: CatalogueSnapshot) {
+        install(snapshot: newSnapshot)
+    }
+
     /// Previews and tests start from the bundled seed catalogue.
     public convenience init(snapshot: CatalogueSnapshot) {
         self.init(store: nil, config: nil, loadRemote: nil)
@@ -92,6 +106,7 @@ public final class CatalogueViewModel {
     }
 
     public func start() async {
+        ratings = store?.loadGuestRatings() ?? [:]
         if let cached = store?.loadSnapshot() {
             install(snapshot: cached)
             phase = .loaded
@@ -133,6 +148,7 @@ public final class CatalogueViewModel {
     }
 
     public func applySort(_ comparators: [KeyPathComparator<CatalogueRow>]) {
+        sortOrder = comparators
         guard let comparator = comparators.first else { return }
         let descending = comparator.order == .reverse
         sort = switch comparator.keyPath {
@@ -149,6 +165,119 @@ public final class CatalogueViewModel {
         rebuild()
     }
 
+    // MARK: - Ratings and the starter hand
+
+    /// Stars from half to five; tapping the saved value clears it.
+    public func rate(_ slug: String, _ stars: Stars) {
+        if case .rated(let current) = ratings[slug]?.verdict, current == stars {
+            ratings[slug] = nil
+        } else {
+            ratings[slug] = StampedVerdict(verdict: .rated(stars), updatedAt: nowMs())
+        }
+        afterVerdictChange()
+    }
+
+    /// The row-side API: nil clears a rating outright.
+    public func setRating(_ slug: String, _ stars: Stars?) {
+        if let stars {
+            rate(slug, stars)
+        } else {
+            ratings[slug] = nil
+            afterVerdictChange()
+        }
+    }
+
+    public func verdictValue(for slug: String) -> Stars? {
+        guard case .rated(let stars) = ratings[slug]?.verdict else { return nil }
+        return stars
+    }
+
+    public func row(for slug: String) -> CatalogueRow? {
+        sections.flatMap(\.rows).first { $0.movie.slug == slug }
+    }
+
+    public func skip(_ slug: String) {
+        ratings[slug] = StampedVerdict(verdict: .skip, updatedAt: nowMs())
+        afterVerdictChange()
+    }
+
+    /// The only place ratings are removed in bulk lives with the account menu;
+    /// here each rating clears itself.
+    public func verdict(for slug: String) -> Verdict? {
+        ratings[slug]?.verdict
+    }
+
+    public var ratedCount: Int {
+        ratings.values.filter { if case .rated = $0.verdict { return true }; return false }.count
+    }
+
+    public var hasProfile: Bool {
+        hasPositive(verdicts)
+    }
+
+    /// Twelve popular films to judge, refreshed on request from the unjudged rest.
+    public func dealAnotherHand() {
+        guard let snapshot else { return }
+        let judged = Set(ratings.keys)
+        let popularityBySlug = Dictionary(uniqueKeysWithValues: snapshot.movies.compactMap { raw -> (String, Double?)? in
+            guard let slug = raw.slug else { return nil }
+            return (slug, raw.users_rated)
+        })
+        let candidates: [HandCandidate] = snapshot.taste.films.compactMap { film in
+            guard !judged.contains(film.slug) else { return nil }
+            let signals = snapshot.signals[film.slug]
+            return HandCandidate(
+                slug: film.slug,
+                year: film.year,
+                genres: signals?.genres ?? film.genres,
+                popularity: popularityBySlug[film.slug] ?? nil
+            )
+        }
+        let dealt = dealHand(candidates, handOffset)
+        if dealt.isEmpty, handOffset > 0 {
+            handOffset = 0
+            hand = dealHand(candidates, 0)
+        } else {
+            hand = dealt
+        }
+    }
+
+    public func handMovie(_ slug: String) -> Movie? {
+        snapshotMovie(slug)
+    }
+
+    public func handSummary(_ slug: String) -> String? {
+        snapshot?.taste.films.first { $0.slug == slug }?.summary
+    }
+
+    public func dealAnotherHandNext() {
+        handOffset += HAND_SIZE
+        dealAnotherHand()
+    }
+
+    // MARK: - Film detail
+
+    /// A film's detail sheet: the snapshot answers immediately; the network
+    /// adds the full synopsis, cast, awards, and offers when it can.
+    public func detail(for slug: String) async -> FilmDetail? {
+        if let cached = detailCache[slug] { return cached }
+        if let config {
+            do {
+                let client = SupabaseCatalogue(config: config)
+                if let detail = try await client.fetchFilmDetail(slug) {
+                    detailCache[slug] = detail
+                    try? store?.saveFilmDetails(detailCache)
+                    return detail
+                }
+            } catch {
+                // Fall through to the snapshot; the sheet still answers.
+            }
+        }
+        guard let synthetic = syntheticDetail(slug) else { return nil }
+        detailCache[slug] = synthetic
+        return synthetic
+    }
+
     /// Reset view: the default ranking controls, not the visitor's ratings.
     public func resetView() {
         scoreBias = DEFAULT_CRITIC_WEIGHT
@@ -156,13 +285,61 @@ public final class CatalogueViewModel {
         era = .modern
         popularOnly = false
         sort = .column(.finalScore, desc: true)
+        sortOrder = [KeyPathComparator(\CatalogueRow.finalScore, order: .reverse)]
         rebuild()
     }
 
     private func install(snapshot newSnapshot: CatalogueSnapshot) {
         snapshot = newSnapshot
         fetchedAt = newSnapshot.fetchedAt
+        detailCache = store?.loadFilmDetails() ?? [:]
         rebuild()
+        dealAnotherHand()
+    }
+
+    private func nowMs() -> Int {
+        Int((Date().timeIntervalSince1970 * 1000).rounded())
+    }
+
+    private var verdicts: Verdicts {
+        ratings.mapValues(\.verdict)
+    }
+
+    private func afterVerdictChange() {
+        let becameActive = hasProfile
+        try? store?.saveGuestRatings(ratings)
+        rebuild()
+        if becameActive, sortOrder.first?.keyPath != \CatalogueRow.forYou {
+            // A favourite brings the For you column to the front, built from
+            // your ratings.
+            applySort([KeyPathComparator(\CatalogueRow.forYou, order: .reverse)])
+        }
+        dealAnotherHand()
+    }
+
+    private func snapshotMovie(_ slug: String) -> Movie? {
+        guard let raw = snapshot?.movies.first(where: { $0.slug == slug }) else { return nil }
+        var movie = normalizeMovie(raw)
+        movie.signals = snapshot?.signals[slug]
+        return movie
+    }
+
+    private func syntheticDetail(_ slug: String) -> FilmDetail? {
+        guard let snapshot, let movie = snapshotMovie(slug) else { return nil }
+        let tasteFilm = snapshot.taste.films.first { $0.slug == slug }
+        return FilmDetail(
+            slug: slug,
+            summary: tasteFilm?.summary,
+            justwatchUrl: nil,
+            imdbUrl: nil,
+            genres: movie.signals?.genres ?? [],
+            directors: movie.signals?.directors ?? [],
+            writers: movie.signals?.writers ?? [],
+            cast: [],
+            castTotal: 0,
+            offers: [],
+            awards: AwardSummary()
+        )
     }
 
     private func fetchSnapshot(_ config: SupabaseConfig) async throws -> CatalogueSnapshot {

@@ -7,9 +7,8 @@ import MovieTableData
 public struct CatalogueScreen: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var biasDraft = DEFAULT_CRITIC_WEIGHT
-    @State private var sortOrder: [KeyPathComparator<CatalogueRow>] = [
-        KeyPathComparator(\CatalogueRow.finalScore, order: .reverse)
-    ]
+    @State private var selection: CatalogueRow.ID?
+    @State private var openDetail: FilmReference?
     private let model: CatalogueViewModel
 
     public init(model: CatalogueViewModel) {
@@ -28,13 +27,23 @@ public struct CatalogueScreen: View {
         .background(LedgerColors.paper)
         .task { await model.start() }
         .onAppear { biasDraft = model.scoreBias }
-        .onChange(of: sortOrder) { _, newOrder in model.applySort(newOrder) }
+        .onChange(of: selection) { _, newValue in
+            guard let slug = newValue else { return }
+            openDetail = model.row(for: slug).map(FilmReference.init(row:))
+            selection = nil
+        }
+        .sheet(item: $openDetail) { film in
+            FilmDetailView(model: model, film: film)
+        }
     }
 
     private var content: some View {
         VStack(spacing: 0) {
             controls
             Rectangle().fill(LedgerColors.hairline).frame(height: 1)
+            StarterHandPanel(model: model)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
             if model.sections.isEmpty {
                 emptyState
             } else if horizontalSizeClass == .compact {
@@ -92,7 +101,6 @@ public struct CatalogueScreen: View {
         Button("Reset view", action: {
             model.resetView()
             biasDraft = model.scoreBias
-            sortOrder = [KeyPathComparator(\CatalogueRow.finalScore, order: .reverse)]
         })
         .font(LedgerFont.custom(14, weight: .medium, relativeTo: .subheadline))
         .foregroundStyle(LedgerColors.ink)
@@ -171,7 +179,9 @@ public struct CatalogueScreen: View {
             ForEach(model.sections) { section in
                 Section(section.title) {
                     ForEach(section.rows) { row in
-                        CompactCatalogueCell(row: row)
+                        CompactCatalogueCell(row: row, model: model) { tapped in
+                    openDetail = FilmReference(row: tapped)
+                }
                             .listRowBackground(LedgerColors.paper)
                             .listRowSeparatorTint(LedgerColors.hairline)
                     }
@@ -183,7 +193,10 @@ public struct CatalogueScreen: View {
     }
 
     private var ledgerTable: some View {
-        Table(of: CatalogueRow.self, sortOrder: $sortOrder) {
+        Table(of: CatalogueRow.self, selection: $selection, sortOrder: Binding(
+            get: { model.sortOrder },
+            set: { model.applySort($0) }
+        )) {
             TableColumn("Rank", value: \.rank) { row in
                 RankCell(rank: row.rank)
             }
@@ -193,6 +206,16 @@ public struct CatalogueScreen: View {
                 TitleCell(row: row)
             }
             .width(min: 180, ideal: 320)
+
+            TableColumn("Your rating") { row in
+                RatingControl(
+                    stars: model.verdictValue(for: row.movie.slug),
+                    size: .row
+                ) { stars in
+                    model.setRating(row.movie.slug, stars)
+                }
+            }
+            .width(min: 104, ideal: 116)
 
             TableColumn("Year", value: \.yearLabel) { row in
                 NumberCell(value: Double(row.year), muted: true)
@@ -215,12 +238,12 @@ public struct CatalogueScreen: View {
             .width(min: 84, ideal: 100)
 
             TableColumn("Final Score", value: \.finalScore) { row in
-                ScoreChipCell(score: row.movie.finalScore)
+                ScoreChipCell(score: row.movie.finalScore, demoted: model.hasProfile)
             }
             .width(min: 84, ideal: 96)
 
             TableColumn("For you", value: \.forYou) { row in
-                ForYouCell(score: row.movie.forYou)
+                ForYouCell(score: row.movie.forYou, active: model.hasProfile)
             }
             .width(min: 68, ideal: 80)
         } rows: {
@@ -299,10 +322,22 @@ private struct NumberCell: View {
 
 private struct ScoreChipCell: View {
     let score: Int?
+    var demoted = false
 
     var body: some View {
-        Group {
-            if let score {
+        content
+            .frame(maxWidth: .infinity, alignment: .trailing)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        if let score {
+            if demoted {
+                Text(String(score))
+                    .font(LedgerFont.custom(14, relativeTo: .footnote))
+                    .monospacedDigit()
+                    .foregroundStyle(LedgerColors.ink)
+            } else {
                 Text(String(score))
                     .font(LedgerFont.custom(14, weight: .semibold, relativeTo: .footnote))
                     .monospacedDigit()
@@ -310,30 +345,37 @@ private struct ScoreChipCell: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
                     .background(LedgerColors.marqueeCrimson.opacity(0.1))
-            } else {
-                Text(missingValue)
-                    .font(LedgerFont.custom(13, relativeTo: .footnote))
-                    .monospacedDigit()
-                    .foregroundStyle(LedgerColors.fadedInk)
             }
+        } else {
+            Text(missingValue)
+                .font(LedgerFont.custom(13, relativeTo: .footnote))
+                .monospacedDigit()
+                .foregroundStyle(LedgerColors.fadedInk)
         }
-        .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
 
 private struct ForYouCell: View {
     let score: Int?
+    var active = false
 
     var body: some View {
         Group {
             if let score {
-                Text(String(score))
-                    .font(LedgerFont.custom(14, weight: .semibold, relativeTo: .footnote))
-                    .monospacedDigit()
-                    .foregroundStyle(LedgerColors.marqueeCrimson)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(LedgerColors.marqueeCrimson.opacity(0.1))
+                if active {
+                    Text(String(score))
+                        .font(LedgerFont.custom(14, weight: .semibold, relativeTo: .footnote))
+                        .monospacedDigit()
+                        .foregroundStyle(LedgerColors.marqueeCrimson)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(LedgerColors.marqueeCrimson.opacity(0.1))
+                } else {
+                    Text(String(score))
+                        .font(LedgerFont.custom(14, relativeTo: .footnote))
+                        .monospacedDigit()
+                        .foregroundStyle(LedgerColors.ink)
+                }
             } else {
                 Text(missingValue)
                     .font(LedgerFont.custom(13, relativeTo: .footnote))
@@ -346,6 +388,8 @@ private struct ForYouCell: View {
 
 private struct CompactCatalogueCell: View {
     let row: CatalogueRow
+    var model: CatalogueViewModel?
+    let openDetail: (CatalogueRow) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -365,14 +409,26 @@ private struct CompactCatalogueCell: View {
                 ScoreChipCell(score: row.movie.finalScore)
             }
             HStack(spacing: 12) {
-                CompactMetric(label: "Year", value: "\(row.year)")
+                CompactMetric(label: "Year", value: String(row.year))
                 CompactMetric(label: "Users", value: row.movie.users.map(decimalString) ?? missingValue)
                 CompactMetric(label: "Critics", value: row.movie.critics.map(decimalString) ?? missingValue)
                 CompactMetric(label: "Popularity", value: row.movie.popularity.map(decimalString) ?? missingValue)
-                CompactMetric(label: "For you", value: row.movie.forYou.map { "\($0)" } ?? missingValue)
+                CompactMetric(label: "For you", value: row.movie.forYou.map { String($0) } ?? missingValue)
+            }
+            if let model {
+                RatingControl(
+                    stars: model.verdictValue(for: row.movie.slug),
+                    size: .touch
+                ) { stars in
+                    model.setRating(row.movie.slug, stars)
+                }
             }
         }
         .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            openDetail(row)
+        }
     }
 }
 

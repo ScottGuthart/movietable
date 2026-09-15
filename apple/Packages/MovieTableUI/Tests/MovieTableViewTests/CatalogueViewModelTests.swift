@@ -148,3 +148,57 @@ struct CatalogueViewModelTests {
         #expect(store.loadSnapshot()?.movies.count == 5)
     }
 }
+
+extension CatalogueViewModelTests {
+    @Test("rating a favourite fills For you, switches the default sort, and saves")
+    func ratingBuildsProfile() {
+        let store = CatalogueStore(directory: FileManager.default.temporaryDirectory
+            .appending(path: "MovieTableUIRating-\(UUID().uuidString)"))
+        defer { try? FileManager.default.removeItem(at: store.directory) }
+        let model = CatalogueViewModel(store: store, config: nil, loadRemote: nil)
+        model.installForTesting(snapshot())
+        #expect(!model.hasProfile)
+        #expect(rows(model).allSatisfy { $0.movie.forYou == nil })
+
+        model.rate("critic-pick", 4.5)
+        #expect(model.hasProfile)
+        #expect(model.ratedCount == 1)
+        #expect(rows(model).first?.movie.slug == "critic-pick")
+        #expect(rows(model).first?.movie.forYou != nil)
+        #expect(model.sortOrder.first?.keyPath == \CatalogueRow.forYou)
+        #expect(model.verdictValue(for: "critic-pick") == 4.5)
+        #expect(store.loadGuestRatings()["critic-pick"]?.verdict == .rated(4.5))
+
+        // Tapping the saved value clears it and the profile goes with it.
+        model.rate("critic-pick", 4.5)
+        #expect(!model.hasProfile)
+        #expect(model.ratedCount == 0)
+        #expect(model.verdictValue(for: "critic-pick") == nil)
+        #expect(store.loadGuestRatings()["critic-pick"] == nil)
+    }
+
+    @Test("three stars is neutral and skip keeps no taste signal")
+    func neutralAndSkip() {
+        let model = CatalogueViewModel(snapshot: snapshot())
+        model.rate("critic-pick", 3)
+        model.skip("crowd-pick")
+        #expect(!model.hasProfile)
+        #expect(rows(model).allSatisfy { $0.movie.forYou == nil })
+        #expect(model.verdict(for: "crowd-pick") == .skip)
+        #expect(model.ratedCount == 1)
+    }
+
+    @Test("the starter hand deals twelve unjudged films and moves on")
+    func starterHand() {
+        let model = CatalogueViewModel(snapshot: snapshot())
+        #expect(model.hand.count == 5)
+        #expect(model.hand.allSatisfy { model.verdict(for: $0.slug) == nil })
+        let dealt = model.hand.map(\.slug)
+        model.skip(dealt[0])
+        #expect(model.hand.count == 4)
+        #expect(!model.hand.contains { $0.slug == dealt[0] })
+        // A short deck wraps back to the unjudged films it still has.
+        model.dealAnotherHandNext()
+        #expect(model.hand.count == 4)
+    }
+}

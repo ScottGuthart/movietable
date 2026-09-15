@@ -1,8 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { IconDeviceMobile } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
+import { Pattern as InstallButton } from "@/components/examples/c-button-31";
 import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/ui/popover";
 
 function subscribe(listener: () => void) {
@@ -35,10 +34,7 @@ export function InstallHelp() {
     <div className="h-24">
       <div className="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-40">
         <Popover>
-          <PopoverTrigger render={<Button size="lg" className="min-h-12 rounded-full shadow-lg" />}>
-            <IconDeviceMobile data-icon="inline-start" aria-hidden="true" />
-            Install app
-          </PopoverTrigger>
+          <PopoverTrigger render={<InstallButton className="min-h-12 shadow-lg" />} />
           <PopoverContent side="top" sideOffset={12} align="end" className="w-80 max-w-[calc(100vw-2rem)]">
             <PopoverHeader>
               <PopoverTitle>Keep MovieTable close</PopoverTitle>

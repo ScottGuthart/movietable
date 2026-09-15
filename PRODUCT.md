@@ -31,14 +31,14 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - Stack: Next.js 16 App Router, React 19, TypeScript, Bun, Tailwind CSS 4, shadcn (base-nova style, tabler icons), REUI data-grid and filters registry components, TanStack Table.
 - Dev command: `bun run dev`. Tests: `bun test src/lib`. Lint: `bun run lint`. Typecheck: `bun run typecheck`.
 - Data lives in the Supabase project (tables `movies`, `people`, `genres`, `credits`, `movie_genres`; schema in `supabase/migrations`), read over PostgREST by `src/lib/catalogue.ts` using `SUPABASE_URL` and `SUPABASE_ANON_KEY` from `.env`. Rows are normalized in `src/lib/movies.ts`; scoring, taste, and filter logic are unit-tested in `src/lib` with inline fixtures.
-- Default view on load: release year 2000–2024, popularity 300–100,000, sorted by Final Score descending, 25 rows per page, score bias at equal weight (0.5).
+- Default view on load: no filters applied, sorted by Final Score descending, 25 rows per page, score bias at equal weight (0.5), popularity weight at zero.
 - Deployed at movietable.ai.
 
 ## Capabilities and Constraints
 
 **Confirmed capabilities**
 
-- Score bias slider, 0 to 1 in steps of 0.1. Final Score is `floor((1 - w) * users + w * critics)`; at the extremes it is the single constituency's score; when either input is missing the blend is unavailable.
+- Score bias slider, 0 to 1 in steps of 0.1, and a popularity weight slider on the same scale. The critic/audience blend is `(1 - w) * users + w * critics`; Final Score is `floor((1 - p) * blend + p * popularity score)`. Popularity weight defaults to zero, so Final Score is the critic/audience blend until the visitor asks otherwise. At either extreme a slider takes that input alone; when an input the weighting needs is missing, the blend is unavailable.
 - Free-text search across title, year, and all numeric columns.
 - Quick filter chips and an advanced editor supporting and/or groups over year, popularity, users, critics, and Final Score with operators such as at least, at most, between, not between.
 - Sortable columns, paginated results, "Clear filters" and "Reset view" actions.
@@ -51,11 +51,13 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - **Popularity**: number of audience ratings on Metacritic.
 - **Final Score**: the visitor-weighted blend, rounded down.
 - **Score bias**: the critic-weight slider.
+- **Popularity weight**: how much popularity counts towards Final Score; zero by default.
+- **Popularity score**: popularity expressed as a percentile of the catalogue, 0–100, so it shares the scores' scale. Rating counts span a handful to six figures, so a percentile, not a rescale.
 - Unavailable values render as an em dash, never as zero and never imputed.
 
 **Data constraints**
 
-- The dataset is a snapshot. The Supabase catalogue holds 1,506 films (1916–2026) with genres, credits, and summaries, produced by `scripts/scrape-metacritic.ts` and loaded by `scripts/seed-supabase.ts`. Only films with both a Metascore and a user score are kept.
+- The dataset is a snapshot. The Supabase catalogue holds 8,180 films (1916–2026) with genres, credits, and summaries, produced by `scripts/scrape-metacritic.ts` and loaded by `scripts/seed-supabase.ts`. Only films with both a Metascore and a user score are kept.
 - Counts and year ranges derive from the data at build time, including the page's metadata description in `src/app/page.tsx` (`src/app/layout.tsx` keeps a static fallback). A "last updated" signal still has no source: the schema has no timestamp column.
 - The UI must never present scores as live. The existing footer states this and future surfaces must keep an equivalent disclosure.
 

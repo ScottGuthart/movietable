@@ -11,10 +11,12 @@ public struct CatalogueScreen: View {
     @State private var openDetail: FilmReference?
     private let model: CatalogueViewModel
     private let account: AccountModel?
+    private let showsStarterHand: Bool
 
     public init(model: CatalogueViewModel, account: AccountModel? = nil) {
         self.model = model
         self.account = account
+        showsStarterHand = !ProcessInfo.processInfo.arguments.contains("-uitest-hide-starter-hand")
     }
 
     public var body: some View {
@@ -47,9 +49,11 @@ public struct CatalogueScreen: View {
                 .padding(.bottom, 8)
             controls
             Rectangle().fill(LedgerColors.hairline).frame(height: 1)
-            StarterHandPanel(model: model)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
+            if showsStarterHand {
+                StarterHandPanel(model: model)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+            }
             if model.sections.isEmpty {
                 emptyState
             } else if horizontalSizeClass == .compact {
@@ -153,6 +157,7 @@ public struct CatalogueScreen: View {
                 Slider(value: $biasDraft, in: 0...1, step: 0.1) { editing in
                     if !editing { model.setScoreBias(biasDraft) }
                 }
+                .accessibilityIdentifier("ScoreBiasSlider")
                 .tint(LedgerColors.marqueeCrimson)
                 Text("Critics")
                     .font(LedgerFont.custom(13, relativeTo: .caption))
@@ -185,17 +190,22 @@ public struct CatalogueScreen: View {
             ForEach(model.sections) { section in
                 Section(section.title) {
                     ForEach(section.rows) { row in
-                        CompactCatalogueCell(row: row, model: model) { tapped in
-                    openDetail = FilmReference(row: tapped)
-                }
-                            .listRowBackground(LedgerColors.paper)
-                            .listRowSeparatorTint(LedgerColors.hairline)
+                        compactCell(row)
                     }
                 }
             }
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
+    }
+
+    private func compactCell(_ row: CatalogueRow) -> some View {
+        CompactCatalogueCell(row: row, model: model) { tapped in
+            openDetail = FilmReference(row: tapped)
+        }
+        .listRowBackground(LedgerColors.paper)
+        .listRowSeparatorTint(LedgerColors.hairline)
+        .accessibilityIdentifier(row.rank == 1 ? "TopCatalogueRow" : "CatalogueRow-\(row.movie.slug)")
     }
 
     private var ledgerTable: some View {

@@ -3,11 +3,19 @@ import MovieTableUI
 import SwiftUI
 
 struct ContentView: View {
-    @State private var model = CatalogueViewModel(
-        store: .applicationSupport(),
-        config: SupabaseConfig(bundle: .main)
-    )
+    @State private var model: CatalogueViewModel
     @State private var account: AccountModel?
+
+    init(model: CatalogueViewModel) {
+        if ProcessInfo.processInfo.arguments.contains("-uitest-seed") {
+            self.model = CatalogueViewModel(store: .applicationSupport(), config: nil)
+            if let snapshot = try? SeedCatalogue.load() {
+                model.installForTesting(snapshot)
+            }
+        } else {
+            self.model = model
+        }
+    }
 
     var body: some View {
         CatalogueScreen(model: model, account: account)
@@ -25,5 +33,11 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(
+        model: CatalogueViewModel(
+            store: nil,
+            config: nil,
+            loadRemote: nil
+        )
+    )
 }

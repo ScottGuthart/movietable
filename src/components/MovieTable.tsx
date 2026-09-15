@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import type { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { IconChevronDown, IconRefresh, IconSearch, IconX } from "@tabler/icons-react";
 import { AdvancedMovieFilters } from "@/components/examples/c-filters-11";
@@ -104,6 +105,18 @@ export default function MovieTable({ movies, providers }: { movies: Movie[]; pro
 
   return (
     <div className="flex flex-col gap-6">
+      <OnboardingWizard
+        providers={providerUsage}
+        services={services}
+        onServicesChange={setServices}
+        density={density}
+        onDensityChange={setDensity}
+        showContext={showContext}
+        onShowContextChange={setShowContext}
+        taste={taste}
+        movies={scored}
+        onClose={() => undefined}
+      />
       <section aria-label="Movie search and ranking preferences">
         <FieldGroup className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-x-8 lg:grid-cols-3">
           <Field className="md:max-w-md">

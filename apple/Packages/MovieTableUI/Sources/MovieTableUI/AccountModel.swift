@@ -67,10 +67,15 @@ public final class AccountModel {
     }
 
     public func handle(_ url: URL) async {
-        await auth.handle(url)
-        session = auth.session
-        if let session {
-            await runSync(session.userID)
+        do {
+            try await auth.handle(url)
+            session = auth.session
+            if let session {
+                await runSync(session.userID)
+            }
+        } catch {
+            syncStatus = .failed
+            lastError = "\(error)"
         }
     }
 
@@ -84,6 +89,14 @@ public final class AccountModel {
 
     public func signInWithGoogle(idToken: String) async throws {
         try await auth.signInWithGoogle(idToken: idToken)
+        session = auth.session
+        if let session {
+            await runSync(session.userID)
+        }
+    }
+
+    public func signInWithGoogle() async throws {
+        try await auth.signInWithGoogle()
         session = auth.session
         if let session {
             await runSync(session.userID)

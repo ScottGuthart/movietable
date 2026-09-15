@@ -11,7 +11,6 @@ public struct SignInView: View {
     @State private var errorText: String?
     @State private var sentTo: String?
     @State private var pending = false
-    @State private var showGoogleNotice = false
 
     public init(account: AccountModel) {
         self.account = account
@@ -51,7 +50,7 @@ public struct SignInView: View {
                         .frame(height: 32)
 
                         Button {
-                            showGoogleNotice = true
+                            handleGoogle()
                         } label: {
                             HStack(spacing: 8) {
                                 Image(systemName: "g.circle")
@@ -120,10 +119,19 @@ public struct SignInView: View {
                     Button("Back") { dismiss() }
                 }
             }
-            .alert("Google sign-in isn’t set up yet.", isPresented: $showGoogleNotice) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text("The Google iOS client ID still needs to be added in the Supabase and Apple dashboards.")
+        }
+    }
+
+    private func handleGoogle() {
+        pending = true
+        errorText = nil
+        Task {
+            defer { pending = false }
+            do {
+                try await account.signInWithGoogle()
+                dismiss()
+            } catch {
+                errorText = "\(error)"
             }
         }
     }

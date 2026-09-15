@@ -37,7 +37,9 @@ infra/supabase/deploy.sh
 
 Afterwards set `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `SMTP_ADMIN_EMAIL` in the
 service env (or set `ENABLE_EMAIL_AUTOCONFIRM=true`) and restart `supabase-auth`,
-otherwise sign-up emails cannot be sent.
+otherwise sign-up emails cannot be sent. The native app's custom
+`movietable://auth/callback` redirect must remain in `ADDITIONAL_REDIRECT_URLS`
+so magic links and OAuth flows can return to the app.
 
 ## Gotchas seen on first deploy (2026-09-12)
 

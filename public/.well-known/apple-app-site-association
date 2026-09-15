@@ -2,7 +2,7 @@
   "applinks": {
     "details": [
       {
-        "appIDs": ["TEAMID.movietable.ai.MovieTable"],
+        "appIDs": ["F5B94KJBBK.movietable.ai.MovieTable"],
         "components": [
           { "path": "/auth/callback", "comment": "Magic-link sign-in returns here" }
         ]
@@ -10,6 +10,6 @@
     ]
   },
   "webcredentials": {
-    "apps": ["TEAMID.movietable.ai.MovieTable"]
+    "apps": ["F5B94KJBBK.movietable.ai.MovieTable"]
   }
 }

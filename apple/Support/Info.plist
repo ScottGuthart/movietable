@@ -6,6 +6,17 @@
 	<string>$(SUPABASE_URL)</string>
 	<key>SUPABASE_ANON_KEY</key>
 	<string>$(SUPABASE_ANON_KEY)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>movietable.ai.MovieTable.auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>movietable</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>PlayfairDisplay.ttf</string>

@@ -31,6 +31,11 @@ public enum AuthError: Error, CustomStringConvertible {
 @MainActor
 @Observable
 public final class AuthController {
+    /// A custom scheme callback works on devices before universal-link
+    /// provisioning is finished. Supabase's OAuth/PKCE client exchanges the
+    /// callback query for a session.
+    public static let callbackURL = URL(string: "movietable://auth/callback")
+
     public private(set) var session: AuthSession?
     public private(set) var isConfigured: Bool
     private var client: SupabaseClient?
@@ -78,6 +83,21 @@ public final class AuthController {
         try await signIn(idToken: idToken, nonce: nil, provider: .google)
     }
 
+    /// Google through Supabase's configured web OAuth client. This avoids
+    /// requiring a separate GoogleSignIn iOS client while still returning a
+    /// session to the app via `movietable://auth/callback`.
+    public func signInWithGoogle() async throws {
+        guard let client else { throw AuthError.notConfigured }
+        let session = try await client.auth.signInWithOAuth(
+            provider: .google,
+            redirectTo: Self.callbackURL
+        )
+        self.session = AuthSession(
+            userID: session.user.id,
+            email: session.user.email
+        )
+    }
+
     private func signIn(idToken: String, nonce: String?, provider: AppleOAuthProvider) async throws {
         guard let client else { throw AuthError.notConfigured }
         let response = try await client.auth.signInWithIdToken(
@@ -88,14 +108,21 @@ public final class AuthController {
 
     public func sendMagicLink(email: String) async throws {
         guard let client else { throw AuthError.notConfigured }
-        try await client.auth.signInWithOTP(email: email)
+        try await client.auth.signInWithOTP(
+            email: email,
+            redirectTo: Self.callbackURL
+        )
     }
 
-    /// A universal link coming back from the emailed sign-in link; the auth
-    /// state change above carries the resulting session.
-    public func handle(_ url: URL) async {
+    /// A custom-scheme or universal-link callback from a magic link or OAuth
+    /// flow. Awaiting the session keeps the app in sync before the caller reads it.
+    public func handle(_ url: URL) async throws {
         guard let client else { return }
-        client.auth.handle(url)
+        let session = try await client.auth.session(from: url)
+        self.session = AuthSession(
+            userID: session.user.id,
+            email: session.user.email
+        )
     }
 
     public func signOut() async throws {

@@ -155,6 +155,11 @@
     "icon_url": "https://images.justwatch.com/icon/241732468/s100"
   },
   {
+    "id": 205,
+    "name": "Sundance Now Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/241732474/s100"
+  },
+  {
     "id": 207,
     "name": "The Roku Channel",
     "icon_url": "https://images.justwatch.com/icon/76972041/s100"
@@ -315,6 +320,11 @@
     "icon_url": "https://images.justwatch.com/icon/200839772/s100"
   },
   {
+    "id": 432,
+    "name": "Flix Premiere",
+    "icon_url": "https://images.justwatch.com/icon/201076273/s100"
+  },
+  {
     "id": 433,
     "name": "OVID",
     "icon_url": "https://images.justwatch.com/icon/201697454/s100"
@@ -403,6 +413,11 @@
     "id": 538,
     "name": "Plex",
     "icon_url": "https://images.justwatch.com/icon/301832745/s100"
+  },
+  {
+    "id": 546,
+    "name": "WOW Presents Plus",
+    "icon_url": "https://images.justwatch.com/icon/243229654/s100"
   },
   {
     "id": 551,
@@ -503,6 +518,11 @@
     "id": 692,
     "name": "Cultpix",
     "icon_url": "https://images.justwatch.com/icon/264459628/s100"
+  },
+  {
+    "id": 701,
+    "name": "FilmBox+",
+    "icon_url": "https://images.justwatch.com/icon/269959825/s100"
   },
   {
     "id": 1715,
@@ -730,6 +750,11 @@
     "icon_url": "https://images.justwatch.com/icon/316757898/s100"
   },
   {
+    "id": 2164,
+    "name": "Gaia Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/318071082/s100"
+  },
+  {
     "id": 2174,
     "name": "Strand Releasing Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/318073935/s100"
@@ -768,6 +793,16 @@
     "id": 2308,
     "name": "Darkroom",
     "icon_url": "https://images.justwatch.com/icon/323013891/s100"
+  },
+  {
+    "id": 2323,
+    "name": "Best of British Tv Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/324772740/s100"
+  },
+  {
+    "id": 2324,
+    "name": "Baeble Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/324772767/s100"
   },
   {
     "id": 2326,
@@ -843,6 +878,11 @@
     "id": 2395,
     "name": "Film Movement Plus Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/328265507/s100"
+  },
+  {
+    "id": 2398,
+    "name": "Food Matters Amazon Channel",
+    "icon_url": "https://images.justwatch.com/icon/328268713/s100"
   },
   {
     "id": 2400,
@@ -953,6 +993,11 @@
     "id": 2467,
     "name": "Xive TV Documentaries Amazon Channel",
     "icon_url": "https://images.justwatch.com/icon/329670763/s100"
+  },
+  {
+    "id": 2468,
+    "name": "XLTV Amazon Channel ",
+    "icon_url": "https://images.justwatch.com/icon/329670943/s100"
   },
   {
     "id": 2528,

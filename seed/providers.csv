@@ -30,6 +30,7 @@ id,name,icon_url
 201,MUBI Amazon Channel,https://images.justwatch.com/icon/241732473/s100
 202,Screambox Amazon Channel,https://images.justwatch.com/icon/241732490/s100
 204,Shudder Amazon Channel,https://images.justwatch.com/icon/241732468/s100
+205,Sundance Now Amazon Channel,https://images.justwatch.com/icon/241732474/s100
 207,The Roku Channel,https://images.justwatch.com/icon/76972041/s100
 209,PBS,https://images.justwatch.com/icon/78090545/s100
 211,Freeform,https://images.justwatch.com/icon/79299282/s100
@@ -62,6 +63,7 @@ id,name,icon_url
 397,BBC America,https://images.justwatch.com/icon/198412956/s100
 417,Here TV,https://images.justwatch.com/icon/199216642/s100
 427,Mhz Choice,https://images.justwatch.com/icon/200839772/s100
+432,Flix Premiere,https://images.justwatch.com/icon/201076273/s100
 433,OVID,https://images.justwatch.com/icon/201697454/s100
 438,Chai Flicks,https://images.justwatch.com/icon/201708663/s100
 439,Shout! Factory TV,https://images.justwatch.com/icon/201913784/s100
@@ -80,6 +82,7 @@ id,name,icon_url
 528,AMC+ Amazon Channel,https://images.justwatch.com/icon/241732522/s100
 529,ARROW,https://images.justwatch.com/icon/241658074/s100
 538,Plex,https://images.justwatch.com/icon/301832745/s100
+546,WOW Presents Plus,https://images.justwatch.com/icon/243229654/s100
 551,Magellan TV,https://images.justwatch.com/icon/243233518/s100
 554,BroadwayHD,https://images.justwatch.com/icon/243239329/s100
 559,Filmzie,https://images.justwatch.com/icon/269433194/s100
@@ -100,6 +103,7 @@ id,name,icon_url
 638,Public Domain Movies,https://images.justwatch.com/icon/254580265/s100
 677,Eventive,https://images.justwatch.com/icon/258768419/s100
 692,Cultpix,https://images.justwatch.com/icon/264459628/s100
+701,FilmBox+,https://images.justwatch.com/icon/269959825/s100
 1715,Shahid VIP,https://images.justwatch.com/icon/280600874/s100
 1746,Hallmark TV Amazon Channel,https://images.justwatch.com/icon/292999370/s100
 1771,Takflix,https://images.justwatch.com/icon/300757493/s100
@@ -145,6 +149,7 @@ id,name,icon_url
 2100,Amazon Prime Video with Ads,https://images.justwatch.com/icon/322992746/s100
 2129,BYUtv,https://images.justwatch.com/icon/316488403/s100
 2135,Kino Film Collection,https://images.justwatch.com/icon/316757898/s100
+2164,Gaia Amazon Channel,https://images.justwatch.com/icon/318071082/s100
 2174,Strand Releasing Amazon Channel,https://images.justwatch.com/icon/318073935/s100
 2239,FlixHouse,https://images.justwatch.com/icon/321574548/s100
 2243,Apple TV Amazon Channel,https://images.justwatch.com/icon/338254390/s100
@@ -153,6 +158,8 @@ id,name,icon_url
 2296,Viaplay Amazon Channel,https://images.justwatch.com/icon/321959641/s100
 2303,Paramount Plus Premium,https://images.justwatch.com/icon/332803145/s100
 2308,Darkroom,https://images.justwatch.com/icon/323013891/s100
+2323,Best of British Tv Amazon Channel,https://images.justwatch.com/icon/324772740/s100
+2324,Baeble Amazon Channel,https://images.justwatch.com/icon/324772767/s100
 2326,Broadway HD Amazon Channel,https://images.justwatch.com/icon/324772850/s100
 2330,Jolt Film,https://images.justwatch.com/icon/324785388/s100
 2358,Lionsgate+ Amazon Channels,https://images.justwatch.com/icon/348547396/s100
@@ -168,6 +175,7 @@ id,name,icon_url
 2392,Echoboom Amazon Channel ,https://images.justwatch.com/icon/328262805/s100
 2394,Fear Factory Amazon Channel,https://images.justwatch.com/icon/328264651/s100
 2395,Film Movement Plus Amazon Channel,https://images.justwatch.com/icon/328265507/s100
+2398,Food Matters Amazon Channel,https://images.justwatch.com/icon/328268713/s100
 2400,France Channel Amazon Channel,https://images.justwatch.com/icon/328345335/s100
 2401,Fuse+ Amazon Channel,https://images.justwatch.com/icon/328345617/s100
 2403,Hi-YAH Amazon Channel,https://images.justwatch.com/icon/328346669/s100
@@ -190,6 +198,7 @@ id,name,icon_url
 2448,FUEL TV+ Amazon Channel,https://images.justwatch.com/icon/329637222/s100
 2466,Warriors and Gangsters Amazon Channel,https://images.justwatch.com/icon/329670739/s100
 2467,Xive TV Documentaries Amazon Channel,https://images.justwatch.com/icon/329670763/s100
+2468,XLTV Amazon Channel ,https://images.justwatch.com/icon/329670943/s100
 2528,YouTube TV,https://images.justwatch.com/icon/334102416/s100
 2529,Vimeo,https://images.justwatch.com/icon/332103362/s100
 2533,Mometu,https://images.justwatch.com/icon/332429087/s100

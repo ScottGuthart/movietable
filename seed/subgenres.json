@@ -6,6 +6,15 @@
     "name": "American football film"
   },
   {
+    "name": "B movie"
+  },
+  {
+    "name": "BDSM-themed film"
+  },
+  {
+    "name": "Bible film"
+  },
+  {
     "name": "Christmas film"
   },
   {
@@ -24,6 +33,9 @@
     "name": "Jidaigeki"
   },
   {
+    "name": "LGBT-related television series"
+  },
+  {
     "name": "LGBTQ-related film"
   },
   {
@@ -31,6 +43,9 @@
   },
   {
     "name": "Southern Gothic"
+  },
+  {
+    "name": "Southern Gothic film"
   },
   {
     "name": "Spaghetti Western"
@@ -78,6 +93,9 @@
     "name": "adult animated film"
   },
   {
+    "name": "adventure"
+  },
+  {
     "name": "adventure anime"
   },
   {
@@ -111,6 +129,9 @@
     "name": "animated film with LGBT character(s)"
   },
   {
+    "name": "anime"
+  },
+  {
     "name": "anime film"
   },
   {
@@ -135,6 +156,12 @@
     "name": "association football film"
   },
   {
+    "name": "athletics film"
+  },
+  {
+    "name": "auteur film"
+  },
+  {
     "name": "autobiographical film"
   },
   {
@@ -147,6 +174,9 @@
     "name": "biographical film"
   },
   {
+    "name": "biographical sports film"
+  },
+  {
     "name": "biopunk"
   },
   {
@@ -157,6 +187,9 @@
   },
   {
     "name": "blaxploitation film"
+  },
+  {
+    "name": "blockbuster"
   },
   {
     "name": "body horror"
@@ -175,6 +208,9 @@
   },
   {
     "name": "bushranging film"
+  },
+  {
+    "name": "cannibal film"
   },
   {
     "name": "chase film"
@@ -210,6 +246,12 @@
     "name": "comedy horror film"
   },
   {
+    "name": "comedy of error"
+  },
+  {
+    "name": "comedy of manners"
+  },
+  {
     "name": "comedy of remarriage"
   },
   {
@@ -229,6 +271,9 @@
   },
   {
     "name": "contemporary Western film"
+  },
+  {
+    "name": "contemporary fantasy"
   },
   {
     "name": "crime comedy film"
@@ -381,6 +426,9 @@
     "name": "film noir"
   },
   {
+    "name": "financial thriller"
+  },
+  {
     "name": "flashback film"
   },
   {
@@ -388,6 +436,12 @@
   },
   {
     "name": "found footage film"
+  },
+  {
+    "name": "gag anime"
+  },
+  {
+    "name": "gambling film"
   },
   {
     "name": "gangster film"
@@ -429,6 +483,9 @@
     "name": "historical drama film"
   },
   {
+    "name": "historical fantasy"
+  },
+  {
     "name": "historical film"
   },
   {
@@ -448,6 +505,9 @@
   },
   {
     "name": "independent film"
+  },
+  {
+    "name": "intersex film"
   },
   {
     "name": "isekai"
@@ -507,6 +567,9 @@
     "name": "metacinema"
   },
   {
+    "name": "metafiction"
+  },
+  {
     "name": "military science fiction"
   },
   {
@@ -561,7 +624,13 @@
     "name": "outlaw biker film"
   },
   {
+    "name": "parable"
+  },
+  {
     "name": "parody film"
+  },
+  {
+    "name": "partisan film"
   },
   {
     "name": "performance art"
@@ -606,6 +675,9 @@
     "name": "post-apocalyptic film"
   },
   {
+    "name": "postmodernist film"
+  },
+  {
     "name": "prison film"
   },
   {
@@ -640,6 +712,9 @@
   },
   {
     "name": "psychological thriller film"
+  },
+  {
+    "name": "puppet film"
   },
   {
     "name": "puppetoon animation"
@@ -696,7 +771,13 @@
     "name": "romantic fantasy"
   },
   {
+    "name": "romantic fiction"
+  },
+  {
     "name": "romantic horror film"
+  },
+  {
+    "name": "romantic thriller"
   },
   {
     "name": "samurai cinema"
@@ -714,10 +795,16 @@
     "name": "science fantasy"
   },
   {
+    "name": "science fiction"
+  },
+  {
     "name": "science fiction action film"
   },
   {
     "name": "science fiction anime"
+  },
+  {
+    "name": "science fiction anime and manga"
   },
   {
     "name": "science fiction comedy"
@@ -792,10 +879,16 @@
     "name": "sport film"
   },
   {
+    "name": "sports drama"
+  },
+  {
     "name": "spy comedy film"
   },
   {
     "name": "spy film"
+  },
+  {
+    "name": "stand-up comedy"
   },
   {
     "name": "steampunk"
@@ -814,6 +907,9 @@
   },
   {
     "name": "submarine film"
+  },
+  {
+    "name": "superhero fiction"
   },
   {
     "name": "superhero film"

@@ -10,9 +10,11 @@ public struct CatalogueScreen: View {
     @State private var selection: CatalogueRow.ID?
     @State private var openDetail: FilmReference?
     private let model: CatalogueViewModel
+    private let account: AccountModel?
 
-    public init(model: CatalogueViewModel) {
+    public init(model: CatalogueViewModel, account: AccountModel? = nil) {
         self.model = model
+        self.account = account
     }
 
     public var body: some View {
@@ -39,6 +41,10 @@ public struct CatalogueScreen: View {
 
     private var content: some View {
         VStack(spacing: 0) {
+            LedgerHeader(account: account)
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 8)
             controls
             Rectangle().fill(LedgerColors.hairline).frame(height: 1)
             StarterHandPanel(model: model)

@@ -89,6 +89,7 @@
 				48D84CA930583B89002CD7B2 /* MovieTableTests */,
 				48D84CB330583B89002CD7B2 /* MovieTableUITests */,
 				48D84C9A30583B84002CD7B2 /* Products */,
+				48D84CC330586389002CD7B2 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +101,14 @@
 				48D84CB030583B89002CD7B2 /* MovieTableUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		48D84CC330586389002CD7B2 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				4C0F160000000000000000A1 /* Config.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,13 +217,13 @@
 			);
 			mainGroup = 48D84C9030583B84002CD7B2;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
-			productRefGroup = 48D84C9A30583B84002CD7B2 /* Products */;
 			packageReferences = (
 				4C0F160000000000000000B1 /* XCLocalSwiftPackageReference "Packages/MovieTableCore" */,
 				4C0F160000000000000000B2 /* XCLocalSwiftPackageReference "Packages/MovieTableData" */,
 				4C0F160000000000000000B3 /* XCLocalSwiftPackageReference "Packages/MovieTableUI" */,
 			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 48D84C9A30583B84002CD7B2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -437,9 +446,9 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -482,9 +491,9 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -507,8 +516,8 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -532,8 +541,8 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -556,8 +565,8 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -580,8 +589,8 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -662,7 +671,6 @@
 			productName = MovieTableUI;
 		};
 /* End XCSwiftPackageProductDependency section */
-
 	};
 	rootObject = 48D84C9130583B84002CD7B2 /* Project object */;
 }

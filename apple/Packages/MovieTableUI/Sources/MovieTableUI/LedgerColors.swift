@@ -18,6 +18,8 @@ public enum LedgerColors {
     public static let charcoal = Color("Charcoal", bundle: .module)
     public static let graphite = Color("Graphite", bundle: .module)
     public static let chalkHairline = Color("Chalk Hairline", bundle: .module)
+    public static let alertRed = Color("Alert Red", bundle: .module)
+    public static let litAlertRed = Color("Lit Alert Red", bundle: .module)
 }
 
 public enum LedgerFont {

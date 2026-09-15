@@ -81,6 +81,12 @@ public final class CatalogueViewModel {
     private var sort = CatalogueSort.column(.finalScore, desc: true)
     private let store: CatalogueStore?
     private let config: SupabaseConfig?
+
+    /// The backend configuration, shared with the account controller.
+    public var supabaseConfig: SupabaseConfig? { config }
+
+    /// Called after the visitor changes a rating, so the sync actor can push it.
+    public var onRatingsChange: (@MainActor (StampedVerdicts) -> Void)?
     private let loadRemote: (@Sendable (SupabaseConfig) async throws -> CatalogueSnapshot)?
 
     public init(
@@ -305,9 +311,17 @@ public final class CatalogueViewModel {
         ratings.mapValues(\.verdict)
     }
 
+    /// Ratings replaced by account sync or a cleared device.
+    public func applyRatings(_ newRatings: StampedVerdicts) {
+        ratings = newRatings
+        rebuild()
+        dealAnotherHand()
+    }
+
     private func afterVerdictChange() {
         let becameActive = hasProfile
         try? store?.saveGuestRatings(ratings)
+        onRatingsChange?(ratings)
         rebuild()
         if becameActive, sortOrder.first?.keyPath != \CatalogueRow.forYou {
             // A favourite brings the For you column to the front, built from

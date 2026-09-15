@@ -54,12 +54,37 @@ function update(next: OnboardingSnapshot) {
   listeners.forEach((listener) => listener());
 }
 
+function subscribeToSnooze(snoozedUntil: string | null, listener: () => void) {
+  if (!snoozedUntil) return () => {};
+  const expiresAt = Date.parse(snoozedUntil);
+  if (!Number.isFinite(expiresAt)) return () => {};
+
+  const timeout = setTimeout(listener, Math.max(0, expiresAt - Date.now()) + 1);
+  return () => clearTimeout(timeout);
+}
+
+function readSnoozed(snoozedUntil: string | null) {
+  if (!snoozedUntil) return false;
+  const expiresAt = Date.parse(snoozedUntil);
+  return Number.isFinite(expiresAt) && Date.now() < expiresAt;
+}
+
+function readServerSnoozed(snoozedUntil: string | null) {
+  // Until hydration completes, hide the wizard if a snooze was persisted.
+  return snoozedUntil !== null;
+}
+
 export function useOnboardingState() {
   const state = useSyncExternalStore(subscribe, read, () => EMPTY);
   const setStep = useCallback((step: number) => update({ ...read(), step }), []);
   const complete = useCallback(() => update({ completed: true, snoozedUntil: null, step: 0 }), []);
   const snooze = useCallback(() => update({ ...read(), snoozedUntil: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() }), []);
   const resume = useCallback(() => update({ completed: false, snoozedUntil: null, step: 0 }), []);
-  const snoozed = Boolean(state.snoozedUntil && new Date(state.snoozedUntil).getTime() > Date.now());
+
+  const snoozed = useSyncExternalStore(
+    (listener) => subscribeToSnooze(state.snoozedUntil, listener),
+    () => readSnoozed(state.snoozedUntil),
+    () => readServerSnoozed(state.snoozedUntil),
+  );
   return { ...state, snoozed, shouldShow: !state.completed && !snoozed, setStep, complete, snooze, resume };
 }

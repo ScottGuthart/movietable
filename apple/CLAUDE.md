@@ -31,6 +31,8 @@ and `../DESIGN.md` before changing copy, scoring, or visual language.
   source and never hand-edit signing into `project.pbxproj`. To create the
   file, copy the values from `../.env` or `../.env.local` with a shell
   command; do not print them.
+- Simulator networking: this Mac sits behind Zscaler TLS interception. The iOS Simulator has its own trust store, so every call to api.movietable.ai fails with NSURLError -1200 until the Zscaler root CA is installed into the simulator: `security find-certificate -c "Zscaler Root CA" -p /Library/Keychains/System.keychain > /tmp/zscaler-root.pem && xcrun simctl keychain <simulator-udid> add-root-cert /tmp/zscaler-root.pem`. If all sign-in methods fail at once in the simulator, check this first.
+- macOS test runs stall when the Mac's screen is locked: codesign waits on a keychain prompt, then the test host cannot launch. Unlock the Mac before `build test` on `platform=macOS`, or use `CODE_SIGN_IDENTITY=-` for an ad-hoc signed run.
 - CI: `.github/workflows/apple.yml` builds and tests on `macos-26` for an
   iPhone simulator and for macOS on every push or PR touching `apple/`. It
   writes its own `Config.xcconfig` and skips `MovieTableUITests`, so keep

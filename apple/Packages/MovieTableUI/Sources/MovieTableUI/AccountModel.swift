@@ -116,6 +116,22 @@ public final class AccountModel {
         syncStatus = .offline
     }
 
+    /// Deletes the account itself: the server row, its saved ratings, and this
+    /// device's ratings and session. A failure keeps everything, so it can be retried.
+    public func deleteAccount() async {
+        do {
+            try await auth.deleteAccount()
+            await sync?.signOut()
+            session = nil
+            model.applyRatings([:])
+            syncStatus = .offline
+            lastError = nil
+        } catch {
+            syncStatus = .failed
+            lastError = "Deleting your account failed: \(error)"
+        }
+    }
+
     /// Clear ratings: the account's saved rows and this device's.
     public func clearRatings() async {
         do {

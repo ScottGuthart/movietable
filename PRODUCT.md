@@ -79,6 +79,11 @@ Planned extension of the same idea: a **taste profile** recommender. The visitor
 - Storage: table `taste_ratings (user_id, slug, verdict, stars, updated_at)` under row-level security, `verdict` being `rated` with `stars` in half steps from 0.5 to 5, or `skip`; each visitor reads and writes only their own rows (`supabase/migrations/20260912020000_taste_ratings.sql`).
 - Merge on sign-in: union of local and account ratings, newer `updated_at` wins, ties go to the account. Thumbs saved before the star scale read as four stars (like) and two (pass). Afterwards every local change is pushed after a short pause; localStorage stays the offline mirror. Signing out clears local ratings so a shared device starts clean.
 - Browser needs `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`; the anon key only ever reaches rows the policies allow.
+
+**Built: account deletion and read pages** (2026-09-16)
+
+- The account menu (web and iOS/macOS) now also offers "Delete account": a confirmation dialog, then the Supabase function `public.delete_own_account()` (`supabase/migrations/20260916000000_delete_own_account.sql`) removes the caller's `auth.users` row — `taste_ratings` cascades — and the device drops its local ratings and now-invalid session without a network sign-out. A failed deletion keeps everything so it can be retried.
+- Read pages at `/privacy` and `/support` (shared chrome in `src/components/read/read-page.tsx`): the wordmark home, one heading, dated factual copy, hairline footer. Linked from the home footer and the sign-in footer. Support routes everything to GitHub issues; there is no support mailbox.
 **Built: language, subgenres, Oscars, and where to watch** (2026-09-13)
 
 - Source: another session's IMDb and Wikidata enrichment (`movie_imdb` with language and Oscar counts, `movie_subgenres`) and JustWatch offers (`streaming_offers`, `providers`). Coverage at build: 2,976 of 3,040 films matched to IMDb; 286 Wikidata subgenres; US offers only.

@@ -145,6 +145,17 @@ public final class AuthController {
         try await client.auth.signOut()
         session = nil
     }
+
+    /// Deletes the caller's account server-side, then drops the local session.
+    /// The server function deletes by `auth.uid()`, so only the signed-in
+    /// account can go. The local sign-out skips the network: the account, and
+    /// with it the session's refresh token, is already gone.
+    public func deleteAccount() async throws {
+        guard let client else { throw AuthError.notConfigured }
+        try await client.rpc("delete_own_account").execute()
+        try? await client.auth.signOut(scope: .local)
+        session = nil
+    }
 }
 
 // supabase-swift's `signInWithIdToken` takes its own provider enum.

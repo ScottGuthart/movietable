@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { IconLogout, IconSelector, IconTrash } from "@tabler/icons-react";
 import type { Session } from "@supabase/supabase-js";
+import { deleteAccount } from "@/components/auth/delete-account";
 import { signOut } from "@/components/auth/sign-out";
 import { useRatingsSync, type SyncState } from "@/components/auth/use-ratings-sync";
 import { useSession } from "@/components/auth/use-session";
@@ -94,6 +95,31 @@ function ClearRatingsDialog({ open, onOpenChange, rated, onConfirm }: { open: bo
   );
 }
 
+/** Deletes the account itself: the confirmed path removes the account, its saved ratings, and this browser's session. */
+function DeleteAccountDialog({ open, onOpenChange, deleting, onConfirm }: { open: boolean; onOpenChange: (open: boolean) => void; deleting: boolean; onConfirm: () => void }) {
+  return (
+    <AlertDialog open={open} onOpenChange={(next) => { if (!deleting) onOpenChange(next); }}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogMedia className="bg-destructive/10">
+            <IconTrash aria-hidden="true" className="text-destructive" />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This permanently deletes your account, the ratings saved to it, and the ratings in this browser. This cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={deleting}>Keep account</AlertDialogCancel>
+          <AlertDialogAction variant="destructive" disabled={deleting} onClick={onConfirm}>
+            {deleting ? "Deleting…" : "Delete account"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
 /** Header control: a quiet sign-in link for guests, a compact avatar menu for the signed in. */
 export function Account() {
   if (!isSupabaseConfigured()) return null;
@@ -114,6 +140,8 @@ function AccountMenu({ session }: { session: Session }) {
   const verdicts = useTasteVerdicts();
   const [notice, setNotice] = useState<{ tone: "info" | "error"; text: string } | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const { name, email, avatarUrl } = profileOf(session);
   const rated = ratedCount(verdicts);
 
@@ -124,6 +152,16 @@ function AccountMenu({ session }: { session: Session }) {
     clearRatings(session.user.id)
       .then(() => setNotice({ tone: "info", text: "Ratings cleared." }))
       .catch((error: unknown) => report(error, "Clearing your ratings failed."));
+  };
+  const handleDelete = () => {
+    setDeleting(true);
+    // A success signs this browser out, unmounting the menu; only a failure needs a notice.
+    deleteAccount()
+      .catch((error: unknown) => {
+        setDeleting(false);
+        setDeleteOpen(false);
+        report(error, "Deleting your account failed.");
+      });
   };
   const status = notice ?? { tone: "info" as const, text: syncLabel(sync) };
 
@@ -156,6 +194,10 @@ function AccountMenu({ session }: { session: Session }) {
               <IconTrash aria-hidden="true" />
               <span>Clear ratings</span>
             </DropdownMenuItem>
+            <DropdownMenuItem variant="destructive" onClick={() => setDeleteOpen(true)}>
+              <IconTrash aria-hidden="true" />
+              <span>Delete account</span>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <AppearanceMenuGroup />
@@ -167,6 +209,7 @@ function AccountMenu({ session }: { session: Session }) {
         </DropdownMenuContent>
       </DropdownMenu>
       <ClearRatingsDialog open={confirmOpen} onOpenChange={setConfirmOpen} rated={rated} onConfirm={handleClear} />
+      <DeleteAccountDialog open={deleteOpen} onOpenChange={setDeleteOpen} deleting={deleting} onConfirm={handleDelete} />
     </>
   );
 }

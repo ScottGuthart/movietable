@@ -9,7 +9,7 @@
     "start": "next start --hostname 0.0.0.0",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "bun test src/lib"
+    "test": "bun test src"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

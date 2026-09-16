@@ -6,6 +6,7 @@ public struct LedgerHeader: View {
     private let account: AccountModel?
     @State private var showSignIn = false
     @State private var confirmClear = false
+    @State private var confirmDelete = false
 
     public init(account: AccountModel?) {
         self.account = account
@@ -50,6 +51,18 @@ public struct LedgerHeader: View {
         } message: {
             Text("This removes the ratings saved to your account and on this device and resets your taste ranking. This cannot be undone.")
         }
+        .confirmationDialog(
+            "Delete your account?",
+            isPresented: $confirmDelete,
+            titleVisibility: .visible
+        ) {
+            Button("Delete account", role: .destructive) {
+                Task { await account?.deleteAccount() }
+            }
+            Button("Keep account", role: .cancel) {}
+        } message: {
+            Text("This permanently deletes your account, the ratings saved to it, and the ratings on this device. This cannot be undone.")
+        }
     }
 
     private var menu: some View {
@@ -75,6 +88,9 @@ public struct LedgerHeader: View {
             Section {
                 Button("Clear ratings", role: .destructive) {
                     confirmClear = true
+                }
+                Button("Delete account", role: .destructive) {
+                    confirmDelete = true
                 }
                 Button("Sign out") {
                     Task { await account?.signOut() }

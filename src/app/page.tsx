@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { cache } from "react";
 import { IconArrowUpRight, IconMovie } from "@tabler/icons-react";
@@ -53,6 +54,10 @@ export default async function Page() {
         <MovieTable movies={movies} providers={providers} />
         <footer className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
           <p>A curated dataset, not live ratings. Select any film to see its current scores on Metacritic.</p>
+          <nav className="flex shrink-0 items-baseline gap-4" aria-label="About MovieTable">
+            <Link href="/privacy" className="underline-offset-4 hover:text-foreground hover:underline">Privacy</Link>
+            <Link href="/support" className="underline-offset-4 hover:text-foreground hover:underline">Support</Link>
+          </nav>
           <p className="shrink-0">
             Made by{" "}
             <a className="group text-foreground inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"

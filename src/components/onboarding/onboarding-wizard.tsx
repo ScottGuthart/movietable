@@ -42,12 +42,13 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
   const ratingsNeeded = Math.max(0, RATING_TARGET - taste.rated);
   const hasRatingsStep = ratingsNeeded > 0;
   const steps = hasRatingsStep ? STEPS : STEPS.slice(0, 2);
-  const [step, setStep] = useState(Math.min(onboarding.step, steps.length - 1));
+  const [step, setStep] = useState(() => Math.min(onboarding.step, steps.length - 1));
   const [selected, setSelected] = useState<Record<string, Verdict>>({});
   const [dismissed, setDismissed] = useState(false);
   const ratingMovies = useMemo(() => movies.filter((movie) => !taste.verdicts[movie.slug]).slice(0, ratingsNeeded), [movies, ratingsNeeded, taste.verdicts]);
+  const open = onboarding.shouldShow && !dismissed;
 
-  // Local state closes the dialog immediately even if persisting to storage fails.
+  // Closing flips local state first so the dialog disappears even if persistence fails.
   const dismiss = (persist: () => void) => {
     setDismissed(true);
     persist();
@@ -67,7 +68,7 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
   };
 
   return (
-    <Dialog open={onboarding.shouldShow && !dismissed} onOpenChange={(open) => { if (!open) snooze(); }}>
+    <Dialog open={open} onOpenChange={(next) => { if (!next) snooze(); }}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Make MovieTable yours</DialogTitle>

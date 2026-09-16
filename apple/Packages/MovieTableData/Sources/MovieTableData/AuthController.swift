@@ -43,7 +43,13 @@ public final class AuthController {
     public init(config: SupabaseConfig?) {
         isConfigured = config != nil
         guard let config else { return }
-        client = SupabaseClient(supabaseURL: config.url, supabaseKey: config.anonKey)
+        client = SupabaseClient(
+            supabaseURL: config.url,
+            supabaseKey: config.anonKey,
+            options: SupabaseClientOptions(
+                auth: .init(emitLocalSessionAsInitialSession: true)
+            )
+        )
     }
 
     /// Restores an existing session at launch and follows auth changes.
@@ -58,7 +64,16 @@ public final class AuthController {
                     switch event {
                     case .signedOut:
                         self.session = nil
-                    case .signedIn, .initialSession, .tokenRefreshed, .userUpdated:
+                    case .initialSession:
+                        // The opt-in initial event can carry an expired local
+                        // session; wait for the follow-up refresh before
+                        // treating the user as signed in.
+                        if let current, !current.isExpired {
+                            self.session = AuthSession(userID: current.user.id, email: current.user.email)
+                        } else {
+                            self.session = nil
+                        }
+                    case .signedIn, .tokenRefreshed, .userUpdated:
                         if let user {
                             self.session = AuthSession(userID: user.id, email: user.email)
                         } else {

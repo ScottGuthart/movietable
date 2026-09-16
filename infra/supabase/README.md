@@ -20,7 +20,7 @@ routes and a Vector log pipeline. Coolify generates all secrets on creation.
 | Area | Choice |
 | --- | --- |
 | Studio | `supabase/studio:2026.08.31-sha-2c76bb3`, served at `https://api.movietable.ai/` behind Kong basic auth |
-| Auth | email sign-up only; OAuth server, phone, and anonymous users off |
+| Auth | email links, Google, GitHub, and native Sign in with Apple (bundle ID as client ID, no secret); OAuth server, phone, and anonymous users off |
 | Storage backend | bundled MinIO (`stub` bucket) |
 | JWT verification | HS256 shared secret |
 | Logs | Vector ships container logs to Logflare (Studio log explorer) |

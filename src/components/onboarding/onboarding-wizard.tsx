@@ -44,9 +44,17 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
   const steps = hasRatingsStep ? STEPS : STEPS.slice(0, 2);
   const [step, setStep] = useState(Math.min(onboarding.step, steps.length - 1));
   const [selected, setSelected] = useState<Record<string, Verdict>>({});
+  const [dismissed, setDismissed] = useState(false);
   const ratingMovies = useMemo(() => movies.filter((movie) => !taste.verdicts[movie.slug]).slice(0, ratingsNeeded), [movies, ratingsNeeded, taste.verdicts]);
 
-  const finish = () => { onboarding.complete(); onClose(); };
+  // Local state closes the dialog immediately even if persisting to storage fails.
+  const dismiss = (persist: () => void) => {
+    setDismissed(true);
+    persist();
+    onClose();
+  };
+  const finish = () => dismiss(onboarding.complete);
+  const snooze = () => dismiss(onboarding.snooze);
   const advance = () => {
     if (step === steps.length - 1) return finish();
     const next = step + 1;
@@ -59,7 +67,7 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
   };
 
   return (
-    <Dialog open={onboarding.shouldShow} onOpenChange={(open) => { if (!open) onboarding.snooze(); onClose(); }}>
+    <Dialog open={onboarding.shouldShow && !dismissed} onOpenChange={(open) => { if (!open) snooze(); }}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Make MovieTable yours</DialogTitle>
@@ -76,7 +84,7 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
               <StepperContent value={2}><div className="flex flex-col gap-5"><div><h3 className="text-lg font-semibold">Tune your table</h3><p className="text-muted-foreground mt-1 leading-relaxed">Set the row density and decide whether extra film context is visible.</p></div><FieldGroup className="gap-4"><Field orientation="horizontal" className="items-center justify-between gap-4"><FieldLabel htmlFor="onboarding-density">Row density</FieldLabel><Select value={density} onValueChange={(value) => onDensityChange(value as Density)}><SelectTrigger id="onboarding-density" className="w-40"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="comfortable">Comfortable</SelectItem><SelectItem value="compact">Compact</SelectItem></SelectContent></Select></Field><Field orientation="horizontal" className="items-center justify-between gap-4"><FieldLabel htmlFor="onboarding-context">Details under titles</FieldLabel><Switch id="onboarding-context" checked={showContext} onCheckedChange={onShowContextChange} /></Field></FieldGroup></div></StepperContent>
               {hasRatingsStep && <StepperContent value={3}><div className="flex flex-col gap-5"><div><h3 className="text-lg font-semibold">Rate a few films</h3><p className="text-muted-foreground mt-1 leading-relaxed">Rate {RATING_TARGET} films to unlock your personal For you ranking. {taste.rated} of {RATING_TARGET} rated.</p></div><div className="flex flex-col gap-3">{ratingMovies.map((movie) => <div key={movie.slug} className="border-border flex flex-col gap-3 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between"><div className="min-w-0"><p className="font-medium">{movie.title}</p><p className="text-muted-foreground text-sm">{movie.year} · {movie.subgenres.slice(0, 2).join(" · ") || "Film"}</p></div><div className="flex items-center gap-3"><RatingControl size="touch" title={movie.title} verdict={selected[movie.slug] ?? taste.verdicts[movie.slug]} onChange={(verdict) => rate(movie.slug, verdict ?? "skip")} /><Button size="sm" variant="ghost" onClick={() => rate(movie.slug, "skip")}>Skip</Button></div></div>)}</div></div></StepperContent>}
             </StepperPanel></FramePanel>
-            <FrameFooter className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"><div className="flex gap-2"><Button variant="ghost" onClick={() => { onboarding.snooze(); onClose(); }}><IconClock data-icon="inline-start" />Ask me later</Button><Button variant="ghost" onClick={finish}><IconPlayerSkipForward data-icon="inline-start" />Skip setup</Button></div><div className="flex gap-2"><Button variant="outline" disabled={step === 0} onClick={() => setStep((current) => Math.max(0, current - 1))}><IconArrowLeft data-icon="inline-start" />Back</Button><Button onClick={advance}>{step === steps.length - 1 ? "Finish" : "Continue"}<IconArrowRight data-icon="inline-end" /></Button></div></FrameFooter>
+            <FrameFooter className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"><div className="flex gap-2"><Button variant="ghost" onClick={snooze}><IconClock data-icon="inline-start" />Ask me later</Button><Button variant="ghost" onClick={finish}><IconPlayerSkipForward data-icon="inline-start" />Skip setup</Button></div><div className="flex gap-2"><Button variant="outline" disabled={step === 0} onClick={() => setStep((current) => Math.max(0, current - 1))}><IconArrowLeft data-icon="inline-start" />Back</Button><Button onClick={advance}>{step === steps.length - 1 ? "Finish" : "Continue"}<IconArrowRight data-icon="inline-end" /></Button></div></FrameFooter>
           </Frame>
         </Stepper>
       </DialogContent>

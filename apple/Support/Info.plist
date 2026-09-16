@@ -23,5 +23,8 @@
 	</array>
 	<key>ATSApplicationFontsPath</key>
 	<string>.</string>
+	<!-- Only Apple's TLS is used (HTTPS to api.movietable.ai); exempt from export compliance. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

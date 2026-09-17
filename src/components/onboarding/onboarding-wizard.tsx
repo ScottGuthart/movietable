@@ -47,9 +47,11 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
   const [dismissed, setDismissed] = useState(false);
   const ratingMovies = useMemo(() => movies.filter((movie) => !taste.verdicts[movie.slug]).slice(0, ratingsNeeded), [movies, ratingsNeeded, taste.verdicts]);
   const open = onboarding.shouldShow && !dismissed;
+  console.log("[v0] wizard render", { open, dismissed, ready: onboarding.ready, completed: onboarding.completed, snoozedUntil: onboarding.snoozedUntil, rated: taste.rated });
 
   // Closing flips local state first so the dialog disappears even if persistence fails.
   const dismiss = (persist: () => void) => {
+    console.log("[v0] wizard dismiss called");
     setDismissed(true);
     persist();
     onClose();
@@ -68,7 +70,7 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
   };
 
   return (
-    <Dialog open={open} onOpenChange={(next) => { if (!next) snooze(); }}>
+    <Dialog open={open} onOpenChange={(next, details) => { console.log("[v0] dialog onOpenChange", next, details?.reason); if (!next) snooze(); }}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Make MovieTable yours</DialogTitle>

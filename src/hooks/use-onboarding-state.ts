@@ -34,8 +34,9 @@ function writeStorage(next: OnboardingSnapshot) {
     if (next.snoozedUntil) window.localStorage.setItem(SNOOZED_KEY, next.snoozedUntil);
     else window.localStorage.removeItem(SNOOZED_KEY);
     window.localStorage.setItem(STEP_KEY, String(next.step));
-  } catch {
+  } catch (error) {
     // Storage may be unavailable (private mode, blocked iframe); the React state still drives the UI.
+    console.log("[v0] onboarding storage write failed", error);
   }
 }
 

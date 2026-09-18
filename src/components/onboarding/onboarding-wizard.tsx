@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { IconArrowLeft, IconArrowRight, IconCheck, IconClock, IconPlayerSkipForward } from "@tabler/icons-react";
+import { useEffect, useMemo, useState } from "react";
+import { IconArrowLeft, IconArrowRight, IconCheck, IconClock, IconPlayerSkipForward, IconX } from "@tabler/icons-react";
 import { Frame, FrameDescription, FrameFooter, FrameHeader, FramePanel, FrameTitle } from "@/components/reui/frame";
 import { Stepper, StepperContent, StepperIndicator, StepperItem, StepperNav, StepperPanel, StepperSeparator, StepperTitle, StepperTrigger } from "@/components/reui/stepper";
 import { Button } from "@/components/ui/button";
 import { RatingControl } from "@/components/taste/rating-control";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
@@ -42,12 +41,13 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
   const ratingsNeeded = Math.max(0, RATING_TARGET - taste.rated);
   const hasRatingsStep = ratingsNeeded > 0;
   const steps = hasRatingsStep ? STEPS : STEPS.slice(0, 2);
-  const [step, setStep] = useState(Math.min(onboarding.step, steps.length - 1));
+  const [step, setStep] = useState(() => Math.min(onboarding.step, steps.length - 1));
   const [selected, setSelected] = useState<Record<string, Verdict>>({});
   const [dismissed, setDismissed] = useState(false);
   const ratingMovies = useMemo(() => movies.filter((movie) => !taste.verdicts[movie.slug]).slice(0, ratingsNeeded), [movies, ratingsNeeded, taste.verdicts]);
+  const open = onboarding.shouldShow && !dismissed;
 
-  // Local state closes the dialog immediately even if persisting to storage fails.
+  // Closing flips local state first so the dialog disappears even if persistence fails.
   const dismiss = (persist: () => void) => {
     setDismissed(true);
     persist();
@@ -66,13 +66,32 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
     taste.rate(slug, verdict);
   };
 
+  // Close on Escape. Registered only while the wizard is open.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") snooze(); };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  // Render the wizard as a plain, self-owned overlay instead of the Base UI Dialog.
+  // Every dismiss path is a native onClick that flips React state and unmounts this
+  // subtree directly, so closing does not depend on the Dialog's focus-trap, portal,
+  // or animationend-gated exit lifecycle (which can leave the popup stuck in Safari).
+  if (!open) return null;
+
   return (
-    <Dialog open={onboarding.shouldShow && !dismissed} onOpenChange={(open) => { if (!open) snooze(); }}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Make MovieTable yours</DialogTitle>
-          <DialogDescription>Choose a few preferences and rate films to make your table more useful.</DialogDescription>
-        </DialogHeader>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="onboarding-title" aria-describedby="onboarding-description">
+      <button type="button" aria-label="Dismiss setup" className="bg-background/80 absolute inset-0 backdrop-blur-sm" onClick={snooze} />
+      <div className="bg-background relative z-10 flex max-h-[90vh] w-full max-w-2xl flex-col overflow-y-auto rounded-xl border shadow-lg">
+        <div className="flex items-start justify-between gap-4 p-6 pb-0">
+          <div className="flex flex-col gap-1">
+            <h2 id="onboarding-title" className="text-lg font-semibold">Make MovieTable yours</h2>
+            <p id="onboarding-description" className="text-muted-foreground text-sm leading-relaxed">Choose a few preferences and rate films to make your table more useful.</p>
+          </div>
+          <Button variant="ghost" size="icon" aria-label="Dismiss setup" onClick={snooze}><IconX /></Button>
+        </div>
         <Stepper value={step + 1} onValueChange={(value) => { const next = value - 1; setStep(next); onboarding.setStep(next); }}>
           <Frame stacked className="w-full">
             <FrameHeader><FrameTitle>Quick setup</FrameTitle><FrameDescription>Everything can be changed later.</FrameDescription></FrameHeader>
@@ -87,7 +106,7 @@ export function OnboardingWizard({ providers, services, onServicesChange, densit
             <FrameFooter className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"><div className="flex gap-2"><Button variant="ghost" onClick={snooze}><IconClock data-icon="inline-start" />Ask me later</Button><Button variant="ghost" onClick={finish}><IconPlayerSkipForward data-icon="inline-start" />Skip setup</Button></div><div className="flex gap-2"><Button variant="outline" disabled={step === 0} onClick={() => setStep((current) => Math.max(0, current - 1))}><IconArrowLeft data-icon="inline-start" />Back</Button><Button onClick={advance}>{step === steps.length - 1 ? "Finish" : "Continue"}<IconArrowRight data-icon="inline-end" /></Button></div></FrameFooter>
           </Frame>
         </Stepper>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 }

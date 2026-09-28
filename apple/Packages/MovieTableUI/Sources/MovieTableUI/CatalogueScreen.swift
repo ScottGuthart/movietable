@@ -49,17 +49,21 @@ public struct CatalogueScreen: View {
                 .padding(.bottom, 8)
             controls
             Rectangle().fill(LedgerColors.hairline).frame(height: 1)
-            if showsStarterHand {
-                StarterHandPanel(model: model)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-            }
-            if model.sections.isEmpty {
-                emptyState
-            } else if horizontalSizeClass == .compact {
+            if horizontalSizeClass == .compact {
+                // On iPhone the starter hand must scroll: it lives inside the
+                // catalogue list instead of pinning the screen.
                 compactTable
             } else {
-                ledgerTable
+                if showsStarterHand {
+                    StarterHandPanel(model: model)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                }
+                if model.sections.isEmpty {
+                    emptyState
+                } else {
+                    ledgerTable
+                }
             }
         }
     }
@@ -187,6 +191,18 @@ public struct CatalogueScreen: View {
 
     private var compactTable: some View {
         List {
+            if showsStarterHand {
+                StarterHandPanel(model: model)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+            }
+            if model.sections.isEmpty {
+                Section {
+                    emptyState
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
+                }
+            }
             ForEach(model.sections) { section in
                 Section(section.title) {
                     ForEach(section.rows) { row in

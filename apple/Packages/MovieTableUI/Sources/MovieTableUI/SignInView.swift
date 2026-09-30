@@ -29,17 +29,34 @@ public struct SignInView: View {
                 }
 
                 if let sentTo {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Check \(sentTo) for a sign-in link. It works once and opens the table signed in.")
-                            .font(LedgerFont.custom(14, relativeTo: .subheadline))
+                    VStack(alignment: .center, spacing: 14) {
+                        Image(systemName: "envelope.badge.fill")
+                            .font(.system(size: 40))
                             .foregroundStyle(LedgerColors.ink)
-                        Button("Use a different email") {
-                            self.sentTo = nil
+                            .accessibilityHidden(true)
+                        VStack(alignment: .center, spacing: 6) {
+                            Text("Check your inbox")
+                                .font(LedgerFont.custom(20, weight: .semibold, relativeTo: .title3))
+                                .foregroundStyle(LedgerColors.ink)
+                            Text("A sign-in link is on its way to \(sentTo). Tap it and the table opens, signed in.")
+                                .font(LedgerFont.custom(14, relativeTo: .subheadline))
+                                .foregroundStyle(LedgerColors.fadedInk)
+                                .multilineTextAlignment(.center)
                         }
-                        .font(LedgerFont.custom(14, relativeTo: .subheadline))
-                        .foregroundStyle(LedgerColors.ink)
+                        Button {
+                            self.sentTo = nil
+                        } label: {
+                            Text("Use a different email")
+                                .font(LedgerFont.custom(14, weight: .medium, relativeTo: .subheadline))
+                                .foregroundStyle(LedgerColors.ink)
+                                .frame(maxWidth: .infinity, minHeight: 36)
+                        }
+                        .overlay(Rectangle().stroke(LedgerColors.hairline))
                         .buttonStyle(.plain)
                     }
+                    .frame(maxWidth: .infinity)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Sign-in link sent to \(sentTo)")
                 } else {
                     VStack(spacing: 10) {
                         SignInWithAppleButton(.signIn) { request in
@@ -81,6 +98,11 @@ public struct SignInView: View {
                             .foregroundStyle(LedgerColors.ink)
                         TextField("you@example.com", text: $email)
                             .autocorrectionDisabled()
+                            #if os(iOS)
+                            .textInputAutocapitalization(.never)
+                            .keyboardType(.emailAddress)
+                            #endif
+                            .textContentType(.emailAddress)
                             .font(LedgerFont.custom(14, relativeTo: .subheadline))
                             .frame(height: 32)
                             .padding(.horizontal, 10)
@@ -118,6 +140,9 @@ public struct SignInView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Back") { dismiss() }
                 }
+            }
+            .onChange(of: account.session != nil) { _, signedIn in
+                if signedIn { dismiss() }
             }
         }
     }

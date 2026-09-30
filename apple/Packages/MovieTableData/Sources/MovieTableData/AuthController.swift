@@ -36,6 +36,12 @@ public final class AuthController {
     /// callback query for a session.
     public static let callbackURL = URL(string: "movietable://auth/callback")
 
+    /// Magic links come back through a universal link so iOS hands the
+    /// verification redirect straight to the app instead of leaving the
+    /// user on an interstitial page in Safari. Falls back to the website
+    /// (which shows a signed-in fallback) when the app is not installed.
+    public static let magicLinkCallbackURL = URL(string: "https://movietable.ai/auth/callback")
+
     public private(set) var session: AuthSession?
     public private(set) var isConfigured: Bool
     private var client: SupabaseClient?
@@ -125,7 +131,7 @@ public final class AuthController {
         guard let client else { throw AuthError.notConfigured }
         try await client.auth.signInWithOTP(
             email: email,
-            redirectTo: Self.callbackURL
+            redirectTo: Self.magicLinkCallbackURL
         )
     }
 
